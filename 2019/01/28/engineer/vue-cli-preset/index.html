@@ -88,7 +88,7 @@
 <meta property="og:description" content="[TOC] vue-cli-preset 项目地址 为什么要用 preset最近想搭建几个 vue 的项目，考虑到多一事不如少一事（反正我也不会脚手架），就想使用 vue-cli3 来搭建。试了下，配置项还是挺全的，但是每次新建项目都要设置很多选项，有些文件可能还不合心意。比如我想加个.prettierrc,但是 vue-cli 没有，有也可能与我的习惯不合，怎么办。 翻了下文档，看到 vue-c">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/vue-cli-preset.jpg">
-<meta property="og:updated_time" content="2019-01-28T11:06:26.876Z">
+<meta property="og:updated_time" content="2019-02-21T11:55:50.852Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue-cli的远程preset搭建">
 <meta name="twitter:description" content="[TOC] vue-cli-preset 项目地址 为什么要用 preset最近想搭建几个 vue 的项目，考虑到多一事不如少一事（反正我也不会脚手架），就想使用 vue-cli3 来搭建。试了下，配置项还是挺全的，但是每次新建项目都要设置很多选项，有些文件可能还不合心意。比如我想加个.prettierrc,但是 vue-cli 没有，有也可能与我的习惯不合，怎么办。 翻了下文档，看到 vue-c">
@@ -319,7 +319,7 @@
 <h3 id="preset-搭建流程"><a href="#preset-搭建流程" class="headerlink" title="preset 搭建流程"></a>preset 搭建流程</h3><p><a href="https://cli.vuejs.org/zh/guide/plugins-and-presets.html#%E8%BF%9C%E7%A8%8B-preset" target="_blank" rel="noopener">官方文档在此</a></p>
 <p>vue-cli 支持本地的 preset 和远程 preset，考虑到后续换电脑可能还得用这个 preset，虽然到时候可能 vue 都凉凉了，用远程 preset。</p>
 <p>github 项目创建略过不说，有一点要注意的是使用 github 的 preset 指令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue create --preset username/repo my-project</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue create --preset baiyunshenghaishang/vue-cli-preset my-project</span><br></pre></td></tr></table></figure>
 <p>其中<code>username/repo</code><strong>不是</strong>github 要<code>clone</code>项目的地址，是什么见下图<br><img src="/images/vue-cli-preset.jpg" alt="username/repo图片"></p>
 <p>preset 支持三个文件,<code>preset.json</code>，<code>generator.js</code>，<code>prompts.js</code>。<br>文件名写错就没法引用了，要特别注意</p>
 <p>其中本地文件的 preset 只支持<code>preset.json</code></p>
