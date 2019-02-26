@@ -239,6 +239,141 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/24/basis/vue-globalcom/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/24/basis/vue-globalcom/" itemprop="url">vue组件内将其它组件挂载到body</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-24T10:10:14+08:00">
+                2019-02-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>[TOC]</p>
+<p>本文讲述<code>Vue</code>中如何在组件内将需要的组件挂载在<code>body</code>下。</p>
+<p>需求来源于在组件内要渲染一个盖住全局的页面，由于ios的限制，组件内即使设置<code>position:fixed</code>也无法实现，所以考虑将元素挂载到body下。其实类似的场景很多，比如<code>toast</code>，<code>Dialog</code>。只是之前没有写过类似的组件，这次实践之后希望记录下来。</p>
+<h3 id="组件书写"><a href="#组件书写" class="headerlink" title="组件书写"></a>组件书写</h3><p>组件书写就是一个普通的<code>.vue</code>单文件组件，可以接受<code>props</code>，细节略过不谈。</p>
+<h3 id="组件挂载"><a href="#组件挂载" class="headerlink" title="组件挂载"></a>组件挂载</h3><p>组件的引入方式与其它组件一样，此处组件名是Content(企业项目，就不写实际组件名了)<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Content <span class="keyword">from</span> <span class="string">'./Content'</span></span><br></pre></td></tr></table></figure></p>
+<p>挂载到body下的代码如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> instance = <span class="keyword">new</span> (Vue.extend(Content))(&#123;</span><br><span class="line">    el: <span class="built_in">document</span>.createElement(<span class="string">"div"</span>),</span><br><span class="line">    propsData: &#123;</span><br><span class="line">      list: <span class="keyword">this</span>.multiList,</span><br><span class="line">      value: <span class="keyword">this</span>.value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">this</span>.instance = instance</span><br><span class="line">instance.$on(<span class="string">"input"</span>, e =&gt; &#123;</span><br><span class="line">    <span class="keyword">this</span>.receive(e, instance.$el);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">this</span>.el.push(instance.$el);</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(instance.$el);</span><br></pre></td></tr></table></figure></p>
+<h5 id="初始化实例-传参"><a href="#初始化实例-传参" class="headerlink" title="初始化实例/传参"></a>初始化实例/传参</h5><p>其中<code>propsData</code>用于给组件传递<code>props</code>，也可以先创建组件，然后传入参数，代码如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> instance = <span class="keyword">new</span> (Vue.extend(Content))();</span><br><span class="line">instance.list = <span class="keyword">this</span>.multiList</span><br><span class="line">instance.value = <span class="keyword">this</span>.value</span><br><span class="line">instance.$mount(<span class="built_in">document</span>.createElement(<span class="string">'div'</span>))</span><br></pre></td></tr></table></figure></p>
+<p><code>el</code>的挂载时机无所谓，但是如果想复用组件实例<code>instance</code>，就只能采用后传入参数的方式。<br>如果采用后传入参数的方式，要注意组件<code>Content</code>的<code>props</code>不能是<code>required</code>，最好提供默认值，因为组件实例化时没有传入参数</p>
+<h5 id="添加事件"><a href="#添加事件" class="headerlink" title="添加事件"></a>添加事件</h5><p><code>instance.$on</code>用于在<code>Content</code>上添加事件，与<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Content</span> @<span class="attr">input</span>=<span class="string">"xxx"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>是一样的</p>
+<h5 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.body.appendChild(instance.$el);</span><br></pre></td></tr></table></figure>
+<p>没什么好说的，就是普通的<code>DOM</code>操作</p>
+<h5 id="销毁"><a href="#销毁" class="headerlink" title="销毁"></a>销毁</h5><p>组件的销毁一般分两种情况，一种是正常情况下销毁，如一段时间之后，或在事件中，还一种是在调用的组件被销毁时，此时事件可能没有触发，但是需要移除<code>Content</code>的挂载元素</p>
+<p>如上述代码在<code>this.receive</code>中删除<code>Content</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">receive(data, el) &#123;</span><br><span class="line">  <span class="keyword">let</span> index = <span class="keyword">this</span>.el.indexOf(el);</span><br><span class="line">  <span class="keyword">if</span> (index &gt; <span class="number">-1</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.el.splice(index);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">this</span>.instance.$destroy();</span><br><span class="line">  <span class="built_in">document</span>.body.removeChild(el);</span><br><span class="line">  <span class="keyword">this</span>.$emit(<span class="string">"input"</span>, data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>调用组件销毁时销毁<code>Content</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 上面已经写过的push el</span></span><br><span class="line"><span class="keyword">this</span>.el.push(instance.$el);</span><br><span class="line"></span><br><span class="line">beforeDestroy() &#123;</span><br><span class="line">    <span class="keyword">this</span>.instance &amp;&amp; <span class="keyword">this</span>.instance.$destroy()</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> el <span class="keyword">of</span> <span class="keyword">this</span>.el) &#123;</span><br><span class="line">        <span class="built_in">document</span>.body.removeChild(el);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
+<p>移除<code>el</code>肯定是必须的，对于是否需要手动销毁<code>instance</code>，不确定</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/20/basis/imgpress/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -845,7 +980,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -858,7 +993,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
