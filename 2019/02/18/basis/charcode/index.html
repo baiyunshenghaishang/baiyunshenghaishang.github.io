@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="[TOC] 本文简述字符、编码的相关内容，以及es6中字符相关的改变 unicode的前世今生ASCII ASCII是American Standard Code for Information Interchange的缩写  计算机最初起源于美国，计算机发明后有一个问题，如何在计算机中表示现实世界中的文字。英语中的所有字符都可以用一套字母表表示，大小写一起也不过52个不同的字母，一个字节可以表示">
+<meta name="description" content="[TOC] 本文简述字符、编码的相关内容，以及es6中字符相关的改变 unicode的前世今生ASCII ASCII是American Standard Code for Information Interchange的缩写  计算机最初起源于美国，计算机发明后有一个问题，如何在计算机中表示英文字母。 由于英语中的所有的单词都可以用大小写字母表示，而大小写字母和数字加在一起也不过62个字符。而当时">
 <meta name="keywords" content="charset,unicode">
 <meta property="og:type" content="article">
 <meta property="og:title" content="字符、编码">
 <meta property="og:url" content="http://yoursite.com/2019/02/18/basis/charcode/index.html">
 <meta property="og:site_name" content="bai">
-<meta property="og:description" content="[TOC] 本文简述字符、编码的相关内容，以及es6中字符相关的改变 unicode的前世今生ASCII ASCII是American Standard Code for Information Interchange的缩写  计算机最初起源于美国，计算机发明后有一个问题，如何在计算机中表示现实世界中的文字。英语中的所有字符都可以用一套字母表表示，大小写一起也不过52个不同的字母，一个字节可以表示">
+<meta property="og:description" content="[TOC] 本文简述字符、编码的相关内容，以及es6中字符相关的改变 unicode的前世今生ASCII ASCII是American Standard Code for Information Interchange的缩写  计算机最初起源于美国，计算机发明后有一个问题，如何在计算机中表示英文字母。 由于英语中的所有的单词都可以用大小写字母表示，而大小写字母和数字加在一起也不过62个字符。而当时">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-20T07:07:25.498Z">
+<meta property="og:updated_time" content="2019-03-06T12:38:07.108Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="字符、编码">
-<meta name="twitter:description" content="[TOC] 本文简述字符、编码的相关内容，以及es6中字符相关的改变 unicode的前世今生ASCII ASCII是American Standard Code for Information Interchange的缩写  计算机最初起源于美国，计算机发明后有一个问题，如何在计算机中表示现实世界中的文字。英语中的所有字符都可以用一套字母表表示，大小写一起也不过52个不同的字母，一个字节可以表示">
+<meta name="twitter:description" content="[TOC] 本文简述字符、编码的相关内容，以及es6中字符相关的改变 unicode的前世今生ASCII ASCII是American Standard Code for Information Interchange的缩写  计算机最初起源于美国，计算机发明后有一个问题，如何在计算机中表示英文字母。 由于英语中的所有的单词都可以用大小写字母表示，而大小写字母和数字加在一起也不过62个字符。而当时">
 
 
 
@@ -315,14 +315,22 @@
 <h3 id="unicode的前世今生"><a href="#unicode的前世今生" class="headerlink" title="unicode的前世今生"></a>unicode的前世今生</h3><h5 id="ASCII"><a href="#ASCII" class="headerlink" title="ASCII"></a>ASCII</h5><blockquote>
 <p>ASCII是American Standard Code for Information Interchange的缩写</p>
 </blockquote>
-<p>计算机最初起源于美国，计算机发明后有一个问题，如何在计算机中表示现实世界中的文字。<br>英语中的所有字符都可以用一套字母表表示，大小写一起也不过52个不同的字母，一个字节可以表示256个不同的字符，所以用一个字节表示不同的字符完全足够。<br>所以ASCII用一个字节表示一个字符，实际上只使用了前128位，包括大小写字母、数字和一些控制字符。</p>
-<h5 id="gbk等等"><a href="#gbk等等" class="headerlink" title="gbk等等"></a>gbk等等</h5><p>随着计算机的推广，其它国家也开始使用计算机，但是如何在计算机中表示本国的文字。有些国家使用了ASCII中没有使用的后128位，对于中国这样的国家，256的字符完全不够用，于是发明了自己的字符集。<code>gbk/gb2312</code>等都是这样的产物。字符集的演变可以参考<a href="https://pcedu.pconline.com.cn/empolder/gj/other/0505/616631.html" target="_blank" rel="noopener">程序员趣味读物：谈谈Unicode编码</a><br>世界各国各自使用自己的字符集，导致各国的系统无法识别他国的文件，对于互联网而言，更是不可接受。于是<code>unicode</code>出现了。</p>
-<h5 id="unicode"><a href="#unicode" class="headerlink" title="unicode"></a>unicode</h5><p>unicode是一套包含全世界所有文字的字符集，最大长度32位，即4个字节。<br>前两个字节用于表示不同的平面，后两个字节表示一个平面内的字符。每一个平面最多包含<code>2**16=65535</code>个字符。<br>unicode有17个平面（<a href="https://www.cnblogs.com/xichengtie/p/3383890.html" target="_blank" rel="noopener">为什么只有17个平面，关于Unicode有提到</a>)，已经使用的有7个平面，其余10个平面尚未分配任何字符。<br>17个平面其中一个是基本平面(BMP)，其余是辅助平面。基本平面的前两个字节都是0。所以基本平面的字符都可以用两个字节表示，有时候我们会觉得unicode是双字节的，其实不是，只是常用的字符都是双字节的。</p>
-<h5 id="utf16"><a href="#utf16" class="headerlink" title="utf16"></a>utf16</h5><p>设计unicode是一件很麻烦，复杂的工作。复杂在哪儿可以参考<a href="https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/" target="_blank" rel="noopener">The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets</a></p>
-<p>所以unicode的发布是逐步的，unicode最初发布的字符集长度都不超过两个字节，所以unicode最初的字符编码<code>ucs-2</code>使用两个字节来表示所有字符。<code>java</code>发明之初，选择了<code>ucs-2</code>字符集。这为后续的字符问题埋下了伏笔。</p>
-<p>在发现两个字节无法表示全世界所有字符后，unicode使用了基本平面和辅助平面,unicode的长度变为四个字节。此时<code>usc-2</code>已无法表示全部的unicode字符。于是出现了<code>ucs-4</code>和<code>utf16</code>。<code>ucs-4</code>使用四个字节表示每一个字符，只能呵呵了。<code>utf16</code>选择了变长，对于基本平面的字符，使用两个字节表示，对于辅助平面的字符，使用四个字节表示。这种选择，有多大程度是为了兼容<code>ucs-2</code>，不得而知。</p>
-<p><code>java</code>在之后选择升级到了<code>utf16</code>，但问题已然存在。<code>javascript</code>一开始就是从<code>java</code>半抄袭而来，<code>ucs-2</code>的问题自然也存在。</p>
-<h5 id="utf8"><a href="#utf8" class="headerlink" title="utf8"></a>utf8</h5><p><code>utf16</code>的问题在于，对于使用英语的国家而言，之前使用<code>ASCII</code>只需要<code>1M</code>的文件，现在需要<code>2M</code>，这在很大程度上是不可接受的。<br>于是有了<code>utf8</code>。关于<code>utf8</code>的优势，可以参考<a href="https://www.cnblogs.com/xichengtie/p/3383890.html" target="_blank" rel="noopener">关于Unicode</a></p>
+<p>计算机最初起源于美国，计算机发明后有一个问题，如何在计算机中表示英文字母。</p>
+<p>由于英语中的所有的单词都可以用大小写字母表示，而大小写字母和数字加在一起也不过62个字符。而当时的计算机普遍使用8个比特来表示一个字节(byte),一个字节可以表示256个不同的字符，所以用一个字节表示不同的字符完全足够。</p>
+<p>所以ASCII用一个字节表示一个字符。实际上只使用了前128位，包括大小写字母、数字和一些控制字符，后128位，从128到255没有定义任何字符。<br>到此为止，一切都很完美。</p>
+<h5 id="gbk等等"><a href="#gbk等等" class="headerlink" title="gbk等等"></a>gbk等等</h5><p>随着计算机的推广，其它国家也开始使用计算机，他们马上也遇到了同样的问题，如何在计算机表示本国的文字。</p>
+<p>很快大家就想到了使用ASCII中128-255的位置来表示本国字符。于是产生一大批不同的字符集，他们的前128位都是相同的，但是后128位就自己玩自己的了。如果你从法国发一封电子邮件到德国，使用了后128位中的字符，那么到德国的时候，他们就可能都变成了“????”。</p>
+<p>计算机进入亚洲之后，事情变得更加复杂。而对于中国这样的国家，汉字的数量成千上万，256的字符完全不够用。于是我们使用两个字节来表示一个汉字。但是前128位还是和ASCII一样，所以这些字符集表示英文是一个字节，表示中文是两个字节。<code>gb2312</code>、<code>gbk</code>、<code>gb18030</code>都是这样的产物，区别只在于后面的字符集比前面的字符集包含的汉字更多，而且都是向下兼容的。</p>
+<p>所以并不是我们的严厉谴责没有用，只是他国看的的文章都乱码了。</p>
+<p>如果说在国内使用同一种字符集还可以接受，毕竟大部分人跨国发邮件的机会并不多。但是互联网出现之后，这个问题变得格外重要，毕竟你总不能在电脑上把世界上所有的字符集都装上吧，而且一旦文件没有指定字符集，能够正确打开文件的机会几乎为0。为了解决这个问题，<code>unicode</code>横空出世。</p>
+<h5 id="unicode"><a href="#unicode" class="headerlink" title="unicode"></a>unicode</h5><p>互联网的出现让设计一套包含全世界所有字符的字符集的任务迫在眉睫，有两个国际组织各自设计了一套，然后又合并了，这就是<code>unicode</code>。</p>
+<p><code>unicode</code>是一套包含全世界所有字符的字符集，长度4个字节。</p>
+<p>前两个字节用于表示不同的平面，后两个字节表示一个平面内的字符。每一个平面最多包含<code>2**16=65535</code>个字符。<br>为什么unicode只有17个平面，可以参考<a href="https://www.cnblogs.com/xichengtie/p/3383890.html" target="_blank" rel="noopener">这篇文章</a></p>
+<p>17个平面其中一个是基本平面(BMP)，其余是辅助平面,现在已使用的辅助平面有6个。基本平面的前两个字节都是0。所以基本平面的字符都可以用两个字节表示。</p>
+<h5 id="ucs-2-utf16"><a href="#ucs-2-utf16" class="headerlink" title="ucs-2/utf16"></a>ucs-2/utf16</h5><p>由于设计这样一套字符是非常复杂、麻烦的工作，所以<code>unicode</code>是分期发布的。每完成一部分的工作就会发布一部分。</p>
+<p>unicode最初发布的字符集字符长度只有两个字节，所以unicode最初的字符编码<code>ucs-2</code>使用两个字节来表示所有字符。<code>javascript</code>发明之初，选择了<code>ucs-2</code>字符集。这为后续的字符问题埋下了伏笔。</p>
+<p>在发现两个字节无法表示全世界所有字符后，unicode使用了基本平面和辅助平面,unicode的长度变为四个字节。此时<code>usc-2</code>已无法表示全部的unicode字符。于是出现了<code>ucs-4</code>和<code>utf16</code>。<code>ucs-4</code>使用四个字节表示每一个字符。<code>utf16</code>选择了变长，对于基本平面的字符，使用两个字节表示，对于辅助平面的字符，使用四个字节表示。</p>
+<h5 id="utf8"><a href="#utf8" class="headerlink" title="utf8"></a>utf8</h5><p><code>utf16</code>的问题在于，对于使用英语的国家而言，之前使用<code>ASCII</code>只需要<code>1M</code>的文件，现在需要<code>2M</code>，这在很大程度上是不可接受的。而<code>utf8</code>很好的解决了这个问题。</p>
 <p>utf8的编码规则只有两条</p>
 <ol>
 <li>单字节字符，字节第一位为0，后面7位是符号的unicode编码，所以前128位utf8和ASCII是一样的</li>
@@ -355,12 +363,18 @@
 </tr>
 </tbody>
 </table>
-<p><code>utf8</code>前128位编码和<code>ASCII</code>一样，对于使用英语的国家而言，<code>utf8</code>和<code>ASCII</code>看起来完全一样。<br>于是,<code>utf8</code>一统天下。但<code>java</code>已无法转向<code>utf8</code>。</p>
-<h3 id="es6中的字符"><a href="#es6中的字符" class="headerlink" title="es6中的字符"></a>es6中的字符</h3><p>由于使用<code>ucs-2</code>字符编码，es6之前，js中的所有字符串操作都是基于双字节的。所以在处理辅助平面中的字符时，会出现问题，具体问题包括</p>
+<p><code>utf8</code>前128位编码和<code>ASCII</code>一样，对于使用英语的国家而言，<code>utf8</code>和<code>ASCII</code>看起来完全一样。<br>于是,<code>utf8</code>一统天下。<br>但其实对于中文而言,<code>utf8</code>的效率并不高，中文字符在<code>utf8</code>中一般使用三个字节表示。</p>
+<h5 id="字符集与字符编码"><a href="#字符集与字符编码" class="headerlink" title="字符集与字符编码"></a>字符集与字符编码</h5><p>字符集和字符编码是两个很相近的概念，很多时候也可以互换使用。对于unicode之外的字符集，我们基本可以认为字符集和字符编码是一个概念。因为对于这些字符集而言，只有一套字符编码与他对应。</p>
+<p>但是unicode不同，unicode这套字符集有多套与其对应的字符编码，如<code>ucs-2</code>、<code>ucs-4</code>、<code>utf16</code>、<code>utf8</code>。对于这些字符编码而言，区分字符集和字符编码就比较重要了。</p>
+<p>最重要的是理解在字符编码中的编码是<code>0xabcdabcd</code>，并不代表在unicode字符集中的编码也是<code>0xabcdabcd</code>。实际上我们一般也不在乎在字符编码中的编码是多少，一般所说的编码都是字符在unicode中对应的编码。</p>
+<h3 id="js中的字符问题"><a href="#js中的字符问题" class="headerlink" title="js中的字符问题"></a>js中的字符问题</h3><p>对于unicode中字符编码大于<code>0xffff</code>的字符，其对应的unicode编码有四个字节，而js使用的<code>ucs-2</code>编码，认为所有的字符都是两个字节，所以会将四个字节的unicode字符当做两个字符。</p>
+<p>此处有一点要注意，unicode<code>0x20BB7</code>的编码被当成的两个字符的编码并不是<code>0x0002</code>和<code>0xBB7</code>。而是<code>\uD842</code>和<code>\uDFB7</code>。<code>\uD842\uDFB7</code>其实是编码<code>0x20BB7</code>在utf16中的表示方法，关于如何将unicode编码转换为utf16，<a href="http://www.cnblogs.com/dragon2012/p/5020259.html" target="_blank" rel="noopener">看这里</a>。</p>
+<p>而为什么unicode<code>0x20BB7</code>的编码是以utf16的形式呈现，而不是utf8,ucs-4,utf32等等，不知道。猜测可能是以前使用ucs-2将字符转换成二进制编码，但是后来为了识别unicode编码大于<code>0xffff</code>的字符，升级到兼容ucs-2的utf16。</p>
+<p>js中字符的具体问题包括但不限于以下</p>
 <ol>
 <li>字符串的<code>length</code>属性错误，对于大于<code>0xffff</code>的字符，长度是2</li>
-<li>字符串的<code>fromCharCode</code>不能生成正确字符，实际上只会取16进制表示的最后四位</li>
-<li>字符串的<code>charCodeAt</code>取得的字符编码错误</li>
+<li>字符串的<code>fromCharCode</code>不能生成正确字符，实际上只会取16进制表示的最后四位，即最后两个字节</li>
+<li>字符串的<code>charCodeAt</code>取得的字符编码错误。实际上大部分字符串的方法都有问题</li>
 <li>正则表达式的<code>.,\S</code>不能匹配编码大于<code>0xFFFF</code>的字符</li>
 <li>使用<code>index</code>不能正确获取位于第<code>n</code>位的字符</li>
 </ol>
@@ -373,8 +387,8 @@
 <li>用<code>for...of</code>方法可以正确遍历字符串</li>
 </ol>
 <p>计算字符长度的方法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 性能较差</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">StringLength</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> result = str.match(<span class="regexp">/[\s\S]/gu</span>)</span><br><span class="line">    <span class="keyword">return</span> result ? result.length : <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(StringLength(<span class="string">'𠮷'</span>))</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 推荐使用</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">StringLength</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> len = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">of</span> str)&#123;</span><br><span class="line">        len++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> len</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(StringLength(<span class="string">'𠮷'</span>))</span><br></pre></td></tr></table></figure>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html" target="_blank" rel="noopener">字符编码笔记：ASCII，Unicode 和 UTF-8(阮一峰的字符编码笔记)</a><br><a href="https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/" target="_blank" rel="noopener">国外的一篇基础讲的很清晰的文章</a><br><a href="https://pcedu.pconline.com.cn/empolder/gj/other/0505/616631.html" target="_blank" rel="noopener">程序员趣味读物：谈谈Unicode编码(介绍了不同字符集的演变)</a><br><a href="https://www.cnblogs.com/xichengtie/p/3383890.html" target="_blank" rel="noopener">关于Unicode(介绍了unicode以及utf8的优势)</a><br><a href="http://www.cnblogs.com/dragon2012/p/5020259.html" target="_blank" rel="noopener">utf16编码格式(utf16的介绍，介绍大于0xffff的字符如何用两个utf16字符表示)</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 推荐使用</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">StringLength</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.from(str).length</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(StringLength(<span class="string">'𠮷'</span>))</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html" target="_blank" rel="noopener">字符编码笔记：ASCII，Unicode 和 UTF-8(阮一峰的字符编码笔记)</a><br><a href="https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/" target="_blank" rel="noopener">国外的一篇基础讲的很清晰的文章</a><br><a href="https://pcedu.pconline.com.cn/empolder/gj/other/0505/616631.html" target="_blank" rel="noopener">程序员趣味读物：谈谈Unicode编码(介绍了不同字符集的演变)</a><br><a href="https://www.cnblogs.com/xichengtie/p/3383890.html" target="_blank" rel="noopener">关于Unicode(介绍了unicode以及utf8的优势)</a><br><a href="http://www.cnblogs.com/dragon2012/p/5020259.html" target="_blank" rel="noopener">utf16编码格式(utf16的介绍，介绍大于0xffff的字符如何用两个utf16字符表示)</a><br><a href="Unicode与JavaScript详解">unicode与javascript详解</a></p>
 
       
     </div>
@@ -544,7 +558,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#unicode的前世今生"><span class="nav-number">1.</span> <span class="nav-text">unicode的前世今生</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ASCII"><span class="nav-number">1.0.1.</span> <span class="nav-text">ASCII</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#gbk等等"><span class="nav-number">1.0.2.</span> <span class="nav-text">gbk等等</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#unicode"><span class="nav-number">1.0.3.</span> <span class="nav-text">unicode</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#utf16"><span class="nav-number">1.0.4.</span> <span class="nav-text">utf16</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#utf8"><span class="nav-number">1.0.5.</span> <span class="nav-text">utf8</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#es6中的字符"><span class="nav-number">2.</span> <span class="nav-text">es6中的字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#unicode的前世今生"><span class="nav-number">1.</span> <span class="nav-text">unicode的前世今生</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ASCII"><span class="nav-number">1.0.1.</span> <span class="nav-text">ASCII</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#gbk等等"><span class="nav-number">1.0.2.</span> <span class="nav-text">gbk等等</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#unicode"><span class="nav-number">1.0.3.</span> <span class="nav-text">unicode</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ucs-2-utf16"><span class="nav-number">1.0.4.</span> <span class="nav-text">ucs-2/utf16</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#utf8"><span class="nav-number">1.0.5.</span> <span class="nav-text">utf8</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#字符集与字符编码"><span class="nav-number">1.0.6.</span> <span class="nav-text">字符集与字符编码</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#js中的字符问题"><span class="nav-number">2.</span> <span class="nav-text">js中的字符问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></div>
             
 
           </div>
