@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="[TOC] 什么是 SymbolSymbol是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效意外修改对象属性的问题。 检测是否是 Symbol 可以用typeof 1typeof sy === &apos;symbol&apos; 创建 SymbolSymbo">
+<meta name="description" content="[TOC] 什么是 SymbolSymbol是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效防止意外修改对象属性的问题。 检测是否是 Symbol 可以用typeof 1typeof sy === &apos;symbol&apos; 创建 SymbolSym">
 <meta name="keywords" content="symbol">
 <meta property="og:type" content="article">
 <meta property="og:title" content="symbol">
 <meta property="og:url" content="http://yoursite.com/2019/03/14/code/symbol/index.html">
 <meta property="og:site_name" content="bai">
-<meta property="og:description" content="[TOC] 什么是 SymbolSymbol是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效意外修改对象属性的问题。 检测是否是 Symbol 可以用typeof 1typeof sy === &apos;symbol&apos; 创建 SymbolSymbo">
+<meta property="og:description" content="[TOC] 什么是 SymbolSymbol是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效防止意外修改对象属性的问题。 检测是否是 Symbol 可以用typeof 1typeof sy === &apos;symbol&apos; 创建 SymbolSym">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-14T12:57:59.126Z">
+<meta property="og:updated_time" content="2019-03-19T12:42:09.156Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="symbol">
-<meta name="twitter:description" content="[TOC] 什么是 SymbolSymbol是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效意外修改对象属性的问题。 检测是否是 Symbol 可以用typeof 1typeof sy === &apos;symbol&apos; 创建 SymbolSymbo">
+<meta name="twitter:description" content="[TOC] 什么是 SymbolSymbol是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效防止意外修改对象属性的问题。 检测是否是 Symbol 可以用typeof 1typeof sy === &apos;symbol&apos; 创建 SymbolSym">
 
 
 
@@ -311,17 +311,17 @@
 
       
         <p>[TOC]</p>
-<h3 id="什么是-Symbol"><a href="#什么是-Symbol" class="headerlink" title="什么是 Symbol"></a>什么是 Symbol</h3><p><code>Symbol</code>是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效意外修改对象属性的问题。</p>
+<h3 id="什么是-Symbol"><a href="#什么是-Symbol" class="headerlink" title="什么是 Symbol"></a>什么是 Symbol</h3><p><code>Symbol</code>是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效防止意外修改对象属性的问题。</p>
 <p>检测是否是 Symbol 可以用<code>typeof</code></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> sy === <span class="string">'symbol'</span></span><br></pre></td></tr></table></figure>
-<h3 id="创建-Symbol"><a href="#创建-Symbol" class="headerlink" title="创建 Symbol"></a>创建 Symbol</h3><p><code>Symbol</code>是一种基本类型，没有构造函数，不能通过<code>new Symbol()</code>的方式创建。创建<code>Symbol</code>的方式有两种</p>
+<h3 id="创建-Symbol"><a href="#创建-Symbol" class="headerlink" title="创建 Symbol"></a>创建 Symbol</h3><p><code>Symbol</code>是一种基本类型，没有构造函数，不能通过<code>new Symbol()</code>的方式创建。创建<code>Symbol</code>的方式有两种。<br>一种是通过<code>Symbol()</code>方法</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>(<span class="string">'description'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>(<span class="string">'description'</span>)</span><br><span class="line">sy === sy2 <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
 <p>其中<code>description</code>只是用于描述创建的 Symbol，对 Symbol 的值没有任何影响，创建两个 Symbol 传入相同的 description 得到的是不同的 Symbol。</p>
 <p>第二种创建 Symbol 的方式是通过<code>Symbol.for()</code></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>.for(<span class="string">'description'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>.for(<span class="string">'description'</span>)</span><br><span class="line">sy === sy2 <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
 <p>其中的<code>description</code>既是 Symbol 的标识符，也是描述。<code>Symbol.for()</code>会先查找是否存在相同标识符的 Symbol,如果存在就返回，如果不存在就创建一个新的 Symbol。<br>注意：只有<code>Symbol.for()</code>创建的 Symbol 才会有标识符，<code>Symbol()</code>创建的 Symbol 没有标识符。所以</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>(<span class="string">'123'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>.for(<span class="string">'123'</span>)</span><br><span class="line">sy === sy2 <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
-<h3 id="操作-Symbol"><a href="#操作-Symbol" class="headerlink" title="操作 Symbol"></a>操作 Symbol</h3><p>Symbol 没有对应的内置对象类型，所以 Symbol 实例没有额外的方法，所以 Symbol 几乎不能执行任何操作。除了<code>Object.prototype</code>上的<code>toString</code>等几个方法外，Symbol 还有一个<code>Symbol.keyFor()</code>方法，用于获取 Symbol 的标识符</p>
+<h3 id="操作-Symbol"><a href="#操作-Symbol" class="headerlink" title="操作 Symbol"></a>操作 Symbol</h3><p>Symbol 没有对应的内置对象类型，所以 Symbol 实例没有额外的方法，几乎不能执行任何操作。除了<code>Object.prototype</code>上的<code>toString</code>等几个方法外，Symbol 还有一个<code>Symbol.keyFor()</code>方法，用于获取 Symbol 的标识符</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>(<span class="string">'123'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>.for(<span class="string">'123'</span>)</span><br><span class="line"><span class="built_in">Symbol</span>.keyFor(sy) <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">Symbol</span>.keyFor(sy2) <span class="comment">// 123</span></span><br></pre></td></tr></table></figure>
 <h3 id="内置-Symbol-值"><a href="#内置-Symbol-值" class="headerlink" title="内置 Symbol 值"></a>内置 Symbol 值</h3><p>js 有一些行为一直是编译器内部在控制，代码无法影响的。而现在 js 通过一些预先定义好的 Symbol 属性将其暴露了出来。</p>
 <ol>
