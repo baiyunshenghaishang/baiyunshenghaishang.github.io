@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="bai">
 <meta property="og:description" content="[TOC] SetSet 是 es6 定义的一种新的数据结构，概念上与数组很类似，但是操作上与数组截然不同。 Set 最重要的特性是不包含重复元素，如果不需要这种特性，一般没有使用 Set 的需要。Set 内部使用Object.is来比较两个元素是否相等，而不是===,Object.is和===的区别在于NaN和自己相等以及-0和+0不相等。 创建 Set创建 Set 只能使用构造函数的方式new">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-19T12:37:32.087Z">
+<meta property="og:updated_time" content="2019-03-29T01:25:07.985Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Set和Map">
 <meta name="twitter:description" content="[TOC] SetSet 是 es6 定义的一种新的数据结构，概念上与数组很类似，但是操作上与数组截然不同。 Set 最重要的特性是不包含重复元素，如果不需要这种特性，一般没有使用 Set 的需要。Set 内部使用Object.is来比较两个元素是否相等，而不是===,Object.is和===的区别在于NaN和自己相等以及-0和+0不相等。 创建 Set创建 Set 只能使用构造函数的方式new">
@@ -346,6 +346,7 @@
 </tr>
 </tbody>
 </table>
+<p>由于<code>add</code>方法返回Set本身，对于连续添加多个元素可以采用如下方式<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line">set.add(<span class="number">1</span>).add(<span class="number">2</span>).add(<span class="number">3</span>)</span><br></pre></td></tr></table></figure></p>
 <p>Set 还包含<code>forEach</code>方法。但是由于 Set 没有索引，<code>forEach</code>的<code>key</code>和<code>value</code>相同，所以几乎没有任何理由使用<code>forEach</code>。同理，<code>set.keys()/set.values()/set.entries()</code>也毫无意义。遍历 Set 最好的方式是使用<code>for...of</code></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> s = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> s) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以发现，Set 唯一的作用是否就是确认是否包含某个变量，但是这个功能数组也能轻易做到，<code>arr.includes()</code>和<code>set.has()</code>功能相同。<br>ps:和<code>arr.indexOf()</code>有一点区别,<code>indexOf</code>使用<code>===</code>判别是不是同一个元素,<code>includes</code>使用<code>Object.is()</code>，所以数组的<code>includes</code>和<code>indexOf</code>还是有一点区别的</p>
@@ -358,7 +359,7 @@
 <li>WeakSet 不是可遍历对象，不包含<code>clear()</code>和<code>size</code>方法/属性</li>
 </ol>
 <p>所以 WeakSet 只有三个方法<code>add/has/delete</code></p>
-<p>WeakSet 最大的特点是只会保存持有对象的弱引用。即如果 WeakSet 持有的对象不被其他变量引用，则该对象可以被回收。<br>WeakSet 有什么用呢，暂不明确。</p>
+<p>WeakSet 最大的特点是只会保存持有对象的弱引用。即如果 WeakSet 持有的对象不被其他变量引用，则该对象可以被回收。<br>个人对WeakSet的用途暂只限于判断对象是否被回收。直接<code>console.log(weakset)</code>可以判断<code>WeakSet</code>包含的变量是否被回收。（不被引用的变量不一定马上被回收，这种方法判断依赖回收机制的触发，需要一定时间差）</p>
 <h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><p>Map 和 Set 经常被一起提及，但是两者其实没什么关联。除了语法上的类似外，唯一是关系大概是都是 es6 添加的新数据结构。</p>
 <p>如果说 Set 是参照数组创建的，Map 是参照对象创建的。Map也是键值对的组合，与对象的区别在于对象的<code>key</code>只能是字符串，而Map的<code>key</code>可以是任意数据类型</p>
 <h5 id="创建-Map"><a href="#创建-Map" class="headerlink" title="创建 Map"></a>创建 Map</h5><p>创建 Map 也只能通过<code>new Map()</code>的方式。如果要给Map传入初始值，可以传入每个元素都是数组的数组<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> m = <span class="keyword">new</span> <span class="built_in">Map</span>([[<span class="string">'key'</span>,<span class="string">'value'</span>],[<span class="number">1</span>,&#123;&#125;]])</span><br></pre></td></tr></table></figure></p>
@@ -397,7 +398,7 @@
 </tr>
 </tbody>
 </table>
-<p>除了<code>add</code>方法变成了<code>set/get</code>，其它的方法完全一样。Map同样是<code>iterable</code>对象，支持<code>iterable</code>的所有遍历方式。</p>
+<p>除了<code>add</code>方法变成了<code>set/get</code>，其它的方法完全一样。Map同样是<code>iterable</code>对象，支持<code>iterable</code>的所有遍历方式。<br>Map的get方法返回Map本身，同样可以采用链式方式添加多个元素<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>().set(<span class="number">1</span>,<span class="number">1111</span>).set(<span class="number">2</span>,<span class="number">2222</span>)</span><br></pre></td></tr></table></figure></p>
 <p>Map最大的作用在于<code>key</code>可以不是字符串，在需要使用非字符串<code>key</code>时，如<code>Symbol</code>，Map还是很有作用的。</p>
 <h3 id="WeakMap"><a href="#WeakMap" class="headerlink" title="WeakMap"></a>WeakMap</h3><p>WeakMap是Map的弱引用版本，与WeakSet类似</p>
 <ol>
@@ -451,6 +452,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/19/code/type-cast/" rel="prev" title="类型转换">
+                类型转换 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -529,7 +534,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -542,7 +547,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
