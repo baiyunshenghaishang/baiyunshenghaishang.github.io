@@ -239,6 +239,285 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/21/code/json/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/21/code/json/" itemprop="url">JSON</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-21T12:04:06+08:00">
+                2019-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="JSON-parse"><a href="#JSON-parse" class="headerlink" title="JSON.parse"></a>JSON.parse</h3><p>JSON.parse 报错的处理方法,多半是换行之类的作怪</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str = str.replace(<span class="regexp">/\\/g</span>, <span class="string">'\\\\'</span>)</span><br><span class="line">str = str.replace(<span class="regexp">/\r/g</span>, <span class="string">'\\r'</span>)</span><br><span class="line">str = str.replace(<span class="regexp">/\n/g</span>, <span class="string">'\\n'</span>)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/14/code/promise/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/14/code/promise/" itemprop="url">Promise</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-14T18:51:27+08:00">
+                2019-04-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="什么是-Promise"><a href="#什么是-Promise" class="headerlink" title="什么是 Promise"></a>什么是 Promise</h3><p>Promise 是 es6 中一种新的数据类型/结构，目的在于解决回调方式的一些问题，如回调地狱、控制权反转。</p>
+<p>Promise 包含三种状态<code>pending</code>、<code>fulfilled</code>、<code>rejected</code>。Promise 一旦变成<code>fulfilled</code>或者<code>rejected</code>，状态就不能在改变。这也是 Promise 命名的来源，即状态只会改变一次。<br><code>fulfilled</code> 状态表示成功状态，<code>rejected</code> 表示失败状态。</p>
+<p>Promise 包含一个值，在创建 Promise 时生成。具体见 <strong>创建 Promise</strong></p>
+<h3 id="创建-Promise"><a href="#创建-Promise" class="headerlink" title="创建 Promise"></a>创建 Promise</h3><p>创建 Promise 有两种方式<br>一种是通过构造函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        resolve(<span class="number">123</span>)</span><br><span class="line">    &#125;, <span class="number">1000</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>Promise 构造函数接受一个函数，函数接受两个参数，resolve 会决议传入的值，具体行为类似于 Promise.resolve，区别在于 resolve 方法永远返回一个新的 Promsie<br>reject 将 Promsie 变为<code>rejected</code>状态。<br>resolve 和 reject 的参数就是 Promise 的值</p>
+<p>另外一种是通过 Promise 的静态方法<code>Promise.resolve</code>和<code>Promise.reject</code><br><code>Promise.reject</code> 会创建一个 <code>rejected</code> 状态的 Promise</p>
+<p>对于 <code>Promise.resolve</code>，有一点不同。<br>resolve 在英文中的意思是决议，规范最后选择 resolve 而不是 fulfill，是因为<code>Promise.resolve</code>的意思更接近于决议，而不是成功完成。</p>
+<p><code>Promise.resolve</code>根据传入的参数不同会做不同的处理。</p>
+<p>如果传入的是一个 Promise，Promise.resolve 会直接返回这个 Promise<br>如果传入的是包含 then 方法的对象，会使用 Promise 的构造函数创建一个新的 Promise，以 then 方法作为构造函数的参数<br>否则返回状态 fulfilled，值为 Promise.resolve 参数的 Promise</p>
+<h3 id="then-方法"><a href="#then-方法" class="headerlink" title="then 方法"></a>then 方法</h3><p>Promise 最重要的方法是 then 方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.resolve(<span class="number">123</span>).then(</span><br><span class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(val)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err)</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>then 方法接受两个参数，分别表示 fulfilled 和 rejected 状态下的执行函数<br>其中的 val 和 err 就是 Promise 在不同状态下的值。参数可以是普通函数，也可以箭头函数。</p>
+<p>then 方法的两个参数都可以省略，如果不想传入第一个参数，可以传入 null 或者 undefined 等</p>
+<p>then 方法返回一个 Promise，所以 Promise 可以一直串联下去</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.resolve(<span class="number">123</span>)</span><br><span class="line">    .then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(val) <span class="comment">// 123</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">456</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">        val <span class="comment">// 456</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<p>then 方法第一个参数不仅可以返回数值和普通对象作为下一个 Promise 的值，还可以返回一个 Promise<br>如果返回的是一个 Promise，则 then 方法的状态和值取决于返回 Promise 的状态和值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.resolve(<span class="number">123</span>)</span><br><span class="line">    .then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(<span class="number">999</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    .then(<span class="literal">null</span>, err =&gt; &#123;</span><br><span class="line">        err <span class="comment">// 999</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<p>如果 Promise 的值在 then 方法没有参数处理，则会一直像后传递。所以可以在 Promise 链的最后添加一个错误处理函数，处理之前所有 Promise 抛出的错误</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.resolve(<span class="number">123</span>)</span><br><span class="line">    .then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'error'</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    .then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 不会被执行</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .then(<span class="literal">null</span>, err =&gt; &#123;</span><br><span class="line">        err <span class="comment">// 这里处理错误</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="catch、Promise-all、Promise-race"><a href="#catch、Promise-all、Promise-race" class="headerlink" title="catch、Promise.all、Promise.race"></a>catch、Promise.all、Promise.race</h3><p>前例中在 Promise 链最后添加错误处理函数的情况十分普通，所以 es6 为 Promise 增加了 catch 方法。catch 方法等同于 then(null)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.resovle(<span class="number">123</span>)</span><br><span class="line">    .then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'error'</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;&#125;)</span><br></pre></td></tr></table></figure>
+<p><code>Promise.all</code> 接受一个 Promise 数组，返回一个 Promise。数组的所有 Promsie 都变为 fulfilled 状态后，返回 Promise 的状态变为 fulfilled，值为数组所有 Promise 值的数组。其中任意一个 Promise 变为 rejected，返回 Promise 的状态变为 rejected。</p>
+<p>Promise.race 同样返回一个 Promise，返回的 Promise 在任何一个 Promise 决议后决议，决议的结果就是返回 Promise 的结果。</p>
+<h3 id="Promise-的问题"><a href="#Promise-的问题" class="headerlink" title="Promise 的问题"></a>Promise 的问题</h3><p>Promise 最大的问题在于会吞掉错误。即如果 Promise 内部抛出了错误，如果错误没有被 catch 方法处理，错误也不会冒泡到 Promise 外部。</p>
+<p>这种设计的原因在于 Promise 被设计为在任何时候添加 then 方法都可以获取 Promise 决议的值。所以即使 Promise 内部报错了，引擎也不能确定将来是不是会存在一个 catch 方法来捕获这个错误，所以不能讲错误抛出。</p>
+<p>这种设计有时候会导致 Promise 的异常被吞掉。所以最佳实践是永远在 Promise 链的最后添加一个 catch 方法。</p>
+<p>在浏览器和 nodejs 中都有事件可以监听未捕获的 Promise 错误。</p>
+<p>浏览器中的事件如下<br><code>unhandledrejection</code>,同一个事件循环中，Promise 被拒绝，没有提供拒绝处理程序时触发<br><code>rejectionhandled</code>,一个事件循环后，拒绝的 Promise 被处理时触发</p>
+<p>nodejs 的事件与浏览器中基本一致，只是事件名是驼峰格式</p>
+<h3 id="Promise-的实现"><a href="#Promise-的实现" class="headerlink" title="Promise 的实现"></a>Promise 的实现</h3><p>完全模拟实现 Promise 是不可能的，因为 Promise 的 then 虽然永远是异步的，但是在事件循环中 Promise 属于微任务，setTimeout 属于宏任务，所以无法完全模拟。</p>
+<p>以下是一个 Promise 的模拟实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> PENDING = <span class="string">'PENDING'</span></span><br><span class="line"><span class="keyword">const</span> FULFILLED = <span class="string">'FULFILLED'</span></span><br><span class="line"><span class="keyword">const</span> REJECTED = <span class="string">'REJECTED'</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPromise</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(handler) &#123;</span><br><span class="line">        <span class="keyword">this</span>._status = PENDING</span><br><span class="line">        <span class="keyword">this</span>._value = <span class="literal">undefined</span></span><br><span class="line">        <span class="keyword">this</span>.fulfilledQueue = []</span><br><span class="line">        <span class="keyword">this</span>.rejectedQueue = []</span><br><span class="line">        <span class="keyword">const</span> resolve = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">            setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">this</span>._status !== PENDING) <span class="keyword">return</span></span><br><span class="line">                <span class="keyword">this</span>._status = FULFILLED</span><br><span class="line">                <span class="keyword">this</span>._value = val</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">let</span> cb <span class="keyword">of</span> <span class="keyword">this</span>.fulfilledQueue) &#123;</span><br><span class="line">                    cb(val)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> reject = <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">            setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">this</span>._status !== PENDING) <span class="keyword">return</span></span><br><span class="line">                <span class="keyword">this</span>._status = REJECTED</span><br><span class="line">                <span class="keyword">this</span>._value = err</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">let</span> cb <span class="keyword">of</span> <span class="keyword">this</span>.rejectedQueue) &#123;</span><br><span class="line">                    cb(err)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            handler(resolve, reject)</span><br><span class="line">        &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">            reject(err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    then(fulfilledHandler, rejectedHandler) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> fulfilled = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> result = fulfilledHandler(val)</span><br><span class="line">                <span class="keyword">if</span> (result <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">                    result.then(resolve, reject)</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    resolve(result)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">const</span> rejected = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> result = rejectedHandler(val)</span><br><span class="line">                <span class="keyword">if</span> (result <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">                    result.then(resolve, reject)</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    resolve(result)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>._status === PENDING) &#123;</span><br><span class="line">                <span class="keyword">this</span>.fulfilledQueue.push(fulfilled)</span><br><span class="line">                <span class="keyword">this</span>.rejectedQueue.push(rejected)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>._status === FULFILLED) &#123;</span><br><span class="line">                fulfilled(<span class="keyword">this</span>._value)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                rejected(<span class="keyword">this</span>._value)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">catch</span>(rejectedHandler) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.then(<span class="literal">null</span>, rejectedHandler)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">finally</span>(cb) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.then(</span><br><span class="line">            val =&gt; MyPromise.resolve(cb()).then(<span class="function"><span class="params">()</span> =&gt;</span> val),</span><br><span class="line">            err =&gt;</span><br><span class="line">                MyPromise.resolve(cb()).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">throw</span> err</span><br><span class="line">                &#125;)</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> resolve(val) &#123;</span><br><span class="line">        <span class="keyword">if</span> (val <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">            <span class="keyword">return</span> val</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function"><span class="params">resolve</span> =&gt;</span> resolve(val))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> reject(val) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> reject(val))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> all(arr) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> allPromises = arr.map(<span class="function"><span class="params">item</span> =&gt;</span> <span class="built_in">Promise</span>.resolve(item)),</span><br><span class="line">                result = [],</span><br><span class="line">                count = <span class="number">0</span></span><br><span class="line">            allPromises.forEach(<span class="function">(<span class="params">p, i</span>) =&gt;</span> &#123;</span><br><span class="line">                p.then(</span><br><span class="line">                    val =&gt; &#123;</span><br><span class="line">                        result[i] = val</span><br><span class="line">                        <span class="keyword">if</span> (++count == allPromises.length) &#123;</span><br><span class="line">                            resolve(result)</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;,</span><br><span class="line">                    err =&gt; &#123;</span><br><span class="line">                        reject(err)</span><br><span class="line">                    &#125;</span><br><span class="line">                )</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> race(arr) &#123;</span><br><span class="line">        <span class="keyword">return</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> allPromises = arr.map(<span class="function"><span class="params">item</span> =&gt;</span> <span class="built_in">Promise</span>.resolve(item))</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> p <span class="keyword">of</span> allPromises) &#123;</span><br><span class="line">                p.then(resolve, reject)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关于模拟实现有个细节问题，Promise 的 then 执行永远都是异步的，但是 Promise 在哪一步实现异步并不明确。上面的例子采用了比较简单的方式，将状态改变和回调执行都异步。这样跟原生的 Promise 是有一点区别的。<br>比如以下代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p = MyPromise.resolve(<span class="number">123</span>)</span><br><span class="line"></span><br><span class="line">p.then(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'first'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">MyPromise.resolve().then(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'second'</span>)</span><br><span class="line">&#125;)</span><br><span class="line">p.then(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'third'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// first third second</span></span><br></pre></td></tr></table></figure>
+<p>上面例子的输出是<code>first third second</code>。因为异步的位置是状态的改变和所有 fulfilled 回调的执行，所以同一个 Promise 的不同 then 回调执行之间没有异步。<br>如果把换成原生 Promise，上面例子的结果是<code>first second third</code>。<br>原生 Promise 的具体实现方式不明，据此猜测是 Promise 决议是同步的，决议后 then 方法执行是异步的，都是往微任务列表添加任务。但是上面的代码可以通过修改异步的方式做到同样的效果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// constructor 中</span></span><br><span class="line"><span class="comment">// ...省略</span></span><br><span class="line"><span class="keyword">const</span> resolve = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>._status !== PENDING) <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">this</span>._status = FULFILLED</span><br><span class="line">    <span class="keyword">this</span>._value = val</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> cb <span class="keyword">of</span> <span class="keyword">this</span>.fulfilledQueue) &#123;</span><br><span class="line">            cb(val)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> reject = <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>._status !== PENDING) <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">this</span>._status = REJECTED</span><br><span class="line">    <span class="keyword">this</span>._value = err</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> cb <span class="keyword">of</span> <span class="keyword">this</span>.rejectedQueue) &#123;</span><br><span class="line">            cb(err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ...省略</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// then 方法中</span></span><br><span class="line"><span class="keyword">const</span> fulfilled = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> result = fulfilledHandler(val)</span><br><span class="line">        <span class="keyword">if</span> (result <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">            result.then(resolve, reject)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            resolve(result)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> rejected = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> result = rejectedHandler(val)</span><br><span class="line">        <span class="keyword">if</span> (result <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">            result.then(resolve, reject)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            resolve(result)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>整体思路是对状态的值的改变是同步，回调是异步，然后 then 方法的回调同样要异步(处理 FULFILLED 状态后添加的 then 方法)。</p>
+<p>只是无关紧要的小细节。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/code/generator/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -314,6 +593,7 @@
 <h3 id="什么是生成器"><a href="#什么是生成器" class="headerlink" title="什么是生成器"></a>什么是生成器</h3><p>生成器是一个返回迭代器的函数。<br>不同于普通的函数，生成器在声明语法和执行上都差异极大。</p>
 <p>以下是一个生成器的例子</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">say</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> x <span class="comment">// yield是生成器内的特殊语法，只能在生成器内出现</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有一点需要注意，生成器返回的不仅仅是一个迭代器，也是一个可迭代对象，所以生成器的返回值可以直接使用<code>for...of</code>遍历</p>
 <h5 id="生成器的声明"><a href="#生成器的声明" class="headerlink" title="生成器的声明"></a>生成器的声明</h5><p>不同于普通的函数生成，生成器的声明需要在<code>function</code>关键字和函数名之间加上<code>*</code>。</p>
 <p>对于*、function 和函数名之间的位置关系，以下三种都可以</p>
 <ol>
@@ -377,7 +657,7 @@
 <p>至此，<code>run</code>和<code>requestFactory</code>都成了通用方法，真正的执行代码只有生成器<code>main</code>方法和<code>run(main)</code>语句。</p>
 <p>在上面的<code>run</code>方法中，我们一直有一个假设，即<code>ajax</code>异步方法接收的回调是 error-first 风格的。写出这样风格的异步方法不难，但是也总是难免会存在不是这种风格的回调。但要在<code>run</code>方法中判断回调的第一个参数是不是错误很难，或者说不可能。<br>所以对于<code>run</code>方法的回调方法的参数必须有所约定，<code>Promise</code>是最好的选择。即<code>requestFactory</code>方法需要返回一个 Promise,或者 ajax 方法直接返回<code>Promise</code></p>
 <p>最终的代码如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">tasks</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> it = tasks(),</span><br><span class="line">        result = it.next()</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (result.done) <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> result.value.then === <span class="string">'function'</span>) &#123;</span><br><span class="line">            result.value.then(</span><br><span class="line">                res =&gt; &#123;</span><br><span class="line">                    result = it.next(res)</span><br><span class="line">                    step()</span><br><span class="line">                &#125;,</span><br><span class="line">                err =&gt; &#123;</span><br><span class="line">                    it.throw(err)</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result = it.next(result.value)</span><br><span class="line">            step()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    step()</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> ajax(<span class="string">'a/b/c'</span>) <span class="comment">// ajax需要返回一个Promise</span></span><br><span class="line">    handle(x)</span><br><span class="line">&#125;</span><br><span class="line">run(main)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">tasks</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> it = tasks(),</span><br><span class="line">        result = it.next()</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (result.done) <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> (value <span class="keyword">instanceof</span> <span class="built_in">Promise</span>) &#123;</span><br><span class="line">            result.value.then(</span><br><span class="line">                res =&gt; &#123;</span><br><span class="line">                    result = it.next(res)</span><br><span class="line">                    step()</span><br><span class="line">                &#125;,</span><br><span class="line">                err =&gt; &#123;</span><br><span class="line">                    it.throw(err)</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result = it.next(result.value)</span><br><span class="line">            step()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    step()</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> ajax(<span class="string">'a/b/c'</span>) <span class="comment">// ajax需要返回一个Promise</span></span><br><span class="line">    handle(x)</span><br><span class="line">&#125;</span><br><span class="line">run(main)</span><br></pre></td></tr></table></figure>
 <p>其中<code>run</code>方法可以封装为一个工具函数。</p>
 <p>es7 将这种异步方式规范化了。没错，就是<code>async await</code></p>
 
@@ -521,6 +801,8 @@
 <li>Array.from()</li>
 </ol>
 <p>还有一些其它场合，基本上 es6 之后新的遍历都会使用迭代器</p>
+<h3 id="内建迭代器"><a href="#内建迭代器" class="headerlink" title="内建迭代器"></a>内建迭代器</h3><p>js 中,Array、Set、Map 都包含有内建的迭代器 entries(),values(),keys()</p>
+<p>其中 keys 返回键的迭代器，但是仍然可以被 for…of 遍历，因为 keys 返回的也是一个可迭代对象。values()和 entries()也类似<br>values()返回值的迭代器<br>entries()返回键值对数组的迭代器</p>
 <h3 id="迭代器的高级用法"><a href="#迭代器的高级用法" class="headerlink" title="迭代器的高级用法"></a>迭代器的高级用法</h3><p>迭代器的高级用法，如迭代器的 throw 方法，迭代器 next 方法传参，几乎都与生成器相关。所以放在生成器中一起讲。</p>
 
           
@@ -641,7 +923,8 @@
       
         
           
-            <h3 id="抽象转换-ToNumber-ToString-ToPrimitive-ToBoolean"><a href="#抽象转换-ToNumber-ToString-ToPrimitive-ToBoolean" class="headerlink" title="抽象转换 ToNumber ToString ToPrimitive ToBoolean"></a>抽象转换 ToNumber ToString ToPrimitive ToBoolean</h3><p><code>ToNumber ToString</code> 只是 <code>ToPrimitive</code>的一种情况<br><code>ToBoolean</code> 不属于其中，有一套独立的规则<br><code>ToPrimitive</code>可以理解为就是<code>Symbol.toPrimitive</code>函数的结果</p>
+            <h3 id="显示转换"><a href="#显示转换" class="headerlink" title="显示转换"></a>显示转换</h3><p>Number Boolean String Object</p>
+<h3 id="隐式转换"><a href="#隐式转换" class="headerlink" title="隐式转换"></a>隐式转换</h3><h3 id="装箱转换-拆箱转换"><a href="#装箱转换-拆箱转换" class="headerlink" title="装箱转换/拆箱转换"></a>装箱转换/拆箱转换</h3><h3 id="抽象转换-ToNumber-ToString-ToPrimitive-ToBoolean"><a href="#抽象转换-ToNumber-ToString-ToPrimitive-ToBoolean" class="headerlink" title="抽象转换 ToNumber ToString ToPrimitive ToBoolean"></a>抽象转换 ToNumber ToString ToPrimitive ToBoolean</h3><p><code>ToNumber ToString</code> 只是 <code>ToPrimitive</code>的一种情况<br><code>ToBoolean</code> 不属于其中，有一套独立的规则<br><code>ToPrimitive</code>可以理解为就是<code>Symbol.toPrimitive</code>函数的结果</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.toPrimitive](hint) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (hint) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'default'</span>:</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'default'</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'string'</span>:</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'string'</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'number'</span>:</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'number'</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">3</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="built_in">console</span>.log(hint)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">4</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    toString() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'toString'</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">5</span></span><br><span class="line">    &#125;,</span><br><span class="line">    valueOf() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'valueOf'</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">6</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">Number</span>(obj) <span class="comment">// 3</span></span><br><span class="line">    <span class="built_in">String</span>(obj) <span class="comment">// 2</span></span><br><span class="line">    obj + <span class="number">1</span> <span class="comment">// 1+1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><code>Symbol.toPrimitive</code>传入的<code>hint</code>只有<code>string/number/default</code>三种情况，<code>default</code>只是为了代码完备。<br><code>Symbol.toPrimitive</code>的返回结果就是<code>Number(obj)</code>等的返回结果,如果返回的不是<code>hint</code>的基本类型，会强制转换为<code>hint</code>类型(可能会失败，如<code>Symbol</code>转数字)，如果返回的是对象，会抛出错误。<br><code>toString</code>和<code>valueOf</code>方法不会执行。</p>
 <p>默认<code>Symbol.toPrimitive</code>情况下，根据不同的<code>hint</code>,会先后调用<code>valueOf</code>和<code>toString</code>，只要有一个返回基本类型，就会将该基本类型强制转换为<code>hint</code>类型，如果两者都返回对象，报错。至于调用的先后顺序，<code>string</code>是<code>toString-valueOf</code>，<code>number</code>相反，<code>default</code>在<code>Date</code>对象中是<code>toString</code>优先，其它是<code>valueOf</code>。</p>
@@ -1024,7 +1307,11 @@
 <p>虽然上例中使用的是普通函数，但是更普遍的做法可能是为<code>Symbol.iterator</code>函数赋一个生成器函数。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    *[<span class="built_in">Symbol</span>.iterator]() &#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">        <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>虽然形式不一样，但是与<code>Symbol.iterator</code>关系不大，主要还是生成器。这里就不展开了。</p>
-<h5 id="Symbol-species"><a href="#Symbol-species" class="headerlink" title="Symbol.species"></a>Symbol.species</h5><h5 id="Symbol-toPrimitive"><a href="#Symbol-toPrimitive" class="headerlink" title="Symbol.toPrimitive"></a>Symbol.toPrimitive</h5><p>用于变量的类型转换。在做类型转换或者获取对象的原始值时，会调用此方法。如<code>&#39;&#39;+a</code>会调用<code>a</code>的<code>Symbol[toPrimitive]</code>方法。</p>
+<h5 id="Symbol-species"><a href="#Symbol-species" class="headerlink" title="Symbol.species"></a>Symbol.species</h5><p>内建对象实例方法返回新的实例时使用。比如 Array 的<code>slice</code>方法会返回一个新的 Array，如果通过 es6 extends 继承 Array，slice 方法会默认返回子类型的实例。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyArray</span> <span class="keyword">extends</span> <span class="title">Array</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> a = <span class="keyword">new</span> MyArray(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>),</span><br><span class="line">    b = a.slice(<span class="number">1</span>)</span><br><span class="line">b <span class="keyword">instanceof</span> MyArray <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>因为Array的<code>Symbol.species</code>默认指向this，所以返回MyArray类型的实例。<br>注意:<code>Symbol.species</code>定义为Array的静态属性，所以this指向实例的构造函数本身</p>
+<p>通过指定<code>Symbol.species</code>可以返回一个其他类型的实例<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> get [<span class="built_in">Symbol</span>.species] ()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span> <span class="comment">// 也可以指定为其他值，比如MyClass</span></span><br><span class="line">    &#125;</span><br><span class="line">    clone()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">this</span>.constructor[<span class="built_in">Symbol</span>.species]()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用<code>Symbol.species</code>的内建类型有 Array ArrayBuffer Map Set Typed arrays Promise RegExp</p>
+<h5 id="Symbol-toPrimitive"><a href="#Symbol-toPrimitive" class="headerlink" title="Symbol.toPrimitive"></a>Symbol.toPrimitive</h5><p>用于变量的类型转换。在做类型转换或者获取对象的原始值时，会调用此方法。如<code>&#39;&#39;+a</code>会调用<code>a</code>的<code>Symbol[toPrimitive]</code>方法。</p>
 <p>方法接受一个参数<code>hint</code>，可能的值有<code>string、number、default</code>。表示当前转换采用的模式。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.toPrimitive]: <span class="function"><span class="keyword">function</span>(<span class="params">hint</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (hint) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'string'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'string'</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'number'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'number'</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'default'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'default'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>虽然可以为<code>string、number、default</code>指定不同的返回值，但是一般还是给<code>default</code>指定为<code>string、number</code>中的一个<br><code>string</code>与<code>number</code>模式比较好理解,<code>default</code>模式只会出现在下列三种情况</p>
@@ -1471,385 +1758,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/05/code/array-typed/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/05/code/array-typed/" itemprop="url">定型数组</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-05T20:16:54+08:00">
-                2019-03-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>[TOC]</p>
-<h3 id="什么是定型数组"><a href="#什么是定型数组" class="headerlink" title="什么是定型数组"></a>什么是定型数组</h3><p>JS中数组一直是不限类型的，一个数组中可以同时存在多种不同类型的数据。普通的数组算术运算速度无法满足WebGL的需求，所以es6引入了定型数组。<br>定型数组是用于处理数值类型的(不是所有类型)的专用数组，定型数组<strong>不是</strong>数组类型。</p>
-<h3 id="定型数组类型"><a href="#定型数组类型" class="headerlink" title="定型数组类型"></a>定型数组类型</h3><p>不同于普通的数组，定型数组的长度是固定的，创建之后就不能改变。所以定型数组可以在内存中对应一段固定的地址，这就是数组缓冲区。</p>
-<h5 id="数组缓冲区"><a href="#数组缓冲区" class="headerlink" title="数组缓冲区"></a>数组缓冲区</h5><p>数组缓冲区是内存中一段字节的地址，可以使用如下方式创建包含<code>10</code>个字节的数组缓冲区。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> buffer = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">10</span>)</span><br><span class="line">buffer.byteLength <span class="comment">// 10</span></span><br></pre></td></tr></table></figure></p>
-<p>注意传递给<code>ArrayBuffer</code>的是字节而不是byte<br>显然，数组缓冲区的大小是固定的，创建之后就不能修改。可以通过<code>byteLength</code>属性查看缓冲区的大小。<br>还可以通过<code>slice</code>方法在原有的缓冲区上创建新的缓冲区。<br>不能通过数组缓冲区直接修改数据，要修改缓冲区的数据，必须创建视图。</p>
-<h5 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h5><p>视图用于操作数组缓冲区，可以基于数组缓冲区创建视图<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> view = <span class="keyword">new</span> <span class="built_in">DataView</span>(buffer,start,length)</span><br></pre></td></tr></table></figure></p>
-<p>其中<code>buffer</code>是数据缓冲区，<code>start</code>和<code>length</code>分别表示视图在视图缓冲区的开始位置和视图的长度。<br>也可以直接传入数值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> view = <span class="keyword">new</span> <span class="built_in">DataView</span>(<span class="number">10</span>)</span><br></pre></td></tr></table></figure></p>
-<p>表示创建<code>10</code>字节大小的视图，通过视图的<code>buffer</code>属性获取视图对应的数据缓冲区</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">视图属性</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">buffer</td>
-<td style="text-align:center">绑定的数组缓冲区</td>
-</tr>
-<tr>
-<td style="text-align:center">byteLength</td>
-<td style="text-align:center">视图的长度，单位为字节</td>
-</tr>
-<tr>
-<td style="text-align:center">byteOffset</td>
-<td style="text-align:center">视图在缓冲区中的开始位置，默认0，通过new DataView(buffer)创建时传入的第二个参数</td>
-</tr>
-</tbody>
-</table>
-<p>可以基于一个数组缓冲区创建多个视图，多个视图都可以修改缓冲区的数据</p>
-<p>视图获取和写入数据的方法</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">方法</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">getInt8(byteOffset,littleEndian)</td>
-<td style="text-align:center">获取int8类型的数据</td>
-</tr>
-<tr>
-<td style="text-align:center">setInt8(byteOffset,value,littleEndian)</td>
-<td style="text-align:center">写入int8类型的数据</td>
-</tr>
-</tbody>
-</table>
-<p><code>byteOffset</code>用于表示从视图的哪个位置读取和写入数据，<code>littleEndian</code>是否按照小端序(不明，不确定与字符的大小端有无关系)<br><code>Int8</code>只是一种类型，所有的8中类型(见下文定型数组类型)都是同样的方法读取和写入数据</p>
-<h5 id="定型数组的8种类型"><a href="#定型数组的8种类型" class="headerlink" title="定型数组的8种类型"></a>定型数组的8种类型</h5><p>定型数组包含8中类型<br><code>Int8Array</code>、<code>Uint8Array</code>、<code>Int16Array</code>、<code>Uint16Array</code>、<code>Int32Array</code>、<code>Uint32Array</code>、<code>Float32Array</code>、<code>Float64Array</code>，去掉array后就对应上文中视图读取和写入数字的方法<br>对于<code>Uint8Array</code>还有一种特殊的类型<code>Uint8ClampedArray</code>，区别在于缓冲区的值如果小于0或者大于255，会将其转换到这个范围中</p>
-<h3 id="创建定型数组"><a href="#创建定型数组" class="headerlink" title="创建定型数组"></a>创建定型数组</h3><p>从上文可以知道，定型数组其实就是一种固定类型的视图，所以创建方式和视图非常相似。<br>创建定型数组的方式有三种</p>
-<ol>
-<li>使用数组缓冲区创建<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Int8Array</span>(buffer, start, length)</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>参数与创建视图一样，同样，视图有的三个属性，定型数组都有。如果创建的buffer区域的字节长度不是定型数组基础长度的整数倍，会报错。</p>
-<ol start="2">
-<li>使用数字创建<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Int16Array</span>(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>不同的是，这个<code>10</code>代表的是元素的个数，通过定型数组的<code>length</code>属性可以查看元素的个数。<br>对于不同类型的定型数组，元素个数相同，包含的字节长度不相同。比如都是10个元素的定型数组，<code>Int8Array</code>类型的<code>byteLength</code>只有10,<code>Int16Array</code>类型的<code>byteLength</code>是20。</p>
-<ol start="3">
-<li>使用数组相关对象创建<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Float32Array</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>类数组对象包括:数组、定型数组、可迭代对象、类数组对象<br>如果相关对象包含不能转换的值，会以0代替。</p>
-<h3 id="操作定型数组"><a href="#操作定型数组" class="headerlink" title="操作定型数组"></a>操作定型数组</h3><p>定型数组虽然不是数组，但是和数组非常类似</p>
-<p>可以使用<code>arr[0]</code>方式<strong>获取和写入</strong>数据，也可以通过<code>length</code>属性获取定型数组的长度，但是不能修改长度，还可以通过<code>for...of</code>遍历定型数组</p>
-<p>数组的方法定型数组基本都支持，除了以下几个方法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">concat</span><br><span class="line">push</span><br><span class="line">pop</span><br><span class="line">shift</span><br><span class="line">unshift</span><br><span class="line">splice</span><br></pre></td></tr></table></figure></p>
-<p><code>concat</code>不支持是因为不同类型的定型数组合并结果不确定，其它方法则是他们都会改变数组本身的长度，而定型数组的长度是不变的，所以不支持。</p>
-<p>定型数组还支持两个额外的方法<code>set</code>和<code>subarray</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Int8Array</span>(<span class="number">4</span>)</span><br><span class="line">arr.set([<span class="number">1</span>, <span class="number">2</span>])</span><br><span class="line">arr.set([<span class="number">3</span>, <span class="number">4</span>], <span class="number">2</span>)</span><br><span class="line">arr <span class="comment">// [1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure></p>
-<p><code>set</code>方法将一个数组复制到定型数组，第一个参数是目标数组(或其他类数组对象),第二个参数表示开始复制的位置</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Int8Array</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]),</span><br><span class="line">arr2 = arr.subarray(<span class="number">1</span>,<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-<p><code>subarray</code>方法提取已有定型数组的一部分作为一个新的定型数组，两个参数表示开始和结束位置。与<code>slice</code>方法非常类型，区别在于<code>slice</code>方法会创建一个新的<code>buffer</code>，而<code>subarray</code>方法会使用原有的<code>buffer</code>，相当于在原有的<code>buffer</code>上创建一个新的视图。<br>基本等同于一下代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Int8Array</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]),</span><br><span class="line">arr2 = <span class="keyword">new</span> <span class="built_in">Int8Array</span>(arr.buffer, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"><span class="comment">//注意此处是2，因为subarray和new Int8Array的第二个参数不同</span></span><br></pre></td></tr></table></figure></p>
-<p>区别在于<code>subarray</code>的第二个参数是结束元素位置，而不是新建视图的视图字节长度</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/26/code/object-traverse/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/26/code/object-traverse/" itemprop="url">对象属性遍历</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-26T11:36:08+08:00">
-                2019-02-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>[TOC]</p>
-<p>对对象遍历以及相关知识的梳理</p>
-<h3 id="对象的属性"><a href="#对象的属性" class="headerlink" title="对象的属性"></a>对象的属性</h3><p>对象的属性分很多种，obj.a获取只是获取一个值，但是属性的来源可能有多种。与对象遍历相关的有4种</p>
-<ol>
-<li>是否是继承的属性</li>
-<li>是否可以枚举，即属性的<code>enumerable</code>是否为<code>true</code></li>
-<li>是数据属性还是访问器属性</li>
-<li>是否是<code>Symbol</code>属性</li>
-</ol>
-<h3 id="属性遍历"><a href="#属性遍历" class="headerlink" title="属性遍历"></a>属性遍历</h3><p><code>obj.a</code>方式获取的属性包括以上所有类型的属性，但是属性遍历时，除非有特殊需求，一般只考虑<strong>自身属性</strong></p>
-<h5 id="继承属性"><a href="#继承属性" class="headerlink" title="继承属性"></a>继承属性</h5><p>能够遍历继承属性的方式只有一种：<code>for...in</code><br><code>for...in</code>会遍历<strong>自身和继承</strong>的<strong>可枚举</strong>属性</p>
-<p>这是唯一一个获取继承属性的方法，其它遍历属性的方法，都只能获取自身的属性。<br>由于<code>for...in</code>会遍历继承的属性，所以在使用<code>for...in</code>遍历对象属性时，一般需要加上<code>hasOwnProperty</code>来判断是否是对象本身的属性<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">of</span> obj)&#123;</span><br><span class="line">    <span class="keyword">if</span>(obj.hasOwnProperty(key))&#123;</span><br><span class="line">        <span class="comment">// 对自身可枚举属性的操作</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>还有一种方法是使用<code>Object.keys()</code></p>
-<h5 id="Object-keys"><a href="#Object-keys" class="headerlink" title="Object.keys()"></a>Object.keys()</h5><p>自身可枚举属性应该是对象属性遍历时最常用的情况。<code>Object.keys()</code>返回对象<strong>自身可枚举</strong>属性的数组<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">of</span> <span class="built_in">Object</span>.keys(obj))&#123;</span><br><span class="line">    <span class="comment">// 对自身可枚举属性的操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上面代码和继承属性中<code>for...in</code>的遍历效果一样，都是遍历<strong>自身可枚举</strong>属性。<br>所以<strong>推荐使用<code>Object.keys()</code>遍历对象属性，而不是<code>for...in</code></strong>，因为<code>obj.hasOwnProperty()</code>实在容易忘记</p>
-<p>有一点需要注意，<code>Object.keys()</code>只有<strong>IE9+</strong>支持，但<code>for...in</code>支持度至少到IE8，具体不清楚。如果要兼容低版本IE，则只能使用<code>for...in</code>。</p>
-<h5 id="不可枚举属性"><a href="#不可枚举属性" class="headerlink" title="不可枚举属性"></a>不可枚举属性</h5><p>如果要遍历对象的不可枚举属性，需要使用<code>Object.getOwnPropertyNames()</code>。此方法会返回<strong>自身可枚举和不可枚举</strong>的属性的数组。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">of</span> <span class="built_in">Object</span>.getOwnPropertyNames(obj))&#123;</span><br><span class="line">    <span class="comment">// 对自身可枚举和不可枚举属性的操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h5 id="Symbol属性"><a href="#Symbol属性" class="headerlink" title="Symbol属性"></a>Symbol属性</h5><p>理论上来讲，<code>Symbol</code>属性可以是可枚举的，也可以是不可枚举的。因为一般判断属性是否可以枚举是通过<code>obj.propertyIsEnumerable()</code>或者<code>Object.getOwnPropertyDescriptor()</code>返回对象的<code>enumerable</code>属性。<br>虽然<code>Symbol</code>属性的<code>enumerable</code>属性与其它属性一样，但是<code>Symbol</code>属性<strong>不会</strong>被前面任何一种方法返回。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>(<span class="string">'name'</span>),</span><br><span class="line">    obj = &#123;</span><br><span class="line">        [sy] : <span class="string">'hz'</span>,</span><br><span class="line">        age : <span class="number">18</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="built_in">console</span>.log(obj.propertyIsEnumerable(sy)) <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(obj.propertyIsEnumerable(<span class="string">'age'</span>)) <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.keys(obj)) <span class="comment">// ['age']</span></span><br></pre></td></tr></table></figure></p>
-<p>虽然上述<code>sy</code>和<code>age</code>属性的<code>enumerable</code>都为<code>true</code>，但是只有<code>age</code>属性会被<code>Object.keys()</code>返回，换成<code>for...in</code>或者<code>Object.getOwnPropertyNames()</code>也是一样。</p>
-<p>如果要遍历<code>Symbol</code>属性，需要使用<code>Object.getOwnPropertySymbols()</code>,此方法会返回自身的<code>Symbol</code>属性的数组，注意，只有<code>Symbol</code>属性。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">of</span> <span class="built_in">Object</span>.getOwnPropertySymbols(obj))&#123;</span><br><span class="line">    <span class="comment">// 对自身Symbol属性的操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h5 id="自身所有属性"><a href="#自身所有属性" class="headerlink" title="自身所有属性"></a>自身所有属性</h5><p>最后一种遍历对象属性的方法是<code>Reflect.ownKeys()</code>,此方法会返回对象的<strong>所有</strong>属性的数组，包括<code>Symbol</code>和非<code>Symbol</code>属性，枚举和不可枚举属性。可以认为<br><code>Reflect.ownKeys</code> = <code>Object.getOwnPropertyNames()</code> + <code>Object.getOwnPropertySymbols()</code></p>
-<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p>上面讲了5中对象属性遍历的方法,可以用表格总结如下</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">方法</th>
-<th style="text-align:center">特性</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Reflect.ownKeys()</td>
-<td style="text-align:center">所有属性，包括Symbol和非Symbol属性</td>
-</tr>
-<tr>
-<td style="text-align:center">Object.getOwnPropertySymbols()</td>
-<td style="text-align:center">Symbol属性</td>
-</tr>
-<tr>
-<td style="text-align:center">Object.getOwnPropertyNames()</td>
-<td style="text-align:center">非Symbol属性，包括可枚举属性和不可枚举属性</td>
-</tr>
-<tr>
-<td style="text-align:center">Object.keys()</td>
-<td style="text-align:center">非Symbol的可枚举属性</td>
-</tr>
-<tr>
-<td style="text-align:center">for…in</td>
-<td style="text-align:center">非Symbol的自身和继承的可枚举属性</td>
-</tr>
-</tbody>
-</table>
-<p>一般情况下，不建议使用<code>for...in</code>，因为<code>for...in</code>属性的来源很难判断，可能来自自身，也可能来自继承的对象，甚至继承对象的继承对象。如果要获取继承对象的可枚举属性，最好使用<code>Object.keys(Object.getPrototypeOf(obj))</code>。</p>
-<h3 id="其它涉及对象遍历的方法"><a href="#其它涉及对象遍历的方法" class="headerlink" title="其它涉及对象遍历的方法"></a>其它涉及对象遍历的方法</h3><p>有一些方法，虽然不直接遍历对象的属性，但是会隐含有对象属性遍历的操作，以下做一些梳理，可能有遗漏</p>
-<h5 id="JSON-stringify"><a href="#JSON-stringify" class="headerlink" title="JSON.stringify()"></a>JSON.stringify()</h5><p>序列化<strong>自身可枚举</strong>属性,不包含<code>Symbol</code>属性,对于访问器属性，会使用<code>get</code>的返回值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>(<span class="string">'name'</span>)</span><br><span class="line">    obj = &#123;</span><br><span class="line">        sy : <span class="string">'hz'</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">'age'</span>, &#123;</span><br><span class="line">    get: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">3</span></span><br><span class="line">    &#125;,</span><br><span class="line">    enumerable: <span class="literal">true</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(obj)) <span class="comment">// &#123;"age":3&#125;</span></span><br></pre></td></tr></table></figure></p>
-<h5 id="Object-assign-…"><a href="#Object-assign-…" class="headerlink" title="Object.assign() / …"></a>Object.assign() / …</h5><p>复制对象的<strong>自身可枚举</strong>属性，<strong>包含</strong><code>Symbol</code>属性，对于访问器属性，会使用<code>get</code>的返回值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>(<span class="string">'name'</span>)</span><br><span class="line">    obj = &#123;</span><br><span class="line">        [sy] : <span class="string">'hz'</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">'age'</span>, &#123;</span><br><span class="line">    get: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">3</span></span><br><span class="line">    &#125;,</span><br><span class="line">    enumerable: <span class="literal">true</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.assign(&#123;&#125;,obj)) <span class="comment">// &#123;Symbol(name): "hz","age":3&#125;</span></span><br></pre></td></tr></table></figure>
-<p><code>Object.assign()</code>和<code>JSON.stringify()</code>在属性遍历上的区别只在于<code>Object.assign()</code>会包含<code>Symbol</code>属性</p>
-<p><code>...</code>和<code>Object.assign</code>的属性遍历行为完全一样</p>
-<h5 id="Object-getOwnPropertyDescriptors"><a href="#Object-getOwnPropertyDescriptors" class="headerlink" title="Object.getOwnPropertyDescriptors()"></a>Object.getOwnPropertyDescriptors()</h5><p>返回自身所有属性的描述符，遍历行为等同于<code>Reflect.ownKeys()</code>。</p>
-<h5 id="obj-hasOwnProperty"><a href="#obj-hasOwnProperty" class="headerlink" title="obj.hasOwnProperty"></a>obj.hasOwnProperty</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    a:<span class="number">3</span></span><br><span class="line">&#125;</span><br><span class="line">obj.hasOwnProperty(<span class="string">'a'</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-<p>检测对象自身是否包含某个属性，检测<strong>自身所有属性</strong>，不包含继承属性</p>
-<h5 id="in-运算符"><a href="#in-运算符" class="headerlink" title="in 运算符"></a>in 运算符</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'constructor'</span> <span class="keyword">in</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
-<p><code>in</code>运算符遍历自身和继承的<strong>所有属性</strong>,包括Symbol属性</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1902,7 +1810,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -1915,7 +1823,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

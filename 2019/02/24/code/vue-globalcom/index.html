@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="bai">
 <meta property="og:description" content="[TOC] 本文讲述Vue中如何在组件内将需要的组件挂载在body下。 需求来源于在组件内要渲染一个盖住全局的页面，由于 ios 的限制，组件内即使设置position:fixed也无法实现，所以考虑将元素挂载到 body 下。其实类似的场景很多，比如toast，Dialog。只是之前没有写过类似的组件，这次实践之后希望记录下来。 组件书写组件书写就是一个普通的.vue单文件组件，可以接受prop">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-26T07:01:29.714Z">
+<meta property="og:updated_time" content="2019-04-24T07:06:54.031Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue组件内将其它组件挂载到body">
 <meta name="twitter:description" content="[TOC] 本文讲述Vue中如何在组件内将需要的组件挂载在body下。 需求来源于在组件内要渲染一个盖住全局的页面，由于 ios 的限制，组件内即使设置position:fixed也无法实现，所以考虑将元素挂载到 body 下。其实类似的场景很多，比如toast，Dialog。只是之前没有写过类似的组件，这次实践之后希望记录下来。 组件书写组件书写就是一个普通的.vue单文件组件，可以接受prop">
@@ -334,6 +334,7 @@
 <p>移除<code>el</code>肯定是必须的，对于是否需要手动销毁<code>instance</code>，不确定</p>
 <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>上文中没有处理存在多个 instance 的情况，如果存在，需要根据不同的 el 销毁不同的 instance，不过问题不大。</p>
 <p>最大的问题在于传递给组件<code>Content</code>的<code>propsData</code>不是响应式的，即使<code>propsData</code>发生了改变，<code>Content</code>组件的内容也不会发生变化，只会取最初传递给<code>Content</code>的<code>propsData</code></p>
+<p>可以在监测props，props发生改变时修改instance的props<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">created() &#123;</span><br><span class="line">    <span class="built_in">window</span>.addEventListener(<span class="string">"popstate"</span>, <span class="keyword">this</span>.popstateHandler);</span><br><span class="line">  &#125;,</span><br><span class="line">  beforeDestroy() &#123;</span><br><span class="line">    <span class="built_in">window</span>.removeEventListener(<span class="string">"popstate"</span>, <span class="keyword">this</span>.popstateHandler);</span><br><span class="line">    <span class="keyword">this</span>.hideGlobalCom();</span><br><span class="line">  &#125;,</span><br><span class="line">    popstateHandler(e) &#123;</span><br><span class="line">      <span class="keyword">let</span> query = <span class="keyword">this</span>.$route.query;</span><br><span class="line">      <span class="keyword">if</span> (query.noMenu) &#123;</span><br><span class="line">        hideMenu();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (query.list) &#123;</span><br><span class="line">        <span class="keyword">this</span>.showVisitedList();</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.hideGlobalCom();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    chooseCompany() &#123;</span><br><span class="line">      history.pushState(<span class="string">""</span>, <span class="string">""</span>, <span class="string">`#<span class="subst">$&#123;<span class="keyword">this</span>.$route.path&#125;</span>?list=true&amp;noMenu=true`</span>);</span><br><span class="line">      hideMenu();</span><br><span class="line">      <span class="keyword">this</span>.showVisitedList();</span><br><span class="line">    &#125;,</span><br><span class="line">     hideGlobalCom() &#123;</span><br><span class="line">      <span class="keyword">this</span>.instance &amp;&amp;</span><br><span class="line">        <span class="built_in">document</span>.body.removeChild(<span class="keyword">this</span>.instance.$el) &amp;&amp;</span><br><span class="line">        <span class="keyword">this</span>.instance.$destroy();</span><br><span class="line">      <span class="keyword">this</span>.instance = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -457,7 +458,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -470,7 +471,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

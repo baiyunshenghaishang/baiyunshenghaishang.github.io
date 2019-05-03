@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="[TOC] 什么是生成器生成器是一个返回迭代器的函数。不同于普通的函数，生成器在声明语法和执行上都差异极大。 以下是一个生成器的例子 12345function* say(x) &amp;#123;    yield x // yield是生成器内的特殊语法，只能在生成器内出现    yield 2    yield 3&amp;#125; 生成器的声明不同于普通的函数生成，生成器的声明需要在function关键">
+<meta name="description" content="[TOC] 什么是生成器生成器是一个返回迭代器的函数。不同于普通的函数，生成器在声明语法和执行上都差异极大。 以下是一个生成器的例子 12345function* say(x) &amp;#123;    yield x // yield是生成器内的特殊语法，只能在生成器内出现    yield 2    yield 3&amp;#125; 有一点需要注意，生成器返回的不仅仅是一个迭代器，也是一个可迭代对象，所以">
 <meta name="keywords" content="generator">
 <meta property="og:type" content="article">
 <meta property="og:title" content="生成器">
 <meta property="og:url" content="http://yoursite.com/2019/03/28/code/generator/index.html">
 <meta property="og:site_name" content="bai">
-<meta property="og:description" content="[TOC] 什么是生成器生成器是一个返回迭代器的函数。不同于普通的函数，生成器在声明语法和执行上都差异极大。 以下是一个生成器的例子 12345function* say(x) &amp;#123;    yield x // yield是生成器内的特殊语法，只能在生成器内出现    yield 2    yield 3&amp;#125; 生成器的声明不同于普通的函数生成，生成器的声明需要在function关键">
+<meta property="og:description" content="[TOC] 什么是生成器生成器是一个返回迭代器的函数。不同于普通的函数，生成器在声明语法和执行上都差异极大。 以下是一个生成器的例子 12345function* say(x) &amp;#123;    yield x // yield是生成器内的特殊语法，只能在生成器内出现    yield 2    yield 3&amp;#125; 有一点需要注意，生成器返回的不仅仅是一个迭代器，也是一个可迭代对象，所以">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-01T08:01:12.676Z">
+<meta property="og:updated_time" content="2019-04-28T12:54:48.452Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="生成器">
-<meta name="twitter:description" content="[TOC] 什么是生成器生成器是一个返回迭代器的函数。不同于普通的函数，生成器在声明语法和执行上都差异极大。 以下是一个生成器的例子 12345function* say(x) &amp;#123;    yield x // yield是生成器内的特殊语法，只能在生成器内出现    yield 2    yield 3&amp;#125; 生成器的声明不同于普通的函数生成，生成器的声明需要在function关键">
+<meta name="twitter:description" content="[TOC] 什么是生成器生成器是一个返回迭代器的函数。不同于普通的函数，生成器在声明语法和执行上都差异极大。 以下是一个生成器的例子 12345function* say(x) &amp;#123;    yield x // yield是生成器内的特殊语法，只能在生成器内出现    yield 2    yield 3&amp;#125; 有一点需要注意，生成器返回的不仅仅是一个迭代器，也是一个可迭代对象，所以">
 
 
 
@@ -314,6 +314,7 @@
 <h3 id="什么是生成器"><a href="#什么是生成器" class="headerlink" title="什么是生成器"></a>什么是生成器</h3><p>生成器是一个返回迭代器的函数。<br>不同于普通的函数，生成器在声明语法和执行上都差异极大。</p>
 <p>以下是一个生成器的例子</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">say</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> x <span class="comment">// yield是生成器内的特殊语法，只能在生成器内出现</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有一点需要注意，生成器返回的不仅仅是一个迭代器，也是一个可迭代对象，所以生成器的返回值可以直接使用<code>for...of</code>遍历</p>
 <h5 id="生成器的声明"><a href="#生成器的声明" class="headerlink" title="生成器的声明"></a>生成器的声明</h5><p>不同于普通的函数生成，生成器的声明需要在<code>function</code>关键字和函数名之间加上<code>*</code>。</p>
 <p>对于*、function 和函数名之间的位置关系，以下三种都可以</p>
 <ol>
@@ -377,7 +378,7 @@
 <p>至此，<code>run</code>和<code>requestFactory</code>都成了通用方法，真正的执行代码只有生成器<code>main</code>方法和<code>run(main)</code>语句。</p>
 <p>在上面的<code>run</code>方法中，我们一直有一个假设，即<code>ajax</code>异步方法接收的回调是 error-first 风格的。写出这样风格的异步方法不难，但是也总是难免会存在不是这种风格的回调。但要在<code>run</code>方法中判断回调的第一个参数是不是错误很难，或者说不可能。<br>所以对于<code>run</code>方法的回调方法的参数必须有所约定，<code>Promise</code>是最好的选择。即<code>requestFactory</code>方法需要返回一个 Promise,或者 ajax 方法直接返回<code>Promise</code></p>
 <p>最终的代码如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">tasks</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> it = tasks(),</span><br><span class="line">        result = it.next()</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (result.done) <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> result.value.then === <span class="string">'function'</span>) &#123;</span><br><span class="line">            result.value.then(</span><br><span class="line">                res =&gt; &#123;</span><br><span class="line">                    result = it.next(res)</span><br><span class="line">                    step()</span><br><span class="line">                &#125;,</span><br><span class="line">                err =&gt; &#123;</span><br><span class="line">                    it.throw(err)</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result = it.next(result.value)</span><br><span class="line">            step()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    step()</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> ajax(<span class="string">'a/b/c'</span>) <span class="comment">// ajax需要返回一个Promise</span></span><br><span class="line">    handle(x)</span><br><span class="line">&#125;</span><br><span class="line">run(main)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">tasks</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> it = tasks(),</span><br><span class="line">        result = it.next()</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (result.done) <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> (value <span class="keyword">instanceof</span> <span class="built_in">Promise</span>) &#123;</span><br><span class="line">            result.value.then(</span><br><span class="line">                res =&gt; &#123;</span><br><span class="line">                    result = it.next(res)</span><br><span class="line">                    step()</span><br><span class="line">                &#125;,</span><br><span class="line">                err =&gt; &#123;</span><br><span class="line">                    it.throw(err)</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result = it.next(result.value)</span><br><span class="line">            step()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    step()</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> ajax(<span class="string">'a/b/c'</span>) <span class="comment">// ajax需要返回一个Promise</span></span><br><span class="line">    handle(x)</span><br><span class="line">&#125;</span><br><span class="line">run(main)</span><br></pre></td></tr></table></figure>
 <p>其中<code>run</code>方法可以封装为一个工具函数。</p>
 <p>es7 将这种异步方式规范化了。没错，就是<code>async await</code></p>
 
@@ -419,6 +420,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/14/code/promise/" rel="prev" title="Promise">
+                Promise <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -497,7 +502,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -510,7 +515,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

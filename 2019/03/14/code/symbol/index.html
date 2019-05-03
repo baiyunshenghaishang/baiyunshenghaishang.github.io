@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="bai">
 <meta property="og:description" content="[TOC] 什么是 SymbolSymbol是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效防止意外修改对象属性的问题。 检测是否是 Symbol 可以用typeof 1typeof sy === &apos;symbol&apos; 创建 SymbolSym">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-25T13:01:56.152Z">
+<meta property="og:updated_time" content="2019-04-29T12:48:17.686Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="symbol">
 <meta name="twitter:description" content="[TOC] 什么是 SymbolSymbol是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效防止意外修改对象属性的问题。 检测是否是 Symbol 可以用typeof 1typeof sy === &apos;symbol&apos; 创建 SymbolSym">
@@ -350,7 +350,11 @@
 <p>虽然上例中使用的是普通函数，但是更普遍的做法可能是为<code>Symbol.iterator</code>函数赋一个生成器函数。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    *[<span class="built_in">Symbol</span>.iterator]() &#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">        <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>虽然形式不一样，但是与<code>Symbol.iterator</code>关系不大，主要还是生成器。这里就不展开了。</p>
-<h5 id="Symbol-species"><a href="#Symbol-species" class="headerlink" title="Symbol.species"></a>Symbol.species</h5><h5 id="Symbol-toPrimitive"><a href="#Symbol-toPrimitive" class="headerlink" title="Symbol.toPrimitive"></a>Symbol.toPrimitive</h5><p>用于变量的类型转换。在做类型转换或者获取对象的原始值时，会调用此方法。如<code>&#39;&#39;+a</code>会调用<code>a</code>的<code>Symbol[toPrimitive]</code>方法。</p>
+<h5 id="Symbol-species"><a href="#Symbol-species" class="headerlink" title="Symbol.species"></a>Symbol.species</h5><p>内建对象实例方法返回新的实例时使用。比如 Array 的<code>slice</code>方法会返回一个新的 Array，如果通过 es6 extends 继承 Array，slice 方法会默认返回子类型的实例。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyArray</span> <span class="keyword">extends</span> <span class="title">Array</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> a = <span class="keyword">new</span> MyArray(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>),</span><br><span class="line">    b = a.slice(<span class="number">1</span>)</span><br><span class="line">b <span class="keyword">instanceof</span> MyArray <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>因为Array的<code>Symbol.species</code>默认指向this，所以返回MyArray类型的实例。<br>注意:<code>Symbol.species</code>定义为Array的静态属性，所以this指向实例的构造函数本身</p>
+<p>通过指定<code>Symbol.species</code>可以返回一个其他类型的实例<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> get [<span class="built_in">Symbol</span>.species] ()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span> <span class="comment">// 也可以指定为其他值，比如MyClass</span></span><br><span class="line">    &#125;</span><br><span class="line">    clone()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">this</span>.constructor[<span class="built_in">Symbol</span>.species]()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用<code>Symbol.species</code>的内建类型有 Array ArrayBuffer Map Set Typed arrays Promise RegExp</p>
+<h5 id="Symbol-toPrimitive"><a href="#Symbol-toPrimitive" class="headerlink" title="Symbol.toPrimitive"></a>Symbol.toPrimitive</h5><p>用于变量的类型转换。在做类型转换或者获取对象的原始值时，会调用此方法。如<code>&#39;&#39;+a</code>会调用<code>a</code>的<code>Symbol[toPrimitive]</code>方法。</p>
 <p>方法接受一个参数<code>hint</code>，可能的值有<code>string、number、default</code>。表示当前转换采用的模式。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.toPrimitive]: <span class="function"><span class="keyword">function</span>(<span class="params">hint</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (hint) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'string'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'string'</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'number'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'number'</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'default'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'default'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>虽然可以为<code>string、number、default</code>指定不同的返回值，但是一般还是给<code>default</code>指定为<code>string、number</code>中的一个<br><code>string</code>与<code>number</code>模式比较好理解,<code>default</code>模式只会出现在下列三种情况</p>
@@ -486,7 +490,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -499,7 +503,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

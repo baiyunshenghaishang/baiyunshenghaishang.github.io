@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="bai">
 <meta property="og:description" content="[TOC] 什么是迭代器在 js 中，遍历数组的一种常用方式是通过index， 1234let arr = [1, 2, 3]for (let i = 0; i &amp;lt; arr.length; i++) &amp;#123;    arr[i]&amp;#125; 这也是 es6 之前遍历类数组结构的常用方法。es6 中引入了两种新的数据结构，Set和Map。对于Set和Map，不能通过下标访问元素，所以遍历">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-29T09:28:32.310Z">
+<meta property="og:updated_time" content="2019-04-16T12:47:23.188Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="迭代器">
 <meta name="twitter:description" content="[TOC] 什么是迭代器在 js 中，遍历数组的一种常用方式是通过index， 1234let arr = [1, 2, 3]for (let i = 0; i &amp;lt; arr.length; i++) &amp;#123;    arr[i]&amp;#125; 这也是 es6 之前遍历类数组结构的常用方法。es6 中引入了两种新的数据结构，Set和Map。对于Set和Map，不能通过下标访问元素，所以遍历">
@@ -332,6 +332,8 @@
 <li>Array.from()</li>
 </ol>
 <p>还有一些其它场合，基本上 es6 之后新的遍历都会使用迭代器</p>
+<h3 id="内建迭代器"><a href="#内建迭代器" class="headerlink" title="内建迭代器"></a>内建迭代器</h3><p>js 中,Array、Set、Map 都包含有内建的迭代器 entries(),values(),keys()</p>
+<p>其中 keys 返回键的迭代器，但是仍然可以被 for…of 遍历，因为 keys 返回的也是一个可迭代对象。values()和 entries()也类似<br>values()返回值的迭代器<br>entries()返回键值对数组的迭代器</p>
 <h3 id="迭代器的高级用法"><a href="#迭代器的高级用法" class="headerlink" title="迭代器的高级用法"></a>迭代器的高级用法</h3><p>迭代器的高级用法，如迭代器的 throw 方法，迭代器 next 方法传参，几乎都与生成器相关。所以放在生成器中一起讲。</p>
 
       
@@ -454,7 +456,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -467,7 +469,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -500,7 +502,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是迭代器"><span class="nav-number">1.</span> <span class="nav-text">什么是迭代器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可迭代对象"><span class="nav-number">2.</span> <span class="nav-text">可迭代对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用迭代器的其它场合"><span class="nav-number">3.</span> <span class="nav-text">使用迭代器的其它场合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迭代器的高级用法"><span class="nav-number">4.</span> <span class="nav-text">迭代器的高级用法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是迭代器"><span class="nav-number">1.</span> <span class="nav-text">什么是迭代器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可迭代对象"><span class="nav-number">2.</span> <span class="nav-text">可迭代对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用迭代器的其它场合"><span class="nav-number">3.</span> <span class="nav-text">使用迭代器的其它场合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内建迭代器"><span class="nav-number">4.</span> <span class="nav-text">内建迭代器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迭代器的高级用法"><span class="nav-number">5.</span> <span class="nav-text">迭代器的高级用法</span></a></li></ol></div>
             
 
           </div>
