@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="set,map,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="[TOC] SetSet 是 es6 定义的一种新的数据结构，概念上与数组很类似，但是操作上与数组截然不同。 Set 最重要的特性是不包含重复元素，如果不需要这种特性，一般没有使用 Set 的需要。Set 内部使用Object.is来比较两个元素是否相等，而不是===,Object.is和===的区别在于NaN和自己相等以及-0和+0不相等。 创建 Set创建 Set 只能使用构造函数的方式new">
+<meta name="keywords" content="set,map">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Set和Map">
+<meta property="og:url" content="http://yoursite.com/2019/03/19/basis/set-map/index.html">
+<meta property="og:site_name" content="bai">
+<meta property="og:description" content="[TOC] SetSet 是 es6 定义的一种新的数据结构，概念上与数组很类似，但是操作上与数组截然不同。 Set 最重要的特性是不包含重复元素，如果不需要这种特性，一般没有使用 Set 的需要。Set 内部使用Object.is来比较两个元素是否相等，而不是===,Object.is和===的区别在于NaN和自己相等以及-0和+0不相等。 创建 Set创建 Set 只能使用构造函数的方式new">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-29T01:25:07.985Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Set和Map">
+<meta name="twitter:description" content="[TOC] SetSet 是 es6 定义的一种新的数据结构，概念上与数组很类似，但是操作上与数组截然不同。 Set 最重要的特性是不包含重复元素，如果不需要这种特性，一般没有使用 Set 的需要。Set 内部使用Object.is来比较两个元素是否相等，而不是===,Object.is和===的区别在于NaN和自己相等以及-0和+0不相等。 创建 Set创建 Set 只能使用构造函数的方式new">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/19/basis/set-map/">
+
+
+
+
+
+  <title>Set和Map | bai</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/baiyunshenghaishang"><img style="position:absolute;top:0;right:0" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_gray_6d6d6d.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">bai</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/basis/set-map/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Set和Map</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-19T19:24:25+08:00">
+                2019-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[TOC]</p>
+<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><p>Set 是 es6 定义的一种新的数据结构，概念上与数组很类似，但是操作上与数组截然不同。</p>
+<p>Set 最重要的特性是<strong>不包含重复元素</strong>，如果不需要这种特性，一般没有使用 Set 的需要。Set 内部使用<code>Object.is</code>来比较两个元素是否相等，而不是<code>===</code>,<code>Object.is</code>和<code>===</code>的区别在于<code>NaN</code>和自己相等以及<code>-0</code>和<code>+0</code>不相等。</p>
+<h5 id="创建-Set"><a href="#创建-Set" class="headerlink" title="创建 Set"></a>创建 Set</h5><p>创建 Set 只能使用构造函数的方式<code>new Set()</code>。也可以传入<code>iterable</code>对象，Set 会将迭代对象去重。如果传入的内容不能迭代，会抛出错误。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>]) <span class="comment">// set([1,2,4])</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Set</span>(<span class="number">3</span>) <span class="comment">// error 3 is not iterable</span></span><br></pre></td></tr></table></figure>
+<h5 id="操作-Set"><a href="#操作-Set" class="headerlink" title="操作 Set"></a>操作 Set</h5><p>Set<strong>不是</strong>数组，不能够通过索引直接获取某个位置的值。<br>操作数组的方法包括</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方法</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">add()</td>
+<td style="text-align:center">添加值</td>
+</tr>
+<tr>
+<td style="text-align:center">delete()</td>
+<td style="text-align:center">删除值</td>
+</tr>
+<tr>
+<td style="text-align:center">has()</td>
+<td style="text-align:center">是否包含某个值</td>
+</tr>
+<tr>
+<td style="text-align:center">clear()</td>
+<td style="text-align:center">清空 Set</td>
+</tr>
+<tr>
+<td style="text-align:center">size</td>
+<td style="text-align:center">Set 的值个数</td>
+</tr>
+</tbody>
+</table>
+<p>由于<code>add</code>方法返回Set本身，对于连续添加多个元素可以采用如下方式<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line">set.add(<span class="number">1</span>).add(<span class="number">2</span>).add(<span class="number">3</span>)</span><br></pre></td></tr></table></figure></p>
+<p>Set 还包含<code>forEach</code>方法。但是由于 Set 没有索引，<code>forEach</code>的<code>key</code>和<code>value</code>相同，所以几乎没有任何理由使用<code>forEach</code>。同理，<code>set.keys()/set.values()/set.entries()</code>也毫无意义。遍历 Set 最好的方式是使用<code>for...of</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> s = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> s) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以发现，Set 唯一的作用是否就是确认是否包含某个变量，但是这个功能数组也能轻易做到，<code>arr.includes()</code>和<code>set.has()</code>功能相同。<br>ps:和<code>arr.indexOf()</code>有一点区别,<code>indexOf</code>使用<code>===</code>判别是不是同一个元素,<code>includes</code>使用<code>Object.is()</code>，所以数组的<code>includes</code>和<code>indexOf</code>还是有一点区别的</p>
+<p>Set 唯一的作用大概是用来去重</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">[...new <span class="built_in">Set</span>(arr)] <span class="comment">// [1,2,3,4]</span></span><br></pre></td></tr></table></figure>
+<p>除此之外，似乎没有其他用途了</p>
+<h3 id="WeakSet"><a href="#WeakSet" class="headerlink" title="WeakSet"></a>WeakSet</h3><p>WeakSet 正如其名，与 Set 基本相同，区别有两点</p>
+<ol>
+<li>WeakSet 只能包含对象，不能包含基本类型，给 WeakSet 添加基本类型会报错</li>
+<li>WeakSet 不是可遍历对象，不包含<code>clear()</code>和<code>size</code>方法/属性</li>
+</ol>
+<p>所以 WeakSet 只有三个方法<code>add/has/delete</code></p>
+<p>WeakSet 最大的特点是只会保存持有对象的弱引用。即如果 WeakSet 持有的对象不被其他变量引用，则该对象可以被回收。<br>个人对WeakSet的用途暂只限于判断对象是否被回收。直接<code>console.log(weakset)</code>可以判断<code>WeakSet</code>包含的变量是否被回收。（不被引用的变量不一定马上被回收，这种方法判断依赖回收机制的触发，需要一定时间差）</p>
+<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><p>Map 和 Set 经常被一起提及，但是两者其实没什么关联。除了语法上的类似外，唯一是关系大概是都是 es6 添加的新数据结构。</p>
+<p>如果说 Set 是参照数组创建的，Map 是参照对象创建的。Map也是键值对的组合，与对象的区别在于对象的<code>key</code>只能是字符串，而Map的<code>key</code>可以是任意数据类型</p>
+<h5 id="创建-Map"><a href="#创建-Map" class="headerlink" title="创建 Map"></a>创建 Map</h5><p>创建 Map 也只能通过<code>new Map()</code>的方式。如果要给Map传入初始值，可以传入每个元素都是数组的数组<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> m = <span class="keyword">new</span> <span class="built_in">Map</span>([[<span class="string">'key'</span>,<span class="string">'value'</span>],[<span class="number">1</span>,&#123;&#125;]])</span><br></pre></td></tr></table></figure></p>
+<h5 id="操作Map"><a href="#操作Map" class="headerlink" title="操作Map"></a>操作Map</h5><p>Map不能通过属性名<code>.</code>或者<code>[]</code>语法直接访问属性。Map的操作方法和Set及其相似。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方法</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">set(key,val)</td>
+<td style="text-align:center">添加/更新key的值为val</td>
+</tr>
+<tr>
+<td style="text-align:center">get(key)</td>
+<td style="text-align:center">获取key的val</td>
+</tr>
+<tr>
+<td style="text-align:center">delete(key)</td>
+<td style="text-align:center">删除key</td>
+</tr>
+<tr>
+<td style="text-align:center">has(key)</td>
+<td style="text-align:center">是否包含key</td>
+</tr>
+<tr>
+<td style="text-align:center">clear()</td>
+<td style="text-align:center">清空 Map</td>
+</tr>
+<tr>
+<td style="text-align:center">size</td>
+<td style="text-align:center">Map的键值对数量</td>
+</tr>
+</tbody>
+</table>
+<p>除了<code>add</code>方法变成了<code>set/get</code>，其它的方法完全一样。Map同样是<code>iterable</code>对象，支持<code>iterable</code>的所有遍历方式。<br>Map的get方法返回Map本身，同样可以采用链式方式添加多个元素<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>().set(<span class="number">1</span>,<span class="number">1111</span>).set(<span class="number">2</span>,<span class="number">2222</span>)</span><br></pre></td></tr></table></figure></p>
+<p>Map最大的作用在于<code>key</code>可以不是字符串，在需要使用非字符串<code>key</code>时，如<code>Symbol</code>，Map还是很有作用的。</p>
+<h3 id="WeakMap"><a href="#WeakMap" class="headerlink" title="WeakMap"></a>WeakMap</h3><p>WeakMap是Map的弱引用版本，与WeakSet类似</p>
+<ol>
+<li>WeakMap的<code>key</code>只能是对象</li>
+<li>WeakMap不是可遍历对象</li>
+</ol>
+<p>WeakMap的<code>key</code>也是弱引用，即如果WeakMap的<code>key</code>不再被其它变量引用，WeakMap的<code>key</code>可以被回收。<br>WeakMap的<code>value</code>是强引用，即只要WeakMap的<code>key</code>存在，WeakMap的<code>value</code>就不会被回收。</p>
+<p>与WeakSet类似，WeakMap只支持<code>set/get/delete/has</code>四个方法</p>
+<p>WeakMap一个很常用的应用场景是给页面上的元素添加对应值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> el = <span class="built_in">document</span>.querySelector(<span class="string">'#xiaogou'</span>),</span><br><span class="line">    m = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">    m.set(el,&#123;</span><br><span class="line">        id:<span class="string">'xiaogou'</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<p>在不使用Map的情况下，如果元素<code>#xiaogou</code>被删除，对象<code>{id:&#39;xiaogou&#39;}</code>很难被回收，只能在元素被移除时通过事件触发来处理，而且这种处理也不够准确，因为元素仍然可能被重新添加会<code>DOM</code>中。而WeakMap几乎可以完美的解决这个问题。</p>
+<p>还有类似场景是私有变量的处理。具体代码就不列出了。<br>WeakMap的使用场景一般在需要为对象保存关联信息，对象删除时可以自动删除关联信息。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/set/" rel="tag"># set</a>
+          
+            <a href="/tags/map/" rel="tag"># map</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/14/basis/symbol/" rel="next" title="symbol">
+                <i class="fa fa-chevron-left"></i> symbol
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/19/basis/type-cast/" rel="prev" title="类型转换">
+                类型转换 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Zhen Huang">
+            
+              <p class="site-author-name" itemprop="name">Zhen Huang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">博客</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Set"><span class="nav-number">1.</span> <span class="nav-text">Set</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#创建-Set"><span class="nav-number">1.0.1.</span> <span class="nav-text">创建 Set</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#操作-Set"><span class="nav-number">1.0.2.</span> <span class="nav-text">操作 Set</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#WeakSet"><span class="nav-number">2.</span> <span class="nav-text">WeakSet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Map"><span class="nav-number">3.</span> <span class="nav-text">Map</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#创建-Map"><span class="nav-number">3.0.1.</span> <span class="nav-text">创建 Map</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#操作Map"><span class="nav-number">3.0.2.</span> <span class="nav-text">操作Map</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WeakMap"><span class="nav-number">4.</span> <span class="nav-text">WeakMap</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhen Huang</span>
+  <div class="powered-by">
+    <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+      本站访客数:<span id="busuanzi_value_site_uv"></span>
+    </span>
+  </div>
+  
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

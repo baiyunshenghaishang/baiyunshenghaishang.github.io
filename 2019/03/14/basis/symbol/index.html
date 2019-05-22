@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="symbol,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="[TOC] 什么是 SymbolSymbol是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效防止意外修改对象属性的问题。 检测是否是 Symbol 可以用typeof 1typeof sy === &apos;symbol&apos; 创建 SymbolSym">
+<meta name="keywords" content="symbol">
+<meta property="og:type" content="article">
+<meta property="og:title" content="symbol">
+<meta property="og:url" content="http://yoursite.com/2019/03/14/basis/symbol/index.html">
+<meta property="og:site_name" content="bai">
+<meta property="og:description" content="[TOC] 什么是 SymbolSymbol是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效防止意外修改对象属性的问题。 检测是否是 Symbol 可以用typeof 1typeof sy === &apos;symbol&apos; 创建 SymbolSym">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-03T06:12:40.339Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="symbol">
+<meta name="twitter:description" content="[TOC] 什么是 SymbolSymbol是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效防止意外修改对象属性的问题。 检测是否是 Symbol 可以用typeof 1typeof sy === &apos;symbol&apos; 创建 SymbolSym">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/14/basis/symbol/">
+
+
+
+
+
+  <title>symbol | bai</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/baiyunshenghaishang"><img style="position:absolute;top:0;right:0" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_gray_6d6d6d.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">bai</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/14/basis/symbol/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">symbol</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-14T19:09:41+08:00">
+                2019-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[TOC]</p>
+<h3 id="什么是-Symbol"><a href="#什么是-Symbol" class="headerlink" title="什么是 Symbol"></a>什么是 Symbol</h3><p><code>Symbol</code>是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效防止意外修改对象属性的问题。</p>
+<p>检测是否是 Symbol 可以用<code>typeof</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> sy === <span class="string">'symbol'</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建-Symbol"><a href="#创建-Symbol" class="headerlink" title="创建 Symbol"></a>创建 Symbol</h3><p><code>Symbol</code>是一种基本类型，没有构造函数，不能通过<code>new Symbol()</code>的方式创建。创建<code>Symbol</code>的方式有两种。<br>一种是通过<code>Symbol()</code>方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>(<span class="string">'description'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>(<span class="string">'description'</span>)</span><br><span class="line">sy === sy2 <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>其中<code>description</code>只是用于描述创建的 Symbol，对 Symbol 的值没有任何影响，创建两个 Symbol 传入相同的 description 得到的是不同的 Symbol。</p>
+<p>第二种创建 Symbol 的方式是通过<code>Symbol.for()</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>.for(<span class="string">'description'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>.for(<span class="string">'description'</span>)</span><br><span class="line">sy === sy2 <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>其中的<code>description</code>既是 Symbol 的标识符，也是描述。<code>Symbol.for()</code>会先查找是否存在相同标识符的 Symbol,如果存在就返回，如果不存在就创建一个新的 Symbol。<br>注意：只有<code>Symbol.for()</code>创建的 Symbol 才会有标识符，<code>Symbol()</code>创建的 Symbol 没有标识符。所以</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>(<span class="string">'123'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>.for(<span class="string">'123'</span>)</span><br><span class="line">sy === sy2 <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<h3 id="操作-Symbol"><a href="#操作-Symbol" class="headerlink" title="操作 Symbol"></a>操作 Symbol</h3><p>Symbol 没有对应的内置对象类型，所以 Symbol 实例没有额外的方法，几乎不能执行任何操作。除了<code>Object.prototype</code>上的<code>toString</code>等几个方法外，Symbol 还有一个<code>Symbol.keyFor()</code>方法，用于获取 Symbol 的标识符</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>(<span class="string">'123'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>.for(<span class="string">'123'</span>)</span><br><span class="line"><span class="built_in">Symbol</span>.keyFor(sy) <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">Symbol</span>.keyFor(sy2) <span class="comment">// 123</span></span><br></pre></td></tr></table></figure>
+<h3 id="内置-Symbol-值"><a href="#内置-Symbol-值" class="headerlink" title="内置 Symbol 值"></a>内置 Symbol 值</h3><p>js 有一些行为一直是编译器内部在控制，代码无法影响的。而现在 js 通过一些预先定义好的 Symbol 属性将其暴露了出来。</p>
+<ol>
+<li>Symbol.hasInstance</li>
+<li>Symbol.isConcatSpreadable</li>
+<li>Symbol.iterator</li>
+<li>Symbol.species</li>
+<li>Symbol.toPrimitive</li>
+<li>Symbol.toStringTag</li>
+<li>Symbol.match</li>
+<li>Symbol.search</li>
+<li>Symbol.replace</li>
+<li>Symbol.split</li>
+<li>Symbol.unscopables</li>
+</ol>
+<h5 id="Symbol-hasInstance"><a href="#Symbol-hasInstance" class="headerlink" title="Symbol.hasInstance"></a>Symbol.hasInstance</h5><p>用于<code>a instanceof Func</code>时，此时会调用<code>Func[Symbol.hasInstance]</code>方法，方法的返回值就是<code>instanceof</code>的结果。<code>Symbol.hasInstance</code>定义在<code>Function.prototype</code>上，是一个不可遍历，不可修改，不可配置的属性。要修改<code>instanceof</code>默认行为需要使用如下方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Name</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(Name, <span class="built_in">Symbol</span>.hasInstance, &#123;</span><br><span class="line">    value: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意，由于不可写属性的限制，不能采用如下方式</span></span><br><span class="line">Name[<span class="built_in">Symbol</span>.hasInstance] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Symbol-isConcatSpreadable"><a href="#Symbol-isConcatSpreadable" class="headerlink" title="Symbol.isConcatSpreadable"></a>Symbol.isConcatSpreadable</h5><p>调用<code>arr.concat(obj)</code>方法时，如果<code>obj</code>的<code>Symbol.isConcatSpreadable</code>为<code>true</code>，那么<code>obj</code>的前<code>length</code>个数字属性会被添加到<code>arr</code>中，非数字属性则会被丢弃。如果是<code>false</code>，<code>obj</code>会被直接添加到<code>arr</code>中。<br>注意：数字属性只会取<code>0 - length-1</code></p>
+<p>默认情况下，任何对象都没有<code>Symbol.isConcatSpreadable</code>属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    obj = &#123;</span><br><span class="line">        <span class="number">0</span>: <span class="number">4</span>,</span><br><span class="line">        <span class="number">3</span>: <span class="number">5</span>,</span><br><span class="line">        a: <span class="string">'xiaogou'</span>,</span><br><span class="line">        length: <span class="number">2</span>,</span><br><span class="line">        [<span class="built_in">Symbol</span>.isConcatSpreadable]: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">arr.concat(obj) <span class="comment">// [1,2,3,4,empty]</span></span><br></pre></td></tr></table></figure>
+<h5 id="Symbol-iterator"><a href="#Symbol-iterator" class="headerlink" title="Symbol.iterator"></a>Symbol.iterator</h5><p>用于<code>for...of</code>循环。可迭代对象都包含这个属性。<br><code>Symbol.iterator</code>是一个函数，需要返回一个<code>迭代器</code>。关于什么是迭代器，详见迭代器与生成器。<br>简单讲，迭代器就是包含<code>next()</code>方法属性的对象，每次调用<code>next()</code>方法时，都会返回一个<code>{value,done}</code>的对象,当<code>done</code>为 true 时，迭代器终止。</p>
+<p><code>for...of</code>遍历时，实际上是遍历<code>Symbol.iterator()</code>返回的迭代器。</p>
+<p>对象不可迭代的普通对象，可以通过添加<code>Symbol.iterator</code>方法来使其可以迭代。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.iterator]() &#123;</span><br><span class="line">        <span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            next() &#123;</span><br><span class="line">                <span class="keyword">if</span> (i++ &lt; 3) &#123;</span><br><span class="line">                    return &#123; value: i, done: false &#125;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    return &#123; done: true &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">for (let i of obj) &#123;</span><br><span class="line">    console.log(i)</span><br><span class="line">&#125;</span><br><span class="line">// 1</span><br><span class="line">// 2</span><br><span class="line">// 3</span><br><span class="line">// 4</span><br></pre></td></tr></table></figure>
+<p>普通对象原本是不可以用于<code>for...of</code>循环的，通过添加<code>Symbol.iteraotr</code>方法，可使其可以通过<code>for...of</code>循环遍历。同理也可以用于数组的展开运算符。</p>
+<p>虽然上例中使用的是普通函数，但是更普遍的做法可能是为<code>Symbol.iterator</code>函数赋一个生成器函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    *[<span class="built_in">Symbol</span>.iterator]() &#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">        <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>虽然形式不一样，但是与<code>Symbol.iterator</code>关系不大，主要还是生成器。这里就不展开了。</p>
+<h5 id="Symbol-species"><a href="#Symbol-species" class="headerlink" title="Symbol.species"></a>Symbol.species</h5><p>内建对象实例方法返回新的实例时使用。比如 Array 的<code>slice</code>方法会返回一个新的 Array，如果通过 es6 extends 继承 Array，slice 方法会默认返回子类型的实例。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyArray</span> <span class="keyword">extends</span> <span class="title">Array</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> a = <span class="keyword">new</span> MyArray(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>),</span><br><span class="line">    b = a.slice(<span class="number">1</span>)</span><br><span class="line">b <span class="keyword">instanceof</span> MyArray <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>因为Array的<code>Symbol.species</code>默认指向this，所以返回MyArray类型的实例。<br>注意:<code>Symbol.species</code>定义为Array的静态属性，所以this指向实例的构造函数本身</p>
+<p>通过指定<code>Symbol.species</code>可以返回一个其他类型的实例<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> get [<span class="built_in">Symbol</span>.species] ()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span> <span class="comment">// 也可以指定为其他值，比如MyClass</span></span><br><span class="line">    &#125;</span><br><span class="line">    clone()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">this</span>.constructor[<span class="built_in">Symbol</span>.species]()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用<code>Symbol.species</code>的内建类型有 Array, ArrayBuffer, Map, Set, Typed arrays, Promise, RegExp</p>
+<h5 id="Symbol-toPrimitive"><a href="#Symbol-toPrimitive" class="headerlink" title="Symbol.toPrimitive"></a>Symbol.toPrimitive</h5><p>用于变量的类型转换。在做类型转换或者获取对象的原始值时，会调用此方法。如<code>&#39;&#39;+a</code>会调用<code>a</code>的<code>Symbol[toPrimitive]</code>方法。</p>
+<p>方法接受一个参数<code>hint</code>，可能的值有<code>string、number、default</code>。表示当前转换采用的模式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.toPrimitive]: <span class="function"><span class="keyword">function</span>(<span class="params">hint</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (hint) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'string'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'string'</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'number'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'number'</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'default'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'default'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>虽然可以为<code>string、number、default</code>指定不同的返回值，但是一般还是给<code>default</code>指定为<code>string、number</code>中的一个<br><code>string</code>与<code>number</code>模式比较好理解,<code>default</code>模式只会出现在下列三种情况</p>
+<ol>
+<li>==</li>
+<li>+号运算符</li>
+<li>给 Date 构造函数传递一个参数</li>
+</ol>
+<h5 id="Symbol-toStringTag"><a href="#Symbol-toStringTag" class="headerlink" title="Symbol.toStringTag"></a>Symbol.toStringTag</h5><p>js 中一直有一个识别类型的方法<code>Object.prototype.toString.call(obj)</code>，返回值<code>[object XXX]</code>，对于不同类型的对象,<code>XXX</code>各有不同。对于<code>Array</code>是<code>Array</code>，对于自定义对象，是<code>Object</code>。而<code>XXX</code>可以通过<code>Symbol.toStringTag</code>修改。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">name</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">name.prototype[<span class="built_in">Symbol</span>.toStringTag] = <span class="string">'name'</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="keyword">new</span> name())</span><br></pre></td></tr></table></figure>
+<p>没错,<code>Symbol.toStringTag</code>的值是一个字符串，<strong>不是函数</strong></p>
+<h5 id="Symbol-search"><a href="#Symbol-search" class="headerlink" title="Symbol.search"></a>Symbol.search</h5><p><code>Symbol.search、Symbol.match</code>等四个方法都是定义在<code>Regrex.prototype</code>上，是调用字符串方法<code>str.search(regex)、str.match(regex)</code>时调用的方法,所以<code>str.search(regex)</code>实际上调用的是<code>regex[Symbol.search](str)</code></p>
+<p>这 4 个方法都接受字符串作为参数。<br>实际上，完全可以为一个对象定义这四个方法，然后当做正则表达式使用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.search]: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="string">'123'</span>.search(obj) <span class="comment">// -1</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/symbol/" rel="tag"># symbol</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/14/basis/animation/" rel="next" title="动画">
+                <i class="fa fa-chevron-left"></i> 动画
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/19/basis/set-map/" rel="prev" title="Set和Map">
+                Set和Map <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Zhen Huang">
+            
+              <p class="site-author-name" itemprop="name">Zhen Huang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">博客</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-Symbol"><span class="nav-number">1.</span> <span class="nav-text">什么是 Symbol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建-Symbol"><span class="nav-number">2.</span> <span class="nav-text">创建 Symbol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作-Symbol"><span class="nav-number">3.</span> <span class="nav-text">操作 Symbol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内置-Symbol-值"><span class="nav-number">4.</span> <span class="nav-text">内置 Symbol 值</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Symbol-hasInstance"><span class="nav-number">4.0.1.</span> <span class="nav-text">Symbol.hasInstance</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Symbol-isConcatSpreadable"><span class="nav-number">4.0.2.</span> <span class="nav-text">Symbol.isConcatSpreadable</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Symbol-iterator"><span class="nav-number">4.0.3.</span> <span class="nav-text">Symbol.iterator</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Symbol-species"><span class="nav-number">4.0.4.</span> <span class="nav-text">Symbol.species</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Symbol-toPrimitive"><span class="nav-number">4.0.5.</span> <span class="nav-text">Symbol.toPrimitive</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Symbol-toStringTag"><span class="nav-number">4.0.6.</span> <span class="nav-text">Symbol.toStringTag</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Symbol-search"><span class="nav-number">4.0.7.</span> <span class="nav-text">Symbol.search</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhen Huang</span>
+  <div class="powered-by">
+    <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+      本站访客数:<span id="busuanzi_value_site_uv"></span>
+    </span>
+  </div>
+  
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

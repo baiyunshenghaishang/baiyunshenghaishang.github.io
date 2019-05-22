@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="import,export,module,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="export 的基本语法export 用于导出模块中的变量。 export 的基本语法有以下几种 12345678910// 直接导出变量或声明export let a = 3// 导出已经声明的变量或声明let b = 3export b// 将声明的变量或声明以其它变量名导出let c = 3export &amp;#123;c as d&amp;#125; export default 表示默认导出。本质上">
+<meta name="keywords" content="import,export,module">
+<meta property="og:type" content="article">
+<meta property="og:title" content="import&#x2F;export">
+<meta property="og:url" content="http://yoursite.com/2019/05/22/basis/import_export/index.html">
+<meta property="og:site_name" content="bai">
+<meta property="og:description" content="export 的基本语法export 用于导出模块中的变量。 export 的基本语法有以下几种 12345678910// 直接导出变量或声明export let a = 3// 导出已经声明的变量或声明let b = 3export b// 将声明的变量或声明以其它变量名导出let c = 3export &amp;#123;c as d&amp;#125; export default 表示默认导出。本质上">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-22T12:57:07.507Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="import&#x2F;export">
+<meta name="twitter:description" content="export 的基本语法export 用于导出模块中的变量。 export 的基本语法有以下几种 12345678910// 直接导出变量或声明export let a = 3// 导出已经声明的变量或声明let b = 3export b// 将声明的变量或声明以其它变量名导出let c = 3export &amp;#123;c as d&amp;#125; export default 表示默认导出。本质上">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/22/basis/import_export/">
+
+
+
+
+
+  <title>import/export | bai</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/baiyunshenghaishang"><img style="position:absolute;top:0;right:0" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_gray_6d6d6d.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">bai</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/22/basis/import_export/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">import/export</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-22T19:20:39+08:00">
+                2019-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="export-的基本语法"><a href="#export-的基本语法" class="headerlink" title="export 的基本语法"></a>export 的基本语法</h3><p>export 用于导出模块中的变量。</p>
+<p>export 的基本语法有以下几种</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 直接导出变量或声明</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 导出已经声明的变量或声明</span></span><br><span class="line"><span class="keyword">let</span> b = <span class="number">3</span></span><br><span class="line"><span class="keyword">export</span> b</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将声明的变量或声明以其它变量名导出</span></span><br><span class="line"><span class="keyword">let</span> c = <span class="number">3</span></span><br><span class="line"><span class="keyword">export</span> &#123;c <span class="keyword">as</span> d&#125;</span><br></pre></td></tr></table></figure>
+<p><code>export default</code> 表示默认导出。本质上讲，其实就是输出一个叫做 default 的变量,然后在导入的时候可以取任意名</p>
+<p>导出的本质是在外部用一个变量名引用内部的变量，所以必须制定外部引用的变量名。所以在 export 的几种导出语法之外，还可以直接导出字面量。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>因为<code>export default</code>本质上是导出一个叫做 default 的变量，所以一个模块中只能使用一次 <code>export default</code></p>
+<h3 id="import-的基本语法"><a href="#import-的基本语法" class="headerlink" title="import 的基本语法"></a>import 的基本语法</h3><p>import 用于导入模块中导出的变量<br>import 的几种语法都是对应 export 的语法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// export的对应导出形式</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line"><span class="keyword">import</span> &#123; a &#125; <span class="keyword">from</span> <span class="string">'XX'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// export导出其他变量名的导出形式</span></span><br><span class="line"><span class="keyword">let</span> c = <span class="number">4</span></span><br><span class="line"><span class="keyword">export</span> &#123; c <span class="keyword">as</span> d &#125;</span><br><span class="line"><span class="keyword">import</span> &#123; d &#125; <span class="keyword">from</span> <span class="string">'XX'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// export default的对应导入形式</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="number">4</span></span><br><span class="line"><span class="keyword">import</span> b <span class="keyword">from</span> <span class="string">'XX'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 将所有导出变量合并成一个变量的方式</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> a = <span class="number">1</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> b = <span class="number">2</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> c <span class="keyword">from</span> <span class="string">'XX'</span></span><br><span class="line">c.a <span class="comment">// 1</span></span><br><span class="line">c.b <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<h3 id="import-export-复合写法"><a href="#import-export-复合写法" class="headerlink" title="import/export 复合写法"></a>import/export 复合写法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;a&#125; <span class="keyword">from</span> <span class="string">'XX'</span></span><br><span class="line"><span class="keyword">export</span> a</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="keyword">export</span> &#123;a&#125; <span class="keyword">from</span> <span class="string">'XX'</span></span><br></pre></td></tr></table></figure>
+<h3 id="import-export-与静态分析"><a href="#import-export-与静态分析" class="headerlink" title="import/export 与静态分析"></a>import/export 与静态分析</h3><p>在 es6 的模块化之前,commonJs 等已经有了其它的模块化方案，但是这些方案都是动态导入。即代码在运行之前其实无法判断导入有哪些变量<br>es6 规定 import 和 export 语法必须在最顶层，这样编辑器就可以静态分析出导出和导入的变量<br>所以不存在条件性的导入和导出，以下代码会报错</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">default</span> <span class="number">3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="import-的加载机制"><a href="#import-的加载机制" class="headerlink" title="import 的加载机制"></a>import 的加载机制</h3><p>import 导入的变量并不是导出变量的副本，而是直接指向导出的变量，所以如果修改了模块中变量的值，导出的值也会相应改变</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> a = <span class="number">1</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">change</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    a = <span class="number">3</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; a, change &#125; <span class="keyword">from</span> <span class="string">'./b.js'</span></span><br><span class="line">a <span class="comment">// 1</span></span><br><span class="line">change()</span><br><span class="line">a <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+<p>当从一个模块中 import 一个变量时，整个模块都会被执行，然后保存在内存中，第二次导入这个模块时，并不会重新执行该模块，而是从内存中直接获取<br>上例中导入<code>./b.js</code>时，<code>./b.js</code>会被执行，即使没有导出任何变量。而之后再次导入<code>./b.js</code>，则不会再执行该文件<br>利用这个特性，可以导入无导出的模块</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="built_in">window</span>._CONFIG = &#123;</span><br><span class="line">    name: <span class="string">'hz'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'./a.js'</span></span><br></pre></td></tr></table></figure>
+<p>上例中引用了<code>./a.js</code>，但是并没有导入任何变量，利用的是执行<code>./a.js</code>的副作用。而且多次导入<code>./a.js</code>并不会多次执行该文件，所以可以在需要的地方放心的引用而不用担心多次执行的问题</p>
+<h3 id="变量提升与循环引用"><a href="#变量提升与循环引用" class="headerlink" title="变量提升与循环引用"></a>变量提升与循环引用</h3><p>循环引用在模块的导入中是比较常见的问题，commonJs 解决这个问题的方式是缓存，es6 对这个问题的处理方式是由开发自己保证取值的可用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; bar &#125; <span class="keyword">from</span> <span class="string">'./b.js'</span></span><br><span class="line">bar()</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'say'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; say &#125; <span class="keyword">from</span> <span class="string">'./a.js'</span></span><br><span class="line">say()</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'bar'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'./a.js'</span></span><br></pre></td></tr></table></figure>
+<p>以上的代码执行并不会报错，因为<code>say、bar</code>都是函数声明，根据预处理规则，函数声明在代码执行之前就会被预先声明并赋值，所以虽然<code>b.js</code>中导入<code>say</code>函数时，<code>export function say(){...}</code>还没有执行，但是函数<code>say</code>已经声明，而<code>export</code>同样是声明语句，同样会在模块执行之前执行，所以在模块执行到<code>export function say(){...}</code>之前，就已经可以在<code>b.js</code>中访问到<code>say</code></p>
+<p>同理，如果将函数<code>a.js</code>中的函数声明改为函数表达式，则会抛出错误</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; bar &#125; <span class="keyword">from</span> <span class="string">'./b.js'</span></span><br><span class="line">bar()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> say = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'say'</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 省略b.js和main.js</span></span><br></pre></td></tr></table></figure>
+<p>此时因为 let 的暂时性死区问题，b.js 中会抛出错误。这个错误不是因为函数的执行错误，而是在 let 声明的变量在赋值之前无法访问。</p>
+<p>既然 import 也具有声明提升效果，所以下面这种代码是可以执行的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line">say()</span><br><span class="line"><span class="keyword">import</span> &#123; say &#125; <span class="keyword">from</span> <span class="string">'./b.js'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params"></span>) </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>如果<code>a.js</code>中导出了函数声明<code>say</code>，以上代码是可以成功执行的。当然，强烈不建议这种做法。这里只是为了说明 import 和 export 语句的声明提升效果。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/import/" rel="tag"># import</a>
+          
+            <a href="/tags/export/" rel="tag"># export</a>
+          
+            <a href="/tags/module/" rel="tag"># module</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/05/basis/class/" rel="next" title="class">
+                <i class="fa fa-chevron-left"></i> class
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Zhen Huang">
+            
+              <p class="site-author-name" itemprop="name">Zhen Huang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">博客</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#export-的基本语法"><span class="nav-number">1.</span> <span class="nav-text">export 的基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import-的基本语法"><span class="nav-number">2.</span> <span class="nav-text">import 的基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import-export-复合写法"><span class="nav-number">3.</span> <span class="nav-text">import/export 复合写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import-export-与静态分析"><span class="nav-number">4.</span> <span class="nav-text">import/export 与静态分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import-的加载机制"><span class="nav-number">5.</span> <span class="nav-text">import 的加载机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量提升与循环引用"><span class="nav-number">6.</span> <span class="nav-text">变量提升与循环引用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhen Huang</span>
+  <div class="powered-by">
+    <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+      本站访客数:<span id="busuanzi_value_site_uv"></span>
+    </span>
+  </div>
+  
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

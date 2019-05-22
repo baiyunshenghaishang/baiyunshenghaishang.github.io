@@ -239,7 +239,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/05/code/class/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/22/basis/import_export/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhen Huang">
@@ -258,7 +258,152 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/05/code/class/" itemprop="url">class</a></h1>
+                <a class="post-title-link" href="/2019/05/22/basis/import_export/" itemprop="url">import/export</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-22T19:20:39+08:00">
+                2019-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="export-的基本语法"><a href="#export-的基本语法" class="headerlink" title="export 的基本语法"></a>export 的基本语法</h3><p>export 用于导出模块中的变量。</p>
+<p>export 的基本语法有以下几种</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 直接导出变量或声明</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 导出已经声明的变量或声明</span></span><br><span class="line"><span class="keyword">let</span> b = <span class="number">3</span></span><br><span class="line"><span class="keyword">export</span> b</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将声明的变量或声明以其它变量名导出</span></span><br><span class="line"><span class="keyword">let</span> c = <span class="number">3</span></span><br><span class="line"><span class="keyword">export</span> &#123;c <span class="keyword">as</span> d&#125;</span><br></pre></td></tr></table></figure>
+<p><code>export default</code> 表示默认导出。本质上讲，其实就是输出一个叫做 default 的变量,然后在导入的时候可以取任意名</p>
+<p>导出的本质是在外部用一个变量名引用内部的变量，所以必须制定外部引用的变量名。所以在 export 的几种导出语法之外，还可以直接导出字面量。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>因为<code>export default</code>本质上是导出一个叫做 default 的变量，所以一个模块中只能使用一次 <code>export default</code></p>
+<h3 id="import-的基本语法"><a href="#import-的基本语法" class="headerlink" title="import 的基本语法"></a>import 的基本语法</h3><p>import 用于导入模块中导出的变量<br>import 的几种语法都是对应 export 的语法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// export的对应导出形式</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line"><span class="keyword">import</span> &#123; a &#125; <span class="keyword">from</span> <span class="string">'XX'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// export导出其他变量名的导出形式</span></span><br><span class="line"><span class="keyword">let</span> c = <span class="number">4</span></span><br><span class="line"><span class="keyword">export</span> &#123; c <span class="keyword">as</span> d &#125;</span><br><span class="line"><span class="keyword">import</span> &#123; d &#125; <span class="keyword">from</span> <span class="string">'XX'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// export default的对应导入形式</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="number">4</span></span><br><span class="line"><span class="keyword">import</span> b <span class="keyword">from</span> <span class="string">'XX'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 将所有导出变量合并成一个变量的方式</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> a = <span class="number">1</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> b = <span class="number">2</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> c <span class="keyword">from</span> <span class="string">'XX'</span></span><br><span class="line">c.a <span class="comment">// 1</span></span><br><span class="line">c.b <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<h3 id="import-export-复合写法"><a href="#import-export-复合写法" class="headerlink" title="import/export 复合写法"></a>import/export 复合写法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;a&#125; <span class="keyword">from</span> <span class="string">'XX'</span></span><br><span class="line"><span class="keyword">export</span> a</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="keyword">export</span> &#123;a&#125; <span class="keyword">from</span> <span class="string">'XX'</span></span><br></pre></td></tr></table></figure>
+<h3 id="import-export-与静态分析"><a href="#import-export-与静态分析" class="headerlink" title="import/export 与静态分析"></a>import/export 与静态分析</h3><p>在 es6 的模块化之前,commonJs 等已经有了其它的模块化方案，但是这些方案都是动态导入。即代码在运行之前其实无法判断导入有哪些变量<br>es6 规定 import 和 export 语法必须在最顶层，这样编辑器就可以静态分析出导出和导入的变量<br>所以不存在条件性的导入和导出，以下代码会报错</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">default</span> <span class="number">3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="import-的加载机制"><a href="#import-的加载机制" class="headerlink" title="import 的加载机制"></a>import 的加载机制</h3><p>import 导入的变量并不是导出变量的副本，而是直接指向导出的变量，所以如果修改了模块中变量的值，导出的值也会相应改变</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> a = <span class="number">1</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">change</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    a = <span class="number">3</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; a, change &#125; <span class="keyword">from</span> <span class="string">'./b.js'</span></span><br><span class="line">a <span class="comment">// 1</span></span><br><span class="line">change()</span><br><span class="line">a <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+<p>当从一个模块中 import 一个变量时，整个模块都会被执行，然后保存在内存中，第二次导入这个模块时，并不会重新执行该模块，而是从内存中直接获取<br>上例中导入<code>./b.js</code>时，<code>./b.js</code>会被执行，即使没有导出任何变量。而之后再次导入<code>./b.js</code>，则不会再执行该文件<br>利用这个特性，可以导入无导出的模块</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="built_in">window</span>._CONFIG = &#123;</span><br><span class="line">    name: <span class="string">'hz'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'./a.js'</span></span><br></pre></td></tr></table></figure>
+<p>上例中引用了<code>./a.js</code>，但是并没有导入任何变量，利用的是执行<code>./a.js</code>的副作用。而且多次导入<code>./a.js</code>并不会多次执行该文件，所以可以在需要的地方放心的引用而不用担心多次执行的问题</p>
+<h3 id="变量提升与循环引用"><a href="#变量提升与循环引用" class="headerlink" title="变量提升与循环引用"></a>变量提升与循环引用</h3><p>循环引用在模块的导入中是比较常见的问题，commonJs 解决这个问题的方式是缓存，es6 对这个问题的处理方式是由开发自己保证取值的可用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; bar &#125; <span class="keyword">from</span> <span class="string">'./b.js'</span></span><br><span class="line">bar()</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'say'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; say &#125; <span class="keyword">from</span> <span class="string">'./a.js'</span></span><br><span class="line">say()</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'bar'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'./a.js'</span></span><br></pre></td></tr></table></figure>
+<p>以上的代码执行并不会报错，因为<code>say、bar</code>都是函数声明，根据预处理规则，函数声明在代码执行之前就会被预先声明并赋值，所以虽然<code>b.js</code>中导入<code>say</code>函数时，<code>export function say(){...}</code>还没有执行，但是函数<code>say</code>已经声明，而<code>export</code>同样是声明语句，同样会在模块执行之前执行，所以在模块执行到<code>export function say(){...}</code>之前，就已经可以在<code>b.js</code>中访问到<code>say</code></p>
+<p>同理，如果将函数<code>a.js</code>中的函数声明改为函数表达式，则会抛出错误</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; bar &#125; <span class="keyword">from</span> <span class="string">'./b.js'</span></span><br><span class="line">bar()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> say = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'say'</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 省略b.js和main.js</span></span><br></pre></td></tr></table></figure>
+<p>此时因为 let 的暂时性死区问题，b.js 中会抛出错误。这个错误不是因为函数的执行错误，而是在 let 声明的变量在赋值之前无法访问。</p>
+<p>既然 import 也具有声明提升效果，所以下面这种代码是可以执行的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line">say()</span><br><span class="line"><span class="keyword">import</span> &#123; say &#125; <span class="keyword">from</span> <span class="string">'./b.js'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params"></span>) </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>如果<code>a.js</code>中导出了函数声明<code>say</code>，以上代码是可以成功执行的。当然，强烈不建议这种做法。这里只是为了说明 import 和 export 语句的声明提升效果。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/05/basis/class/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/05/basis/class/" itemprop="url">class</a></h1>
         
 
         <div class="post-meta">
@@ -311,7 +456,7 @@
         
           
             <p>class 语法介绍</p>
-<h3 id="什么是-class"><a href="#什么是-class" class="headerlink" title="什么是 class"></a>什么是 class</h3><p>class 是 es6 新增的一种新语法。</p>
+<h3 id="什么是-class"><a href="#什么是-class" class="headerlink" title="什么是 class"></a>什么是 class</h3><p>class 是 es6 新增的一种语法。</p>
 <p>es 中 function 一直包含两种用途,类和函数。其中类的用途保存在内部属性[[Construct]]中,函数的用途保存在[[Call]]中。对于使用 function 关键字声明的函数而言，两种功能的表现是相同的。</p>
 <p>class 的目的是将函数的类用途从 function 中抽取出来标准化。所以 class 无法使用 new 以外的方式调用。本质上来讲，class 是一种只具有类功能的函数。</p>
 <p>有了 class 之后，不要再使用 function 来模拟类的使用。</p>
@@ -330,7 +475,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">        <span class="keyword">this</span>.age = age</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">new</span> Person(<span class="string">'huang'</span>, <span class="number">18</span>)</span><br></pre></td></tr></table></figure>
 <p>在上面声明的 Person 中,constructor 方法中就是生成新对象的代码。<br>name 和 age 属性保存在新生成对象的实例上</p>
 <h5 id="实例属性和方法"><a href="#实例属性和方法" class="headerlink" title="实例属性和方法"></a>实例属性和方法</h5><p>实例属性和方法在 constructor 方法中声明。<br>实际上一般是不存在实例方法的，方法一般保存在原型上。<br>访问器属性时比较特殊的属性，声明方式和原型方法比较类似</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">        <span class="keyword">this</span>._name = name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// name是访问器属性，而不是原型方法</span></span><br><span class="line">    get name() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">        <span class="keyword">this</span>._name = name</span><br><span class="line">        <span class="keyword">this</span>.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// name是访问器属性，而不是原型方法</span></span><br><span class="line">    get name() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="原型方法"><a href="#原型方法" class="headerlink" title="原型方法"></a>原型方法</h5><p>es6 规范已经明确表明，<strong>不存在原型属性</strong>。<br>原型方法的声明方式和对象方法的声明方式相同。下例中，getName 方法保存在 Person 的 prototype 属性上</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">        <span class="keyword">this</span>.age = age</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="静态属性和方法"><a href="#静态属性和方法" class="headerlink" title="静态属性和方法"></a>静态属性和方法</h5><p>函数本身也是特殊的对象，所以也可以添加自己的属性和方法。<br>静态属性和方法就是 class 对象本身的属性和方法，而不是创建实例的属性和方法<br>在 class 中声明静态属性和方法的方式是在声明的属性和方法前加上 static</p>
@@ -359,7 +504,7 @@
 <h3 id="class-模拟实现"><a href="#class-模拟实现" class="headerlink" title="class 模拟实现"></a>class 模拟实现</h3><p>完整模拟 class 的实现是不行的，因为 class 的实现中是先创建父类实例，然后以父类实例为 this 执行子类构造函数。而模拟实现中只能下创建子类实例，然后以子类实例为 this 执行父类的构造函数，最后执行子类的构造函数。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>等同于以下实现</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Person = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> Person = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    Person.prototype = <span class="built_in">Object</span>.create(</span><br><span class="line">        &#123;&#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">constructor</span>: &#123;</span><br><span class="line">                enumerable: <span class="literal">false</span>,</span><br><span class="line">                writable: <span class="literal">true</span>,</span><br><span class="line">                configrable: <span class="literal">true</span>,</span><br><span class="line">                value: Person</span><br><span class="line">            &#125;,</span><br><span class="line">            getName: &#123;</span><br><span class="line">                enumerable: <span class="literal">false</span>,</span><br><span class="line">                writable: <span class="literal">true</span>,</span><br><span class="line">                configrable: <span class="literal">true</span>,</span><br><span class="line">                value() &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">return</span> Person</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Person = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> Person = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">new</span>.target === <span class="string">'undefined'</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'构造函数不能使用new以外的方式调用'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">Object</span>.defineProperty(Person.prototype, <span class="string">'getName'</span>, &#123;</span><br><span class="line">        enumerable: <span class="literal">false</span>,</span><br><span class="line">        writable: <span class="literal">true</span>,</span><br><span class="line">        configrable: <span class="literal">true</span>,</span><br><span class="line">        value() &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">new</span>.target !== <span class="string">'undefined'</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'方法不能使用new调用'</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> Person</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
 <p>继承的模拟实现也比较简单，除了子类的构造函数中需要调用父类的构造函数外，只需要使用 Object.setPrototypeOf 将子类和子类的 prototype 的原型分别指向父类和父类的 prototype</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Male</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">super</span>(name)</span><br><span class="line">        <span class="keyword">this</span>.sex = <span class="string">'male'</span></span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getName() + <span class="keyword">this</span>.getSex()</span><br><span class="line">    &#125;</span><br><span class="line">    getSex() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.sex</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>模拟实现如下</p>
@@ -412,7 +557,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/21/code/json/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/21/basis/json/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhen Huang">
@@ -431,7 +576,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/04/21/code/json/" itemprop="url">JSON</a></h1>
+                <a class="post-title-link" href="/2019/04/21/basis/json/" itemprop="url">JSON</a></h1>
         
 
         <div class="post-meta">
@@ -533,7 +678,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/14/code/promise/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/14/basis/promise/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhen Huang">
@@ -552,7 +697,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/04/14/code/promise/" itemprop="url">Promise</a></h1>
+                <a class="post-title-link" href="/2019/04/14/basis/promise/" itemprop="url">Promise</a></h1>
         
 
         <div class="post-meta">
@@ -637,13 +782,8 @@
 <p>nodejs 的事件与浏览器中基本一致，只是事件名是驼峰格式</p>
 <h3 id="Promise-的实现"><a href="#Promise-的实现" class="headerlink" title="Promise 的实现"></a>Promise 的实现</h3><p>完全模拟实现 Promise 是不可能的，因为 Promise 的 then 虽然永远是异步的，但是在事件循环中 Promise 属于微任务，setTimeout 属于宏任务，所以无法完全模拟。</p>
 <p>以下是一个 Promise 的模拟实现</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> PENDING = <span class="string">'PENDING'</span></span><br><span class="line"><span class="keyword">const</span> FULFILLED = <span class="string">'FULFILLED'</span></span><br><span class="line"><span class="keyword">const</span> REJECTED = <span class="string">'REJECTED'</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPromise</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(handler) &#123;</span><br><span class="line">        <span class="keyword">this</span>._status = PENDING</span><br><span class="line">        <span class="keyword">this</span>._value = <span class="literal">undefined</span></span><br><span class="line">        <span class="keyword">this</span>.fulfilledQueue = []</span><br><span class="line">        <span class="keyword">this</span>.rejectedQueue = []</span><br><span class="line">        <span class="keyword">const</span> resolve = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">            setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">this</span>._status !== PENDING) <span class="keyword">return</span></span><br><span class="line">                <span class="keyword">this</span>._status = FULFILLED</span><br><span class="line">                <span class="keyword">this</span>._value = val</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">let</span> cb <span class="keyword">of</span> <span class="keyword">this</span>.fulfilledQueue) &#123;</span><br><span class="line">                    cb(val)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> reject = <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">            setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">this</span>._status !== PENDING) <span class="keyword">return</span></span><br><span class="line">                <span class="keyword">this</span>._status = REJECTED</span><br><span class="line">                <span class="keyword">this</span>._value = err</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">let</span> cb <span class="keyword">of</span> <span class="keyword">this</span>.rejectedQueue) &#123;</span><br><span class="line">                    cb(err)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            handler(resolve, reject)</span><br><span class="line">        &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">            reject(err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    then(fulfilledHandler, rejectedHandler) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> fulfilled = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> result = fulfilledHandler(val)</span><br><span class="line">                <span class="keyword">if</span> (result <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">                    result.then(resolve, reject)</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    resolve(result)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">const</span> rejected = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> result = rejectedHandler(val)</span><br><span class="line">                <span class="keyword">if</span> (result <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">                    result.then(resolve, reject)</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    resolve(result)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>._status === PENDING) &#123;</span><br><span class="line">                <span class="keyword">this</span>.fulfilledQueue.push(fulfilled)</span><br><span class="line">                <span class="keyword">this</span>.rejectedQueue.push(rejected)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>._status === FULFILLED) &#123;</span><br><span class="line">                fulfilled(<span class="keyword">this</span>._value)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                rejected(<span class="keyword">this</span>._value)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">catch</span>(rejectedHandler) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.then(<span class="literal">null</span>, rejectedHandler)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">finally</span>(cb) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.then(</span><br><span class="line">            val =&gt; MyPromise.resolve(cb()).then(<span class="function"><span class="params">()</span> =&gt;</span> val),</span><br><span class="line">            err =&gt;</span><br><span class="line">                MyPromise.resolve(cb()).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">throw</span> err</span><br><span class="line">                &#125;)</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> resolve(val) &#123;</span><br><span class="line">        <span class="keyword">if</span> (val <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">            <span class="keyword">return</span> val</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function"><span class="params">resolve</span> =&gt;</span> resolve(val))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> reject(val) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> reject(val))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> all(arr) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> allPromises = arr.map(<span class="function"><span class="params">item</span> =&gt;</span> <span class="built_in">Promise</span>.resolve(item)),</span><br><span class="line">                result = [],</span><br><span class="line">                count = <span class="number">0</span></span><br><span class="line">            allPromises.forEach(<span class="function">(<span class="params">p, i</span>) =&gt;</span> &#123;</span><br><span class="line">                p.then(</span><br><span class="line">                    val =&gt; &#123;</span><br><span class="line">                        result[i] = val</span><br><span class="line">                        <span class="keyword">if</span> (++count == allPromises.length) &#123;</span><br><span class="line">                            resolve(result)</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;,</span><br><span class="line">                    err =&gt; &#123;</span><br><span class="line">                        reject(err)</span><br><span class="line">                    &#125;</span><br><span class="line">                )</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> race(arr) &#123;</span><br><span class="line">        <span class="keyword">return</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> allPromises = arr.map(<span class="function"><span class="params">item</span> =&gt;</span> <span class="built_in">Promise</span>.resolve(item))</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> p <span class="keyword">of</span> allPromises) &#123;</span><br><span class="line">                p.then(resolve, reject)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>关于模拟实现有个细节问题，Promise 的 then 执行永远都是异步的，但是 Promise 在哪一步实现异步并不明确。上面的例子采用了比较简单的方式，将状态改变和回调执行都异步。这样跟原生的 Promise 是有一点区别的。<br>比如以下代码</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p = MyPromise.resolve(<span class="number">123</span>)</span><br><span class="line"></span><br><span class="line">p.then(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'first'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">MyPromise.resolve().then(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'second'</span>)</span><br><span class="line">&#125;)</span><br><span class="line">p.then(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'third'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// first third second</span></span><br></pre></td></tr></table></figure>
-<p>上面例子的输出是<code>first third second</code>。因为异步的位置是状态的改变和所有 fulfilled 回调的执行，所以同一个 Promise 的不同 then 回调执行之间没有异步。<br>如果把换成原生 Promise，上面例子的结果是<code>first second third</code>。<br>原生 Promise 的具体实现方式不明，据此猜测是 Promise 决议是同步的，决议后 then 方法执行是异步的，都是往微任务列表添加任务。但是上面的代码可以通过修改异步的方式做到同样的效果。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// constructor 中</span></span><br><span class="line"><span class="comment">// ...省略</span></span><br><span class="line"><span class="keyword">const</span> resolve = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>._status !== PENDING) <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">this</span>._status = FULFILLED</span><br><span class="line">    <span class="keyword">this</span>._value = val</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> cb <span class="keyword">of</span> <span class="keyword">this</span>.fulfilledQueue) &#123;</span><br><span class="line">            cb(val)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> reject = <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>._status !== PENDING) <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">this</span>._status = REJECTED</span><br><span class="line">    <span class="keyword">this</span>._value = err</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> cb <span class="keyword">of</span> <span class="keyword">this</span>.rejectedQueue) &#123;</span><br><span class="line">            cb(err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ...省略</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// then 方法中</span></span><br><span class="line"><span class="keyword">const</span> fulfilled = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> result = fulfilledHandler(val)</span><br><span class="line">        <span class="keyword">if</span> (result <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">            result.then(resolve, reject)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            resolve(result)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> rejected = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> result = rejectedHandler(val)</span><br><span class="line">        <span class="keyword">if</span> (result <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">            result.then(resolve, reject)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            resolve(result)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> PENDING = <span class="string">'PENDING'</span></span><br><span class="line"><span class="keyword">const</span> FULFILLED = <span class="string">'FULFILLED'</span></span><br><span class="line"><span class="keyword">const</span> REJECTED = <span class="string">'REJECTED'</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPromise</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(handler) &#123;</span><br><span class="line">        <span class="keyword">this</span>._status = PENDING</span><br><span class="line">        <span class="keyword">this</span>._value = <span class="literal">undefined</span></span><br><span class="line">        <span class="keyword">this</span>.fulfilledQueue = []</span><br><span class="line">        <span class="keyword">this</span>.rejectedQueue = []</span><br><span class="line">        <span class="keyword">const</span> resolve = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>._status !== PENDING) <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">this</span>._status = FULFILLED</span><br><span class="line">            <span class="keyword">this</span>._value = val</span><br><span class="line">            setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">let</span> cb <span class="keyword">of</span> <span class="keyword">this</span>.fulfilledQueue) &#123;</span><br><span class="line">                    cb(val)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> reject = <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>._status !== PENDING) <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">this</span>._status = REJECTED</span><br><span class="line">            <span class="keyword">this</span>._value = err</span><br><span class="line">            setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">let</span> cb <span class="keyword">of</span> <span class="keyword">this</span>.rejectedQueue) &#123;</span><br><span class="line">                    cb(err)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            handler(resolve, reject)</span><br><span class="line">        &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">            reject(err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    then(fulfilledHandler, rejectedHandler) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> fulfilled = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">                setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">let</span> result = fulfilledHandler(val)</span><br><span class="line">                    <span class="keyword">if</span> (result <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">                        result.then(resolve, reject)</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        resolve(result)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">const</span> rejected = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">                setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">let</span> result = rejectedHandler(val)</span><br><span class="line">                    <span class="keyword">if</span> (result <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">                        result.then(resolve, reject)</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        resolve(result)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>._status === PENDING) &#123;</span><br><span class="line">                <span class="keyword">this</span>.fulfilledQueue.push(fulfilled)</span><br><span class="line">                <span class="keyword">this</span>.rejectedQueue.push(rejected)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>._status === FULFILLED) &#123;</span><br><span class="line">                fulfilled(<span class="keyword">this</span>._value)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                rejected(<span class="keyword">this</span>._value)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">catch</span>(rejectedHandler) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.then(<span class="literal">null</span>, rejectedHandler)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">finally</span>(cb) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.then(</span><br><span class="line">            val =&gt; MyPromise.resolve(cb()).then(<span class="function"><span class="params">()</span> =&gt;</span> val),</span><br><span class="line">            err =&gt;</span><br><span class="line">                MyPromise.resolve(cb()).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">throw</span> err</span><br><span class="line">                &#125;)</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> resolve(val) &#123;</span><br><span class="line">        <span class="keyword">if</span> (val <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">            <span class="keyword">return</span> val</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function"><span class="params">resolve</span> =&gt;</span> resolve(val))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> reject(val) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> reject(val))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> all(arr) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> allPromises = arr.map(<span class="function"><span class="params">item</span> =&gt;</span> <span class="built_in">Promise</span>.resolve(item)),</span><br><span class="line">                result = [],</span><br><span class="line">                count = <span class="number">0</span></span><br><span class="line">            allPromises.forEach(<span class="function">(<span class="params">p, i</span>) =&gt;</span> &#123;</span><br><span class="line">                p.then(</span><br><span class="line">                    val =&gt; &#123;</span><br><span class="line">                        result[i] = val</span><br><span class="line">                        <span class="keyword">if</span> (++count == allPromises.length) &#123;</span><br><span class="line">                            resolve(result)</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;,</span><br><span class="line">                    err =&gt; &#123;</span><br><span class="line">                        reject(err)</span><br><span class="line">                    &#125;</span><br><span class="line">                )</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> race(arr) &#123;</span><br><span class="line">        <span class="keyword">return</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> allPromises = arr.map(<span class="function"><span class="params">item</span> =&gt;</span> <span class="built_in">Promise</span>.resolve(item))</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> p <span class="keyword">of</span> allPromises) &#123;</span><br><span class="line">                p.then(resolve, reject)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>整体思路是对状态的值的改变是同步，回调是异步，然后 then 方法的回调同样要异步(处理 FULFILLED 状态后添加的 then 方法)。</p>
-<p>只是无关紧要的小细节。</p>
 
           
         
@@ -692,7 +832,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/code/generator/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/basis/generator/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhen Huang">
@@ -711,7 +851,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/28/code/generator/" itemprop="url">生成器</a></h1>
+                <a class="post-title-link" href="/2019/03/28/basis/generator/" itemprop="url">生成器</a></h1>
         
 
         <div class="post-meta">
@@ -803,8 +943,7 @@
 </ol>
 <h3 id="yield"><a href="#yield" class="headerlink" title="yield*"></a>yield*</h3><p>在生成器内部可以使用<code>yield*</code>嵌套 yield 其它可迭代对象</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">NestedGenerator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">Generator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="comment">// 也可以是等其它可迭代对象</span></span><br><span class="line">    <span class="keyword">yield</span>* NestedGenerator()</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">4</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> gen = Generator()</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">of</span> gen) &#123;</span><br><span class="line">    <span class="comment">//1 2 3 4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h3><p>生成器最大的作用并不是用于生成迭代器，而是用于异步。</p>
-<p>先看一个回调函数的异步例子</p>
+<h3 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h3><p>先看一个回调函数的异步例子</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ajax(<span class="string">'a/b/c'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, res</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="keyword">throw</span> err</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    handle(res)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">123</span>)</span><br></pre></td></tr></table></figure>
 <p>setTimeout 需要传入一个回调函数。回调函数的方式缺点很多，这里只指出生成器能解决的最重要的一条。</p>
 <p>回调函数的执行顺序不符合直觉。</p>
@@ -882,7 +1021,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/25/code/iterator/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/25/basis/iterator/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhen Huang">
@@ -901,7 +1040,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/25/code/iterator/" itemprop="url">迭代器</a></h1>
+                <a class="post-title-link" href="/2019/03/25/basis/iterator/" itemprop="url">迭代器</a></h1>
         
 
         <div class="post-meta">
@@ -1026,7 +1165,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/code/type-cast/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/basis/type-cast/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhen Huang">
@@ -1045,7 +1184,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/19/code/type-cast/" itemprop="url">类型转换</a></h1>
+                <a class="post-title-link" href="/2019/03/19/basis/type-cast/" itemprop="url">类型转换</a></h1>
         
 
         <div class="post-meta">
@@ -1150,7 +1289,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/code/set-map/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/basis/set-map/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhen Huang">
@@ -1169,7 +1308,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/19/code/set-map/" itemprop="url">Set和Map</a></h1>
+                <a class="post-title-link" href="/2019/03/19/basis/set-map/" itemprop="url">Set和Map</a></h1>
         
 
         <div class="post-meta">
@@ -1370,7 +1509,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/14/code/symbol/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/14/basis/symbol/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhen Huang">
@@ -1389,7 +1528,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/14/code/symbol/" itemprop="url">symbol</a></h1>
+                <a class="post-title-link" href="/2019/03/14/basis/symbol/" itemprop="url">symbol</a></h1>
         
 
         <div class="post-meta">
@@ -1548,7 +1687,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/14/code/animation/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/14/basis/animation/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhen Huang">
@@ -1567,7 +1706,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/14/code/animation/" itemprop="url">动画</a></h1>
+                <a class="post-title-link" href="/2019/03/14/basis/animation/" itemprop="url">动画</a></h1>
         
 
         <div class="post-meta">
@@ -1680,134 +1819,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/13/engineer/npm-publish/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/13/engineer/npm-publish/" itemprop="url">发布npm包</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-13T11:41:05+08:00">
-                2019-03-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="main-module字段"><a href="#main-module字段" class="headerlink" title="main/module字段"></a>main/module字段</h3><p>main字段用于指定导入模块时指定的文件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main用于指定require('chalk')访问的文件</span></span><br><span class="line"><span class="keyword">const</span> chalk = <span class="built_in">require</span>(<span class="string">'chalk'</span>)</span><br></pre></td></tr></table></figure></p>
-<p>module也用于指定导入模块时指定的文件，但这个不是package.json的官方字段，用于支持es6模块的环境<br>module字段一般指定使用es6模块打包的文件，而main指向用commonjs规范打包的文件，而不支持es6模块的环境不会查找module字段<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// module 用于指定以es6方式引入包时的文件</span></span><br><span class="line"><span class="keyword">import</span> chalk <span class="keyword">from</span> <span class="string">'chalk'</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="bin-注册指令"><a href="#bin-注册指令" class="headerlink" title="bin 注册指令"></a>bin 注册指令</h3><p>npm包有时候需要注册指令，比如<code>@vue/cli</code>会注册<code>vue</code>指令，这样全局安装<code>@vue/cli</code>之后就可以在任意地方使用<code>vue</code>指令，<code>npm</code>也是以这种方式注册的指令，只是在node安装时就已经默认安装。<code>webpack</code>指令一般会局部注册，这样可以在<code>package.json</code>的<code>scripts</code>中使用。<br>注册指令需要在<code>package.json</code>中增加<code>bin</code>属性<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// in package.json</span><br><span class="line">"bin":&#123;</span><br><span class="line">    "vue":"bin/index.js"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>其中<code>webpack</code>是要注册的指令，<code>bin/index.js</code>是指定的执行文件路径。指令最好使用npm包名本身，以免与其它指令冲突</p>
-<p>在指定的执行文件路径中，<strong>必须</strong>在第一行加上以下代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env node</span></span><br></pre></td></tr></table></figure></p>
-<p>否则注册的指令无法正常执行，<a href="https://zh.wikipedia.org/wiki/Shebang" target="_blank" rel="noopener">原理参考这里</a></p>
-<blockquote>
-<p>未完待续</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1860,7 +1871,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -1873,7 +1884,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
