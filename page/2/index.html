@@ -239,6 +239,151 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/14/basis/animation/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/14/basis/animation/" itemprop="url">动画</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-14T18:02:05+08:00">
+                2019-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>js 动画和 css 动画的区别<br>GPU 加速和硬件加速是不是同一个东西<br>willchange 有何用，属性不同的值有什么区别</p>
+<h3 id="硬件加速"><a href="#硬件加速" class="headerlink" title="硬件加速"></a>硬件加速</h3><p>所谓的硬件加速，在浏览器中来讲就是使用 GPU 渲染，在 compositor thread 中直接渲染，不通过 main thread，不触发 relayout 和 repaint。</p>
+<p>GPU 渲染会生成一个单独的<code>composite layer</code>，然后重排像素的位置，而不是重新绘制，所以如果使用了不能通过重排像素实现的属性，不如<code>background</code>，GPU 渲染带来的优势就会消失</p>
+<p>会生成单独<code>composite layer</code>的情况包括</p>
+<ol>
+<li>transform 3d 或者 perspective</li>
+<li>video or canvas</li>
+<li>使用 css filters</li>
+<li>一个覆盖在其它<code>composite layer</code>上的元素</li>
+</ol>
+<p>通过 chrome 开发者工具<code>more tools</code>中的<code>layers</code>可以查看页面的<code>composite layer</code></p>
+<p>不是所有属性都会直接在<code>composite layer</code>中完成，只有以下属性会</p>
+<ol>
+<li>transform</li>
+<li>opacity</li>
+<li>filter</li>
+</ol>
+<p>注意：opacity 虽然会在 GPU 中直接完成，但是在改变之前并不会生成<code>composite layer</code>。而<code>transform 3d</code>才会直接生成<code>composite layer</code>，但是所有的<code>transform</code>变化都会在 GPU 中直接完成</p>
+<p>所以，如果是<code>transform 2d</code>动画，在动画的开始和结束会各有一次<code>repaint</code></p>
+<p>如果在动画开始前就给元素设置<code>transform:translateZ(0)</code>，会直接生成<code>composite layer</code>，动画过程中不会有任何<code>repaint</code><br>但是<code>transofrm:translateZ(0)</code>或者其他类似方式毕竟是 hack 类型的，所以 css 提出了新的属性<code>will-change</code><br><code>will-change</code>应该不仅仅创建一个<code>composite layer</code>，但从动画的角度来看，可以这样认为。<br><code>will-change</code>的使用有几点需要注意：</p>
+<ol>
+<li>尽量不要使用。和硬件加速一样，会有额外的内存消耗，尤其在移动设备上。</li>
+<li>使用完成后需要移除。</li>
+<li>在属性变化之前加上，否则毫无意义。</li>
+<li>不要给 will-change 添加太多属性，易燃易爆炸</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/13/engineer/npm-publish/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1637,7 +1782,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -1650,7 +1795,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

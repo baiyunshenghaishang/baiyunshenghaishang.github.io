@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="bai">
 <meta property="og:description" content="export 的基本语法export 用于导出模块中的变量。 export 的基本语法有以下几种 12345678910// 直接导出变量或声明export let a = 3// 导出已经声明的变量或声明let b = 3export b// 将声明的变量或声明以其它变量名导出let c = 3export &amp;#123;c as d&amp;#125; export default 表示默认导出。本质上">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-22T12:57:07.507Z">
+<meta property="og:updated_time" content="2019-05-23T10:49:15.300Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="import&#x2F;export">
 <meta name="twitter:description" content="export 的基本语法export 用于导出模块中的变量。 export 的基本语法有以下几种 12345678910// 直接导出变量或声明export let a = 3// 导出已经声明的变量或声明let b = 3export b// 将声明的变量或声明以其它变量名导出let c = 3export &amp;#123;c as d&amp;#125; export default 表示默认导出。本质上">
@@ -314,7 +314,7 @@
 <p>export 的基本语法有以下几种</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 直接导出变量或声明</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 导出已经声明的变量或声明</span></span><br><span class="line"><span class="keyword">let</span> b = <span class="number">3</span></span><br><span class="line"><span class="keyword">export</span> b</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将声明的变量或声明以其它变量名导出</span></span><br><span class="line"><span class="keyword">let</span> c = <span class="number">3</span></span><br><span class="line"><span class="keyword">export</span> &#123;c <span class="keyword">as</span> d&#125;</span><br></pre></td></tr></table></figure>
 <p><code>export default</code> 表示默认导出。本质上讲，其实就是输出一个叫做 default 的变量,然后在导入的时候可以取任意名</p>
-<p>导出的本质是在外部用一个变量名引用内部的变量，所以必须制定外部引用的变量名。所以在 export 的几种导出语法之外，还可以直接导出字面量。</p>
+<p>导出的本质是在外部用一个变量名引用内部的变量，所以必须指定外部引用的变量名。所以在 export default 除了导出变量外，还可以直接导出字面量。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
 <p>因为<code>export default</code>本质上是导出一个叫做 default 的变量，所以一个模块中只能使用一次 <code>export default</code></p>
 <h3 id="import-的基本语法"><a href="#import-的基本语法" class="headerlink" title="import 的基本语法"></a>import 的基本语法</h3><p>import 用于导入模块中导出的变量<br>import 的几种语法都是对应 export 的语法</p>
@@ -379,6 +379,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/23/basis/lexical/" rel="prev" title="词法">
+                词法 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -457,7 +461,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -470,7 +474,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
