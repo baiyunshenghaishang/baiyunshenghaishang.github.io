@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="export 的基本语法export 用于导出模块中的变量。 export 的基本语法有以下几种 12345678910// 直接导出变量或声明export let a = 3// 导出已经声明的变量或声明let b = 3export b// 将声明的变量或声明以其它变量名导出let c = 3export &amp;#123;c as d&amp;#125; export default 表示默认导出。本质上">
+<meta name="description" content="// 需要重写，问题太多 export 的基本语法export 用于导出模块中的变量。 export 的基本语法有以下几种 12345678910// 直接导出变量或声明export let a = 3// 导出已经声明的变量或声明let b = 3export b// 将声明的变量或声明以其它变量名导出let c = 3export &amp;#123;c as d&amp;#125; export defau">
 <meta name="keywords" content="import,export,module">
 <meta property="og:type" content="article">
 <meta property="og:title" content="import&#x2F;export">
 <meta property="og:url" content="http://yoursite.com/2019/05/22/basis/import_export/index.html">
 <meta property="og:site_name" content="bai">
-<meta property="og:description" content="export 的基本语法export 用于导出模块中的变量。 export 的基本语法有以下几种 12345678910// 直接导出变量或声明export let a = 3// 导出已经声明的变量或声明let b = 3export b// 将声明的变量或声明以其它变量名导出let c = 3export &amp;#123;c as d&amp;#125; export default 表示默认导出。本质上">
+<meta property="og:description" content="// 需要重写，问题太多 export 的基本语法export 用于导出模块中的变量。 export 的基本语法有以下几种 12345678910// 直接导出变量或声明export let a = 3// 导出已经声明的变量或声明let b = 3export b// 将声明的变量或声明以其它变量名导出let c = 3export &amp;#123;c as d&amp;#125; export defau">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-23T10:49:15.300Z">
+<meta property="og:updated_time" content="2019-06-25T23:32:06.907Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="import&#x2F;export">
-<meta name="twitter:description" content="export 的基本语法export 用于导出模块中的变量。 export 的基本语法有以下几种 12345678910// 直接导出变量或声明export let a = 3// 导出已经声明的变量或声明let b = 3export b// 将声明的变量或声明以其它变量名导出let c = 3export &amp;#123;c as d&amp;#125; export default 表示默认导出。本质上">
+<meta name="twitter:description" content="// 需要重写，问题太多 export 的基本语法export 用于导出模块中的变量。 export 的基本语法有以下几种 12345678910// 直接导出变量或声明export let a = 3// 导出已经声明的变量或声明let b = 3export b// 将声明的变量或声明以其它变量名导出let c = 3export &amp;#123;c as d&amp;#125; export defau">
 
 
 
@@ -310,7 +310,8 @@
       
 
       
-        <h3 id="export-的基本语法"><a href="#export-的基本语法" class="headerlink" title="export 的基本语法"></a>export 的基本语法</h3><p>export 用于导出模块中的变量。</p>
+        <p>// 需要重写，问题太多</p>
+<h3 id="export-的基本语法"><a href="#export-的基本语法" class="headerlink" title="export 的基本语法"></a>export 的基本语法</h3><p>export 用于导出模块中的变量。</p>
 <p>export 的基本语法有以下几种</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 直接导出变量或声明</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 导出已经声明的变量或声明</span></span><br><span class="line"><span class="keyword">let</span> b = <span class="number">3</span></span><br><span class="line"><span class="keyword">export</span> b</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将声明的变量或声明以其它变量名导出</span></span><br><span class="line"><span class="keyword">let</span> c = <span class="number">3</span></span><br><span class="line"><span class="keyword">export</span> &#123;c <span class="keyword">as</span> d&#125;</span><br></pre></td></tr></table></figure>
 <p><code>export default</code> 表示默认导出。本质上讲，其实就是输出一个叫做 default 的变量,然后在导入的时候可以取任意名</p>
