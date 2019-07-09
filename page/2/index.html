@@ -239,6 +239,404 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/basis/set-map/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/19/basis/set-map/" itemprop="url">Set和Map</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-19T19:24:25+08:00">
+                2019-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>[TOC]</p>
+<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><p>Set 是 es6 定义的一种新的数据结构，概念上与数组很类似，但是操作上与数组截然不同。</p>
+<p>Set 最重要的特性是<strong>不包含重复元素</strong>，如果不需要这种特性，一般没有使用 Set 的需要。Set 内部使用<code>Object.is</code>来比较两个元素是否相等，而不是<code>===</code>,<code>Object.is</code>和<code>===</code>的区别在于<code>NaN</code>和自己相等以及<code>-0</code>和<code>+0</code>不相等。</p>
+<h5 id="创建-Set"><a href="#创建-Set" class="headerlink" title="创建 Set"></a>创建 Set</h5><p>创建 Set 只能使用构造函数的方式<code>new Set()</code>。也可以传入<code>iterable</code>对象，Set 会将迭代对象去重。如果传入的内容不能迭代，会抛出错误。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>]) <span class="comment">// set([1,2,4])</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Set</span>(<span class="number">3</span>) <span class="comment">// error 3 is not iterable</span></span><br></pre></td></tr></table></figure>
+<h5 id="操作-Set"><a href="#操作-Set" class="headerlink" title="操作 Set"></a>操作 Set</h5><p>Set<strong>不是</strong>数组，不能够通过索引直接获取某个位置的值。<br>操作数组的方法包括</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方法</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">add()</td>
+<td style="text-align:center">添加值</td>
+</tr>
+<tr>
+<td style="text-align:center">delete()</td>
+<td style="text-align:center">删除值</td>
+</tr>
+<tr>
+<td style="text-align:center">has()</td>
+<td style="text-align:center">是否包含某个值</td>
+</tr>
+<tr>
+<td style="text-align:center">clear()</td>
+<td style="text-align:center">清空 Set</td>
+</tr>
+<tr>
+<td style="text-align:center">size</td>
+<td style="text-align:center">Set 的值个数</td>
+</tr>
+</tbody>
+</table>
+<p>由于<code>add</code>方法返回Set本身，对于连续添加多个元素可以采用如下方式<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line">set.add(<span class="number">1</span>).add(<span class="number">2</span>).add(<span class="number">3</span>)</span><br></pre></td></tr></table></figure></p>
+<p>Set 还包含<code>forEach</code>方法。但是由于 Set 没有索引，<code>forEach</code>的<code>key</code>和<code>value</code>相同，所以几乎没有任何理由使用<code>forEach</code>。同理，<code>set.keys()/set.values()/set.entries()</code>也毫无意义。遍历 Set 最好的方式是使用<code>for...of</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> s = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> s) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以发现，Set 唯一的作用是否就是确认是否包含某个变量，但是这个功能数组也能轻易做到，<code>arr.includes()</code>和<code>set.has()</code>功能相同。<br>ps:和<code>arr.indexOf()</code>有一点区别,<code>indexOf</code>使用<code>===</code>判别是不是同一个元素,<code>includes</code>使用<code>Object.is()</code>，所以数组的<code>includes</code>和<code>indexOf</code>还是有一点区别的</p>
+<p>Set 唯一的作用大概是用来去重</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">[...new <span class="built_in">Set</span>(arr)] <span class="comment">// [1,2,3,4]</span></span><br></pre></td></tr></table></figure>
+<p>除此之外，似乎没有其他用途了</p>
+<h3 id="WeakSet"><a href="#WeakSet" class="headerlink" title="WeakSet"></a>WeakSet</h3><p>WeakSet 正如其名，与 Set 基本相同，区别有两点</p>
+<ol>
+<li>WeakSet 只能包含对象，不能包含基本类型，给 WeakSet 添加基本类型会报错</li>
+<li>WeakSet 不是可遍历对象，不包含<code>clear()</code>和<code>size</code>方法/属性</li>
+</ol>
+<p>所以 WeakSet 只有三个方法<code>add/has/delete</code></p>
+<p>WeakSet 最大的特点是只会保存持有对象的弱引用。即如果 WeakSet 持有的对象不被其他变量引用，则该对象可以被回收。<br>个人对WeakSet的用途暂只限于判断对象是否被回收。直接<code>console.log(weakset)</code>可以判断<code>WeakSet</code>包含的变量是否被回收。（不被引用的变量不一定马上被回收，这种方法判断依赖回收机制的触发，需要一定时间差）</p>
+<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><p>Map 和 Set 经常被一起提及，但是两者其实没什么关联。除了语法上的类似外，唯一是关系大概是都是 es6 添加的新数据结构。</p>
+<p>如果说 Set 是参照数组创建的，Map 是参照对象创建的。Map也是键值对的组合，与对象的区别在于对象的<code>key</code>只能是字符串，而Map的<code>key</code>可以是任意数据类型</p>
+<h5 id="创建-Map"><a href="#创建-Map" class="headerlink" title="创建 Map"></a>创建 Map</h5><p>创建 Map 也只能通过<code>new Map()</code>的方式。如果要给Map传入初始值，可以传入每个元素都是数组的数组<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> m = <span class="keyword">new</span> <span class="built_in">Map</span>([[<span class="string">'key'</span>,<span class="string">'value'</span>],[<span class="number">1</span>,&#123;&#125;]])</span><br></pre></td></tr></table></figure></p>
+<h5 id="操作Map"><a href="#操作Map" class="headerlink" title="操作Map"></a>操作Map</h5><p>Map不能通过属性名<code>.</code>或者<code>[]</code>语法直接访问属性。Map的操作方法和Set及其相似。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方法</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">set(key,val)</td>
+<td style="text-align:center">添加/更新key的值为val</td>
+</tr>
+<tr>
+<td style="text-align:center">get(key)</td>
+<td style="text-align:center">获取key的val</td>
+</tr>
+<tr>
+<td style="text-align:center">delete(key)</td>
+<td style="text-align:center">删除key</td>
+</tr>
+<tr>
+<td style="text-align:center">has(key)</td>
+<td style="text-align:center">是否包含key</td>
+</tr>
+<tr>
+<td style="text-align:center">clear()</td>
+<td style="text-align:center">清空 Map</td>
+</tr>
+<tr>
+<td style="text-align:center">size</td>
+<td style="text-align:center">Map的键值对数量</td>
+</tr>
+</tbody>
+</table>
+<p>除了<code>add</code>方法变成了<code>set/get</code>，其它的方法完全一样。Map同样是<code>iterable</code>对象，支持<code>iterable</code>的所有遍历方式。<br>Map的get方法返回Map本身，同样可以采用链式方式添加多个元素<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>().set(<span class="number">1</span>,<span class="number">1111</span>).set(<span class="number">2</span>,<span class="number">2222</span>)</span><br></pre></td></tr></table></figure></p>
+<p>Map最大的作用在于<code>key</code>可以不是字符串，在需要使用非字符串<code>key</code>时，如<code>Symbol</code>，Map还是很有作用的。</p>
+<h3 id="WeakMap"><a href="#WeakMap" class="headerlink" title="WeakMap"></a>WeakMap</h3><p>WeakMap是Map的弱引用版本，与WeakSet类似</p>
+<ol>
+<li>WeakMap的<code>key</code>只能是对象</li>
+<li>WeakMap不是可遍历对象</li>
+</ol>
+<p>WeakMap的<code>key</code>也是弱引用，即如果WeakMap的<code>key</code>不再被其它变量引用，WeakMap的<code>key</code>可以被回收。<br>WeakMap的<code>value</code>是强引用，即只要WeakMap的<code>key</code>存在，WeakMap的<code>value</code>就不会被回收。</p>
+<p>与WeakSet类似，WeakMap只支持<code>set/get/delete/has</code>四个方法</p>
+<p>WeakMap一个很常用的应用场景是给页面上的元素添加对应值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> el = <span class="built_in">document</span>.querySelector(<span class="string">'#xiaogou'</span>),</span><br><span class="line">    m = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">    m.set(el,&#123;</span><br><span class="line">        id:<span class="string">'xiaogou'</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<p>在不使用Map的情况下，如果元素<code>#xiaogou</code>被删除，对象<code>{id:&#39;xiaogou&#39;}</code>很难被回收，只能在元素被移除时通过事件触发来处理，而且这种处理也不够准确，因为元素仍然可能被重新添加会<code>DOM</code>中。而WeakMap几乎可以完美的解决这个问题。</p>
+<p>还有类似场景是私有变量的处理。具体代码就不列出了。<br>WeakMap的使用场景一般在需要为对象保存关联信息，对象删除时可以自动删除关联信息。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/14/basis/symbol/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/14/basis/symbol/" itemprop="url">symbol</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-14T19:09:41+08:00">
+                2019-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>[TOC]</p>
+<h3 id="什么是-Symbol"><a href="#什么是-Symbol" class="headerlink" title="什么是 Symbol"></a>什么是 Symbol</h3><p><code>Symbol</code>是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效防止意外修改对象属性的问题。</p>
+<p>检测是否是 Symbol 可以用<code>typeof</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> sy === <span class="string">'symbol'</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建-Symbol"><a href="#创建-Symbol" class="headerlink" title="创建 Symbol"></a>创建 Symbol</h3><p><code>Symbol</code>是一种基本类型，没有构造函数，不能通过<code>new Symbol()</code>的方式创建。创建<code>Symbol</code>的方式有两种。<br>一种是通过<code>Symbol()</code>方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>(<span class="string">'description'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>(<span class="string">'description'</span>)</span><br><span class="line">sy === sy2 <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>其中<code>description</code>只是用于描述创建的 Symbol，对 Symbol 的值没有任何影响，创建两个 Symbol 传入相同的 description 得到的是不同的 Symbol。</p>
+<p>第二种创建 Symbol 的方式是通过<code>Symbol.for()</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>.for(<span class="string">'description'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>.for(<span class="string">'description'</span>)</span><br><span class="line">sy === sy2 <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>其中的<code>description</code>既是 Symbol 的标识符，也是描述。<code>Symbol.for()</code>会先查找是否存在相同标识符的 Symbol,如果存在就返回，如果不存在就创建一个新的 Symbol。<br>注意：只有<code>Symbol.for()</code>创建的 Symbol 才会有标识符，<code>Symbol()</code>创建的 Symbol 没有标识符。所以</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>(<span class="string">'123'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>.for(<span class="string">'123'</span>)</span><br><span class="line">sy === sy2 <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<h3 id="操作-Symbol"><a href="#操作-Symbol" class="headerlink" title="操作 Symbol"></a>操作 Symbol</h3><p>Symbol 没有对应的内置对象类型，所以 Symbol 实例没有额外的方法，几乎不能执行任何操作。除了<code>Object.prototype</code>上的<code>toString</code>等几个方法外，Symbol 还有一个<code>Symbol.keyFor()</code>方法，用于获取 Symbol 的标识符</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>(<span class="string">'123'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>.for(<span class="string">'123'</span>)</span><br><span class="line"><span class="built_in">Symbol</span>.keyFor(sy) <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">Symbol</span>.keyFor(sy2) <span class="comment">// 123</span></span><br></pre></td></tr></table></figure>
+<h3 id="内置-Symbol-值"><a href="#内置-Symbol-值" class="headerlink" title="内置 Symbol 值"></a>内置 Symbol 值</h3><p>js 有一些行为一直是编译器内部在控制，代码无法影响的。而现在 js 通过一些预先定义好的 Symbol 属性将其暴露了出来。</p>
+<ol>
+<li>Symbol.hasInstance</li>
+<li>Symbol.isConcatSpreadable</li>
+<li>Symbol.iterator</li>
+<li>Symbol.species</li>
+<li>Symbol.toPrimitive</li>
+<li>Symbol.toStringTag</li>
+<li>Symbol.match</li>
+<li>Symbol.search</li>
+<li>Symbol.replace</li>
+<li>Symbol.split</li>
+<li>Symbol.unscopables</li>
+</ol>
+<h5 id="Symbol-hasInstance"><a href="#Symbol-hasInstance" class="headerlink" title="Symbol.hasInstance"></a>Symbol.hasInstance</h5><p>用于<code>a instanceof Func</code>时，此时会调用<code>Func[Symbol.hasInstance]</code>方法，方法的返回值就是<code>instanceof</code>的结果。<code>Symbol.hasInstance</code>定义在<code>Function.prototype</code>上，是一个不可遍历，不可修改，不可配置的属性。要修改<code>instanceof</code>默认行为需要使用如下方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Name</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(Name, <span class="built_in">Symbol</span>.hasInstance, &#123;</span><br><span class="line">    value: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意，由于不可写属性的限制，不能采用如下方式</span></span><br><span class="line">Name[<span class="built_in">Symbol</span>.hasInstance] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Symbol-isConcatSpreadable"><a href="#Symbol-isConcatSpreadable" class="headerlink" title="Symbol.isConcatSpreadable"></a>Symbol.isConcatSpreadable</h5><p>调用<code>arr.concat(obj)</code>方法时，如果<code>obj</code>的<code>Symbol.isConcatSpreadable</code>为<code>true</code>，那么<code>obj</code>的前<code>length</code>个数字属性会被添加到<code>arr</code>中，非数字属性则会被丢弃。如果是<code>false</code>，<code>obj</code>会被直接添加到<code>arr</code>中。<br>注意：数字属性只会取<code>0 - length-1</code></p>
+<p>默认情况下，任何对象都没有<code>Symbol.isConcatSpreadable</code>属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    obj = &#123;</span><br><span class="line">        <span class="number">0</span>: <span class="number">4</span>,</span><br><span class="line">        <span class="number">3</span>: <span class="number">5</span>,</span><br><span class="line">        a: <span class="string">'xiaogou'</span>,</span><br><span class="line">        length: <span class="number">2</span>,</span><br><span class="line">        [<span class="built_in">Symbol</span>.isConcatSpreadable]: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">arr.concat(obj) <span class="comment">// [1,2,3,4,empty]</span></span><br></pre></td></tr></table></figure>
+<h5 id="Symbol-iterator"><a href="#Symbol-iterator" class="headerlink" title="Symbol.iterator"></a>Symbol.iterator</h5><p>用于<code>for...of</code>循环。可迭代对象都包含这个属性。<br><code>Symbol.iterator</code>是一个函数，需要返回一个<code>迭代器</code>。关于什么是迭代器，详见迭代器与生成器。<br>简单讲，迭代器就是包含<code>next()</code>方法属性的对象，每次调用<code>next()</code>方法时，都会返回一个<code>{value,done}</code>的对象,当<code>done</code>为 true 时，迭代器终止。</p>
+<p><code>for...of</code>遍历时，实际上是遍历<code>Symbol.iterator()</code>返回的迭代器。</p>
+<p>对象不可迭代的普通对象，可以通过添加<code>Symbol.iterator</code>方法来使其可以迭代。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.iterator]() &#123;</span><br><span class="line">        <span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            next() &#123;</span><br><span class="line">                <span class="keyword">if</span> (i++ &lt; 3) &#123;</span><br><span class="line">                    return &#123; value: i, done: false &#125;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    return &#123; done: true &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">for (let i of obj) &#123;</span><br><span class="line">    console.log(i)</span><br><span class="line">&#125;</span><br><span class="line">// 1</span><br><span class="line">// 2</span><br><span class="line">// 3</span><br><span class="line">// 4</span><br></pre></td></tr></table></figure>
+<p>普通对象原本是不可以用于<code>for...of</code>循环的，通过添加<code>Symbol.iteraotr</code>方法，可使其可以通过<code>for...of</code>循环遍历。同理也可以用于数组的展开运算符。</p>
+<p>虽然上例中使用的是普通函数，但是更普遍的做法可能是为<code>Symbol.iterator</code>函数赋一个生成器函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    *[<span class="built_in">Symbol</span>.iterator]() &#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">        <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>虽然形式不一样，但是与<code>Symbol.iterator</code>关系不大，主要还是生成器。这里就不展开了。</p>
+<h5 id="Symbol-species"><a href="#Symbol-species" class="headerlink" title="Symbol.species"></a>Symbol.species</h5><p>内建对象实例方法返回新的实例时使用。比如 Array 的<code>slice</code>方法会返回一个新的 Array，如果通过 es6 extends 继承 Array，slice 方法会默认返回子类型的实例。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyArray</span> <span class="keyword">extends</span> <span class="title">Array</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> a = <span class="keyword">new</span> MyArray(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>),</span><br><span class="line">    b = a.slice(<span class="number">1</span>)</span><br><span class="line">b <span class="keyword">instanceof</span> MyArray <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>因为Array的<code>Symbol.species</code>默认指向this，所以返回MyArray类型的实例。<br>注意:<code>Symbol.species</code>定义为Array的静态属性，所以this指向实例的构造函数本身</p>
+<p>通过指定<code>Symbol.species</code>可以返回一个其他类型的实例<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> get [<span class="built_in">Symbol</span>.species] ()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span> <span class="comment">// 也可以指定为其他值，比如MyClass</span></span><br><span class="line">    &#125;</span><br><span class="line">    clone()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">this</span>.constructor[<span class="built_in">Symbol</span>.species]()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用<code>Symbol.species</code>的内建类型有 Array, ArrayBuffer, Map, Set, Typed arrays, Promise, RegExp</p>
+<h5 id="Symbol-toPrimitive"><a href="#Symbol-toPrimitive" class="headerlink" title="Symbol.toPrimitive"></a>Symbol.toPrimitive</h5><p>用于变量的类型转换。在做类型转换或者获取对象的原始值时，会调用此方法。如<code>&#39;&#39;+a</code>会调用<code>a</code>的<code>Symbol[toPrimitive]</code>方法。</p>
+<p>方法接受一个参数<code>hint</code>，可能的值有<code>string、number、default</code>。表示当前转换采用的模式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.toPrimitive]: <span class="function"><span class="keyword">function</span>(<span class="params">hint</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (hint) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'string'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'string'</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'number'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'number'</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'default'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'default'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>虽然可以为<code>string、number、default</code>指定不同的返回值，但是一般还是给<code>default</code>指定为<code>string、number</code>中的一个<br><code>string</code>与<code>number</code>模式比较好理解,<code>default</code>模式只会出现在下列三种情况</p>
+<ol>
+<li>==</li>
+<li>+号运算符</li>
+<li>给 Date 构造函数传递一个参数</li>
+</ol>
+<h5 id="Symbol-toStringTag"><a href="#Symbol-toStringTag" class="headerlink" title="Symbol.toStringTag"></a>Symbol.toStringTag</h5><p>js 中一直有一个识别类型的方法<code>Object.prototype.toString.call(obj)</code>，返回值<code>[object XXX]</code>，对于不同类型的对象,<code>XXX</code>各有不同。对于<code>Array</code>是<code>Array</code>，对于自定义对象，是<code>Object</code>。而<code>XXX</code>可以通过<code>Symbol.toStringTag</code>修改。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">name</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">name.prototype[<span class="built_in">Symbol</span>.toStringTag] = <span class="string">'name'</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="keyword">new</span> name())</span><br></pre></td></tr></table></figure>
+<p>没错,<code>Symbol.toStringTag</code>的值是一个字符串，<strong>不是函数</strong></p>
+<h5 id="Symbol-search"><a href="#Symbol-search" class="headerlink" title="Symbol.search"></a>Symbol.search</h5><p><code>Symbol.search、Symbol.match</code>等四个方法都是定义在<code>Regrex.prototype</code>上，是调用字符串方法<code>str.search(regex)、str.match(regex)</code>时调用的方法,所以<code>str.search(regex)</code>实际上调用的是<code>regex[Symbol.search](str)</code></p>
+<p>这 4 个方法都接受字符串作为参数。<br>实际上，完全可以为一个对象定义这四个方法，然后当做正则表达式使用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.search]: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="string">'123'</span>.search(obj) <span class="comment">// -1</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/14/basis/animation/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1466,275 +1864,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/hello/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/28/hello/" itemprop="url">hello hexo</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T19:11:37+08:00">
-                2019-01-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/engineer/vue-cli-preset/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/28/engineer/vue-cli-preset/" itemprop="url">vue-cli的远程preset搭建</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T11:36:10+08:00">
-                2019-01-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>[TOC]</p>
-<p><a href="https://github.com/baiyunshenghaishang/vue-cli-preset" target="_blank" rel="noopener">vue-cli-preset 项目地址</a></p>
-<h3 id="为什么要用-preset"><a href="#为什么要用-preset" class="headerlink" title="为什么要用 preset"></a>为什么要用 preset</h3><p>最近想搭建几个 vue 的项目，考虑到多一事不如少一事（反正我也不会脚手架），就想使用 vue-cli3 来搭建。试了下，配置项还是挺全的，但是每次新建项目都要设置很多选项，有些文件可能还不合心意。比如我想加个<code>.prettierrc</code>,但是 vue-cli 没有，有也可能与我的习惯不合，怎么办。</p>
-<p>翻了下文档，看到 vue-cli 可以配置 preset，就是一个预先设置好的配置，使用这个配置创建项目，创建出来的项目就基本可以直接用了。</p>
-<h3 id="preset-搭建流程"><a href="#preset-搭建流程" class="headerlink" title="preset 搭建流程"></a>preset 搭建流程</h3><p><a href="https://cli.vuejs.org/zh/guide/plugins-and-presets.html#%E8%BF%9C%E7%A8%8B-preset" target="_blank" rel="noopener">官方文档在此</a></p>
-<p>vue-cli 支持本地的 preset 和远程 preset，考虑到后续换电脑可能还得用这个 preset，虽然到时候可能 vue 都凉凉了，用远程 preset。</p>
-<p>github 项目创建略过不说，有一点要注意的是使用 github 的 preset 指令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue create --preset baiyunshenghaishang/vue-cli-preset my-project</span><br></pre></td></tr></table></figure>
-<p>其中<code>username/repo</code><strong>不是</strong>github 要<code>clone</code>项目的地址，是什么见下图<br><img src="/images/vue-cli-preset.jpg" alt="username/repo图片"></p>
-<p>preset 支持三个文件,<code>preset.json</code>，<code>generator.js</code>，<code>prompts.js</code>。<br>文件名写错就没法引用了，要特别注意</p>
-<p>其中本地文件的 preset 只支持<code>preset.json</code></p>
-<h3 id="preset-json"><a href="#preset-json" class="headerlink" title="preset.json"></a>preset.json</h3><p>关于<code>preset.json</code>的可选配置项，官方文档给出了一个例子，使用<code>vue create</code>创建项目后也会生成一份类似的配置,使用<code>vue config</code>可以查看。所有的可配置项，<code>plugins</code>具体如何配置，完全找不到文档，所以此处基本使用<code>vue config</code>后展示的配置。其它需要的配置都是通过<code>generator.js</code></p>
-<h3 id="generator-js"><a href="#generator-js" class="headerlink" title="generator.js"></a>generator.js</h3><p>generator 用于修改项目已有文件和插入新的文件。</p>
-<p>栗子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> changebrowserslistrc = <span class="built_in">require</span>(<span class="string">'./changebrowserslist.js'</span>)</span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">api, options, rootOptions</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 修改 `package.json` 里的字段</span></span><br><span class="line">    api.extendPackage(&#123;</span><br><span class="line">        scripts: &#123;</span><br><span class="line">            start: <span class="string">'npm run serve'</span></span><br><span class="line">        &#125;,</span><br><span class="line">        devDependencies: &#123;</span><br><span class="line">            vconsole: <span class="string">'^3.2.0'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// 复制并用 ejs 渲染 `./template` 内所有的文件</span></span><br><span class="line">    api.render(<span class="string">'./rootFile'</span>)</span><br><span class="line">    api.postProcessFiles(changebrowserslistrc)</span><br><span class="line">    <span class="keyword">if</span> (options.lib) &#123;</span><br><span class="line">        <span class="comment">// 有条件地生成文件</span></span><br><span class="line">        api.render(<span class="string">'./libFile'</span>)</span><br><span class="line">        api.extendPackage(&#123;</span><br><span class="line">            scripts: &#123;</span><br><span class="line">                build: <span class="string">`vue-cli-service build --target lib --name <span class="subst">$&#123;rootOptions.projectName&#125;</span> ./lib/index.js`</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>generator.js</code>导出一个函数，接受三个参数，<code>api</code>,<code>options</code>,<code>rootOptions</code></p>
-<h5 id="api"><a href="#api" class="headerlink" title="api"></a>api</h5><p>用于生成和修改文件，主要有三个方法</p>
-<ol>
-<li>render 复制文件，接受字符串或对象，如果是字符串，复制到根目录，如果是对象，key 表示要复制到的目录，value 表示文件路径，</li>
-<li>extendPackage 用于修改<code>package.json</code>字段，会合并到同名字段</li>
-<li>postProcessFiles 用于修改已有文件，写法参见项目的<code>changebrowserslist.js</code></li>
-</ol>
-<p>复制文件尽量使用目录，而不是文件名，文件名以<code>.</code>开头的，需要改成<code>_</code>，官方文档有详细介绍</p>
-<p>复制文件的目录，如果删除了文件，vue create似乎无法同步删除，再次新建的项目还是会有该文件，可能是个bug，我采用了更换文件夹名字的方式，不过一般不会有删除文件</p>
-<h5 id="options"><a href="#options" class="headerlink" title="options"></a>options</h5><p>options 是 prompts.js 传入的选项的结果</p>
-<h5 id="rootOptions"><a href="#rootOptions" class="headerlink" title="rootOptions"></a>rootOptions</h5><p>rootOptions 是原始选项中用户的选择</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1782,7 +1916,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -1795,7 +1929,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

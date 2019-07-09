@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="sytax,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="js 语言的整体架构js 包含两种源文件。一种是脚本，另一种是模块。脚本就是普通的.js 文件，模块是 es6 引入的，与脚本只有一个区别，就是可以使用 export/import 语句。使用模块需要在引入的 script 标签上加上type=module，否则文件会被认为是脚本而报错。模块和 import/export 的更详细了解可以看这里 预处理import/export 之外的语句可以分为">
+<meta name="keywords" content="sytax">
+<meta property="og:type" content="article">
+<meta property="og:title" content="语法">
+<meta property="og:url" content="http://yoursite.com/2019/07/03/basis/sytax/index.html">
+<meta property="og:site_name" content="bai">
+<meta property="og:description" content="js 语言的整体架构js 包含两种源文件。一种是脚本，另一种是模块。脚本就是普通的.js 文件，模块是 es6 引入的，与脚本只有一个区别，就是可以使用 export/import 语句。使用模块需要在引入的 script 标签上加上type=module，否则文件会被认为是脚本而报错。模块和 import/export 的更详细了解可以看这里 预处理import/export 之外的语句可以分为">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-09T23:48:18.710Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="语法">
+<meta name="twitter:description" content="js 语言的整体架构js 包含两种源文件。一种是脚本，另一种是模块。脚本就是普通的.js 文件，模块是 es6 引入的，与脚本只有一个区别，就是可以使用 export/import 语句。使用模块需要在引入的 script 标签上加上type=module，否则文件会被认为是脚本而报错。模块和 import/export 的更详细了解可以看这里 预处理import/export 之外的语句可以分为">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/03/basis/sytax/">
+
+
+
+
+
+  <title>语法 | bai</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/baiyunshenghaishang"><img style="position:absolute;top:0;right:0" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_gray_6d6d6d.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">bai</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/03/basis/sytax/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">语法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-03T07:35:59+08:00">
+                2019-07-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="js-语言的整体架构"><a href="#js-语言的整体架构" class="headerlink" title="js 语言的整体架构"></a>js 语言的整体架构</h3><p>js 包含两种源文件。一种是脚本，另一种是模块。<br>脚本就是普通的.js 文件，模块是 es6 引入的，与脚本只有一个区别，就是可以使用 export/import 语句。<br>使用模块需要在引入的 script 标签上加上<code>type=module</code>，否则文件会被认为是脚本而报错。模块和 import/export 的更详细了解<a href="https://baiyunshenghaishang.github.io/2019/05/22/basis/import_export/" target="_blank" rel="noopener">可以看这里</a></p>
+<h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>import/export 之外的语句可以分为两种，一种是普通语句，另一种是预处理语句。<br>其中预处理语句在执行之前会有预处理过程，这是很多 js 执行结果让人感到奇怪的原因。<br>预处理的执行时间在代码执行之前，准确来讲应该在包含预处理代码的作用域的所有代码执行之前。每次进入一个新的作用域，执行代码之前都会先进行预处理</p>
+<p>js 中会有预处理效果的语句包括</p>
+<ol>
+<li>var</li>
+<li>function 声明</li>
+<li>let/const/class 声明</li>
+</ol>
+<p>var 的预处理效果是在作用域内声明同名变量，但是并不会赋值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">3</span></span><br><span class="line">say()</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a) <span class="comment">// undefined</span></span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码中，say 函数内部的 console.log(a)打印的是 undefined，因为 a 进行了预处理，在刚进入函数 say，执行 var a = 4 之前，a 就已经声明，但是没有赋值</p>
+<p>function 声明的预处理效果是声明和赋值都会提升到作用域顶部，上面的例子中在 say 声明之前就之前了 say()，但不会报错，就是因为 function 声明会提升到作用域顶部。<br>注意：只有函数声明会被提升，函数表达式不会</p>
+<p>let/const/class 的预处理效果是一样的。下面以 let 为例<br>let 会在作用域内，声明之前形成暂时性死区，此时对 let 声明变量的任何访问都会报错，包括 typeof</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">//  3</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a) <span class="comment">// 报错</span></span><br><span class="line">    <span class="keyword">let</span> a = <span class="number">4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="普通语句"><a href="#普通语句" class="headerlink" title="普通语句"></a>普通语句</h3><p>预处理语句之外，普通语句包括以下这些类型</p>
+<ol>
+<li>空语句</li>
+<li>语句块</li>
+<li>表达式语句</li>
+<li>循环语句</li>
+<li>if 语句</li>
+<li>switch/case 语句</li>
+<li>try/catch 语句</li>
+<li>throw 语句</li>
+<li>debugger 御酒</li>
+<li>return 语句</li>
+<li>break 语句</li>
+<li>continue 语句</li>
+<li>with 语句</li>
+</ol>
+<p>其中循环语句和表达式语句比较复杂一点，其它语句没什么好讲的。<br>循环语句包括以下六种</p>
+<ol>
+<li>while</li>
+<li>do/while</li>
+<li>for</li>
+<li>for/in</li>
+<li>for/of</li>
+<li>for/await of</li>
+</ol>
+<p>推荐尽可能使用 for/of 和 for/await of 语法</p>
+<h3 id="表达式语句"><a href="#表达式语句" class="headerlink" title="表达式语句"></a>表达式语句</h3><p>表达式语句本身的分类比较多，也没有太多的必要去记住每一种分类。表达式语句的分类涉及到操作符的优先级，但是其实不建议使用特别复杂的优先级去写代码。用一个()代码会清晰明了很多。<br>因为操作符的优先级可能会出现微调，而且清晰明了的代码对维护者也是比较友好的。写代码的目的毕竟不是为了炫技。<br>实际代码中最有用的操作符优先级应该是<code>&amp;&amp; 》 || 》 ?:</code></p>
+<p>表达式语句从大类上分为两种，左值表达式和条件表达式。左值表达式是可以出现在=左边的表达式，条件表达式是出现在=右边的表达式。左值表达式同时也是右值表达式。因为高优先级的表达式天然都是低优先级的表达式。<br>赋值表达式可以通过<code>,</code>运算符连接成表达式。但是实际上我们很少用逗号运算符，所以赋值表达式基本就是常用表达式的终极形态，也是优先级最低的表达式</p>
+<h5 id="左值表达式"><a href="#左值表达式" class="headerlink" title="左值表达式"></a>左值表达式</h5><p>左值表达式优先级从高到低顺序如下</p>
+<p>PrimaryExpression =&gt; MemberExpression =&gt; NewExpression/CallExpression =&gt; 左值表达式</p>
+<p>PrimaryExpression: 直接量，包含字面量、变量。<br>任何表达式加上()都会变成 PrimaryExpression</p>
+<p>MemberExpression: 成员表达式。<br>例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a.b</span><br><span class="line">a[b]</span><br><span class="line"><span class="keyword">super</span>.b</span><br><span class="line"><span class="keyword">this</span>.a</span><br><span class="line"><span class="keyword">new</span>.target</span><br><span class="line">say<span class="string">`abc`</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p>有两种比较特殊的情况,跟字符串模板的函数和带参数列表的 NEW 表达式也是成员表达式，他们之间语义上并没有什么关联，放到一起只是因为优先级相同。</p>
+<p>NewExpression/CallExpression: new 表达式和函数调用表达式。<br>例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Array</span>()</span><br><span class="line">a()</span><br><span class="line">a().b</span><br></pre></td></tr></table></figure>
+<p>注意，不带参数列表的是 NewExpression，优先级比带参数列表的低。</p>
+<p>可以看到，左值表达式的类型还是比较少的，大类上就只有 NEW 表达式和函数调用表达式两种。</p>
+<h5 id="条件表达式"><a href="#条件表达式" class="headerlink" title="条件表达式"></a>条件表达式</h5><p>左值表达式也是条件表达式。所以左值表达式的优先级都比条件表达式高。<br>条件表达式的优先级从高到低如下<br>左值表达式 =&gt; updateExpression =&gt; unaryExpression/exponentiationExpression =&gt; MultiplicativeExpression =&gt; addtiveExpression<br>=&gt; shiftExpression =&gt; relationExpression =&gt; equalityExpression =&gt; 位运算表达式 =&gt; 逻辑与/或表达式 =&gt; 条件表达式</p>
+<p>updateExpression 更新表达式<br>左值表达式加上自增++/自减–</p>
+<p>unaryExpression 一元表达式<br>更新表达式搭配医院运算符，包括 +、-、typeof、delete、void、await、!、~</p>
+<p>exponentiationExpression 乘方表达式<br>更新表达式搭配乘方运算符</p>
+<p>MultiplicativeExpression 乘法表达式 * / %<br>addtiveExpression 加法表达式 + -<br>这个没什么好说的</p>
+<p>shiftExpression 位移表达式<br>包括 &gt;&gt; &lt;&lt; &gt;&gt;&gt; 不太懂，最好也不要用<br>js 中使用这个并不能提高性能。</p>
+<p>relationExpression 关系表达式<br>位移表达式和 &gt; &gt;= &lt; &lt;= instanceof in 构成关系表达式</p>
+<p>equalityExpression 相等表达式<br>关系表达式和 == != === !== 构成，也没什么好讲的</p>
+<p>位运算表达式<br>按位与、或、异或的表达式，不太了解。感觉也不太用的上</p>
+<p>逻辑与/或表达式<br>位运算表达式和&amp;&amp; || 构成的表达式</p>
+<p>条件表达式<br>逻辑与/或表达式御 ?: 构成的表达式</p>
+<p>条件表达式就是的种类是比较多的，优先级的顺序也比较复杂。但是其实不需要是了解所有表达式的优先级。也不建议使用特别复杂的优先级顺序写代码。使用大家都熟悉、了解的优先级顺序，然后在需要的时候加括号是更好的习惯。毕竟操作符的优先级也是会发生变化的。</p>
+<p>这是<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence" target="_blank" rel="noopener">mdn 关于各种操作符优先级和结合性的表格</a>。不确定操作符的优先级时可以参考。<br>可以看到，操作符的优先级和表达式的优先级其实是一一对应的。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/sytax/" rel="tag"># sytax</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/23/basis/lexical/" rel="next" title="词法">
+                <i class="fa fa-chevron-left"></i> 词法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/04/engineer/eslint/" rel="prev" title="eslint">
+                eslint <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Zhen Huang">
+            
+              <p class="site-author-name" itemprop="name">Zhen Huang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">博客</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#js-语言的整体架构"><span class="nav-number">1.</span> <span class="nav-text">js 语言的整体架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预处理"><span class="nav-number">2.</span> <span class="nav-text">预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#普通语句"><span class="nav-number">3.</span> <span class="nav-text">普通语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表达式语句"><span class="nav-number">4.</span> <span class="nav-text">表达式语句</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#左值表达式"><span class="nav-number">4.0.1.</span> <span class="nav-text">左值表达式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#条件表达式"><span class="nav-number">4.0.2.</span> <span class="nav-text">条件表达式</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhen Huang</span>
+  <div class="powered-by">
+    <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+      本站访客数:<span id="busuanzi_value_site_uv"></span>
+    </span>
+  </div>
+  
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
