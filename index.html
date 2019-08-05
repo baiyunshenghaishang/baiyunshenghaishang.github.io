@@ -239,6 +239,288 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/26/basis/object-classify/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/26/basis/object-classify/" itemprop="url">对象分类</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-26T07:11:20+08:00">
+                2019-07-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="对象分类"><a href="#对象分类" class="headerlink" title="对象分类"></a>对象分类</h3><p>js 中的对象是数据结构中最复杂的一种。对象的类型包括两种</p>
+<ol>
+<li>宿主对象。 由 JavaScript 宿主提供的对象，最常见的是浏览器。如 history。不同的宿主环境中，这些对象不同。</li>
+<li>内置对象。 JavaScript 语言提供的对象。</li>
+</ol>
+<p>其中内置对象又包含三种：</p>
+<ol>
+<li>固有对象。标准规定，随着 JavaScript 运行时而自动创建的对象。如 Array 构造函数</li>
+<li>原生对象。用户通过 Array、RegExp 等内置构造器或特殊语法创建的对象</li>
+<li>普通对象。由{}、Object 或 class 等创建的对象。</li>
+</ol>
+<h3 id="宿主对象"><a href="#宿主对象" class="headerlink" title="宿主对象"></a>宿主对象</h3><p>在浏览器中，最顶层的宿主对象是 window。浏览器中的宿主对象千奇百怪，这里不详细介绍。后续介绍浏览器 API 时会介绍。</p>
+<p>浏览器中还包含用户创建的宿主对象，如通过<code>document.createElement</code>创建的对象。</p>
+<h3 id="内置对象"><a href="#内置对象" class="headerlink" title="内置对象"></a>内置对象</h3><h5 id="固有对象"><a href="#固有对象" class="headerlink" title="固有对象"></a>固有对象</h5><p>固有对象是随着 JavaScript 运行时的创建而创建，在任何 JavaScript 代码执行之前就已经存在。<br>JavaScript 中的所有固有对象可以通过以下代码获取</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [</span><br><span class="line">        <span class="built_in">eval</span>,</span><br><span class="line">        <span class="built_in">isFinite</span>,</span><br><span class="line">        <span class="built_in">isNaN</span>,</span><br><span class="line">        <span class="built_in">parseFloat</span>,</span><br><span class="line">        <span class="built_in">parseInt</span>,</span><br><span class="line">        <span class="built_in">decodeURI</span>,</span><br><span class="line">        <span class="built_in">decodeURIComponent</span>,</span><br><span class="line">        <span class="built_in">encodeURI</span>,</span><br><span class="line">        <span class="built_in">encodeURIComponent</span>,</span><br><span class="line">        <span class="built_in">Array</span>,</span><br><span class="line">        <span class="built_in">Date</span>,</span><br><span class="line">        <span class="built_in">RegExp</span>,</span><br><span class="line">        <span class="built_in">Promise</span>,</span><br><span class="line">        <span class="built_in">Proxy</span>,</span><br><span class="line">        <span class="built_in">Map</span>,</span><br><span class="line">        <span class="built_in">WeakMap</span>,</span><br><span class="line">        <span class="built_in">Set</span>,</span><br><span class="line">        <span class="built_in">WeakSet</span>,</span><br><span class="line">        <span class="built_in">Function</span>,</span><br><span class="line">        <span class="built_in">Boolean</span>,</span><br><span class="line">        <span class="built_in">String</span>,</span><br><span class="line">        <span class="built_in">Number</span>,</span><br><span class="line">        <span class="built_in">Symbol</span>,</span><br><span class="line">        <span class="built_in">Object</span>,</span><br><span class="line">        <span class="built_in">Error</span>,</span><br><span class="line">        <span class="built_in">EvalError</span>,</span><br><span class="line">        <span class="built_in">RangeError</span>,</span><br><span class="line">        <span class="built_in">ReferenceError</span>,</span><br><span class="line">        <span class="built_in">SyntaxError</span>,</span><br><span class="line">        <span class="built_in">TypeError</span>,</span><br><span class="line">        <span class="built_in">URIError</span>,</span><br><span class="line">        <span class="built_in">ArrayBuffer</span>,</span><br><span class="line">        SharedArrayBuffer,</span><br><span class="line">        <span class="built_in">DataView</span>,</span><br><span class="line">        <span class="built_in">Float32Array</span>,</span><br><span class="line">        <span class="built_in">Float64Array</span>,</span><br><span class="line">        <span class="built_in">Int8Array</span>,</span><br><span class="line">        <span class="built_in">Int16Array</span>,</span><br><span class="line">        <span class="built_in">Int32Array</span>,</span><br><span class="line">        <span class="built_in">Uint8Array</span>,</span><br><span class="line">        <span class="built_in">Uint16Array</span>,</span><br><span class="line">        <span class="built_in">Uint32Array</span>,</span><br><span class="line">        <span class="built_in">Uint8ClampedArray</span>,</span><br><span class="line">        Atomics,</span><br><span class="line">        <span class="built_in">JSON</span>,</span><br><span class="line">        <span class="built_in">Math</span>,</span><br><span class="line">        <span class="built_in">Reflect</span></span><br><span class="line">    ],</span><br><span class="line">    set = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> arr) &#123;</span><br><span class="line">    set.add(item)</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">of</span> <span class="built_in">Object</span>.getOwnPropertyNames(item)) &#123;</span><br><span class="line">        <span class="keyword">let</span> descriptor = <span class="built_in">Object</span>.getOwnPropertyDescriptor(item, key)</span><br><span class="line">        <span class="keyword">if</span> (</span><br><span class="line">            (descriptor.value !== <span class="literal">null</span> &amp;&amp; <span class="keyword">typeof</span> descriptor.value === <span class="string">"object"</span>) ||</span><br><span class="line">            <span class="keyword">typeof</span> descriptor.value === <span class="string">"function"</span></span><br><span class="line">        ) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!set.has(descriptor.value)) &#123;</span><br><span class="line">                arr.push(descriptor.value)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (descriptor.get) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!set.has(descriptor.get)) &#123;</span><br><span class="line">                arr.push(descriptor.get)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (descriptor.set) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!set.has(descriptor.set)) &#123;</span><br><span class="line">                arr.push(descriptor.set)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(set)</span><br></pre></td></tr></table></figure>
+<h5 id="原生对象"><a href="#原生对象" class="headerlink" title="原生对象"></a>原生对象</h5><p>原生对象是通过 JavaScript 内置的构造函数或特属于方式创建的对象，往往有着普通对象所没有的功能。比如由 Array 构造函数创建的数组，其 length 属性会随着长度自动变化，这是普通对象所不能模拟的。</p>
+<p>JavaScript 中原生的构造函数包括以下这些</p>
+<p>基本类型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span> <span class="built_in">Number</span> <span class="built_in">Boolean</span> <span class="built_in">Symbol</span> <span class="built_in">Object</span></span><br></pre></td></tr></table></figure>
+<p>数据结构</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span> <span class="built_in">Date</span> <span class="built_in">RegExp</span> <span class="built_in">Promise</span> <span class="built_in">Function</span></span><br><span class="line"><span class="built_in">Proxy</span> <span class="built_in">Map</span> <span class="built_in">Set</span> <span class="built_in">WeakMap</span> <span class="built_in">WeakSet</span></span><br></pre></td></tr></table></figure>
+<p>错误类型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Error</span> <span class="built_in">EvalError</span> <span class="built_in">RangeError</span> <span class="built_in">ReferenceError</span> <span class="built_in">SyntaxError</span> <span class="built_in">TypeError</span> <span class="built_in">URIError</span></span><br></pre></td></tr></table></figure>
+<p>二进制操作</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ArrayBuffer</span> SharedArrayBuffer <span class="built_in">DataView</span></span><br><span class="line"><span class="built_in">Float32Array</span> <span class="built_in">Float64Array</span> <span class="built_in">Int8Array</span> <span class="built_in">Int16Array</span> <span class="built_in">Int32Array</span> UInt8Array UInt16Array UInt32Array UInt8ClampedArray</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/25/engineer/prettier/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/25/engineer/prettier/" itemprop="url">prettier</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-25T19:21:08+08:00">
+                2019-07-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="什么是-prettier"><a href="#什么是-prettier" class="headerlink" title="什么是 prettier"></a>什么是 prettier</h3><p>prettier 是一种代码格式化工具，支持 js、jsx、ts、css 等多种类型的语言</p>
+<h3 id="why-prettier"><a href="#why-prettier" class="headerlink" title="why prettier"></a>why prettier</h3><p>prettier 的作用我认为有两点</p>
+<ol>
+<li>减少书写代码时控制代码格式的烦恼，一键就可以格式化</li>
+<li>多人协作时保证代码格式一致。对于 git 而言这点很重要，否则对公共文件格式化，将会导致文件大范围改动，对合并代码是噩梦</li>
+</ol>
+<p>总结起来其实就一点，保证代码格式的统一。不管是个人代码格式的统一，还是项目代码格式的统一。</p>
+<h3 id="prettier-vs-eslint"><a href="#prettier-vs-eslint" class="headerlink" title="prettier vs eslint"></a>prettier vs eslint</h3><p>eslint 提供了对于代码质量控制的检测，其规则包含两部分，代码格式和代码质量。<br>prettier 只包含了其中代码格式一部分。</p>
+<p>eslint 其实算是 prettier 的超集，那为什么还需要 prettier 呢。</p>
+<ol>
+<li>eslint 的目的是代码质量控制，代码格式是质量控制的一部分，多人协作的项目中，代码格式尤为重要。但是代码格式控制的目的只是为了阅读体验和风格统一，书写代码时并不应该为代码格式费神。eslint 也有 fix 可以修复代码格式问题，但是 eslint 的 fix 并不能保证代码格式的统一，所以使用 prettier 更好。</li>
+<li>prettier 不仅能够格式化 js 文件，还能够格式化 css 等文件，这些是 eslint 所不能处理的</li>
+</ol>
+<h3 id="cli"><a href="#cli" class="headerlink" title="cli"></a>cli</h3><p>prettier 的 cli 主要有两个<br><code>prettier --check [filename...]</code> 检测文件是否已经格式化，filename 的指定可以是文件名也可以是 glob 匹配<br><code>prettier --write [filename...]</code> 格式化文件<br>cli 方式会自动读取 prettier 配置文件</p>
+<h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><p>prettier 的 API 方式调用主要是<code>prettier.format</code>方法，API 方式并不会自动读取配置文件，所以需要查找配置文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以下是读取css文件并格式化写入的代码</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> prettier = <span class="built_in">require</span>(<span class="string">'prettier'</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="keyword">const</span> util = <span class="built_in">require</span>(<span class="string">'util'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> filePath = <span class="string">'./test.css'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getPrettierStr</span>(<span class="params">filePath</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> fileStr = <span class="keyword">await</span> util.promisify(fs.readFile)(filePath, <span class="string">'utf-8'</span>)</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> prettier.getFileInfo(filePath)</span><br><span class="line">  <span class="keyword">const</span> parser = data.ignored ? <span class="literal">null</span> : data.inferredParser</span><br><span class="line">  <span class="keyword">if</span> (!parser) <span class="keyword">return</span> fileStr</span><br><span class="line">  <span class="keyword">const</span> config = <span class="keyword">await</span> prettier.resolveConfig(filePath)</span><br><span class="line">  <span class="keyword">const</span> formattedStr = <span class="keyword">await</span> prettier.format(fileStr, &#123; ...config, parser &#125;)</span><br><span class="line">  <span class="keyword">return</span> formattedStr</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">getPrettierStr(filePath).then(<span class="function"><span class="params">formattedStr</span> =&gt;</span> &#123;</span><br><span class="line">  fs.writeFile(filePath, formattedStr)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="prettier配置"><a href="#prettier配置" class="headerlink" title="prettier配置"></a>prettier配置</h3><p>prettier的配置项并不多，而且也不建议使用太复杂的配置，我常用的配置如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .prettierrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    semi: <span class="literal">false</span>,</span><br><span class="line">    singleQuote: <span class="literal">true</span>,</span><br><span class="line">    endOfLine: <span class="string">'lf'</span>,</span><br><span class="line">    trailingComma: <span class="string">'none'</span>,</span><br><span class="line">    bracketSpacing: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>还可以通过发布npm导出配置文件，这样可以直接引入配置文件。 <a href="https://www.npmjs.com/package/@baixiaogou/prettier-config" target="_blank" rel="noopener">@baixiaogou/prettier-config</a></p>
+<h3 id="与eslint结合"><a href="#与eslint结合" class="headerlink" title="与eslint结合"></a>与eslint结合</h3><p>未完待续<br>与eslint结合的思路原来考虑是使用eslint-config-prettier和eslint-plugin-prettier，然后eslint增加<code>prettier/prettier</code>规则，但是这样只能校验js<br>所以正确的思路应该是禁用eslint的格式化规则，格式化全部使用prettier，提交时自动格式化（这一步是不是还需要lint-stage），<br>补充与eslint的结合，如何禁用eslint的格式化规则，以及未格式化时报错<br>这个方案不太好，最终方案等lint-stage和eslint再看之后再写综合篇</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/04/engineer/eslint/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -311,7 +593,7 @@
         
           
             <p>eslint 简介</p>
-<h3 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h3><p>eslint 是 2013 年由 Nicholas C. Zakas 发起的开源项目。目标是提供一个插件化的代码检测工具。</p>
+<h3 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h3><p>eslint 是 2013 年由 Nicholas C. Zakas 发起的开源项目。目标是提供一个插件化的<b>JavaScript</b>代码检测工具。</p>
 <p>eslint 的目的，个人认为是代码的质量控制。插件化是其实现方式。</p>
 <p>代码的质量控制其实是一个比较大的话题，从更高的层面来看，组件化也是一种很重要的方式。<br>eslint 不能保证写出好的代码，但是 eslint 可以检测一些低级错误，比如使用未声明的变量、变量声明但是没有使用。</p>
 <h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>esint 的配置项种类不多，大致包括以下几种</p>
@@ -1594,274 +1876,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/25/basis/iterator/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/25/basis/iterator/" itemprop="url">迭代器</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-25T20:29:15+08:00">
-                2019-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>[TOC]</p>
-<h3 id="什么是迭代器"><a href="#什么是迭代器" class="headerlink" title="什么是迭代器"></a>什么是迭代器</h3><p>在 js 中，遍历数组的一种常用方式是通过<code>index</code>，</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    arr[i]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这也是 es6 之前遍历类数组结构的常用方法。<br>es6 中引入了两种新的数据结构，<code>Set</code>和<code>Map</code>。对于<code>Set</code>和<code>Map</code>，不能通过下标访问元素，所以遍历 Set 和 Map 需要一种新的方法，最好这种方法还能够和类数组结构兼容。<br>所以 es6 定义了一种新的遍历方式<code>for...of</code>。而<code>for...of</code>的遍历正是通过迭代器来实现。</p>
-<p><strong>迭代器是一个普通对象</strong>，必须包含<code>next</code>方法，可以包含<code>return/throw</code>方法。<br>执行迭代器的<code>next</code>方法返回一个对象，包含两个属性<code>value、done</code>，其中<code>value</code>表示值,<code>done</code>表示遍历是否结束。<br>在遍历结束之前，<code>done</code>都会返回<code>false</code>。<code>done</code>返回<code>true</code>则代表遍历结束。</p>
-<p>下面是一个简单的迭代器示例。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line"><span class="keyword">let</span> iteratorExmaple = &#123;</span><br><span class="line">    next() &#123;</span><br><span class="line">        <span class="keyword">if</span> (i++ &lt;= 5) &#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                value: i,</span><br><span class="line">                done: false</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return &#123;</span><br><span class="line">            value: i,</span><br><span class="line">            done: true</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在循环<code>for(let item of arr)</code>中，<code>for...of</code>循环会调用 arr 迭代器的<code>next</code>方法，把<code>value</code>的值赋给<code>item</code>，直到<code>next</code>方法返回的对象<code>done</code>为 true。(arr 的迭代器从何而来，后面会讲到)<br>注意：<strong>done 为 true 时的 value 值不会包含在 for…of 循环中</strong></p>
-<h3 id="可迭代对象"><a href="#可迭代对象" class="headerlink" title="可迭代对象"></a>可迭代对象</h3><p>js 中有很多类型都是可迭代对象，包括数组、类数组结构如 NodeList,arguments、字符串、Set、Map。<br>普通对象不是。</p>
-<p>迭代器也不是，迭代器不能被<code>for...of</code>循环遍历。</p>
-<p>一个对象是不是可迭代对象取决于对象是不是包含<code>Symbol.iterator</code>方法。<code>Symbol.iterator</code>方法需要返回一个迭代器，<code>for...of</code>遍历基于这个迭代器循环遍历。<br>所以可以通过以下方式让一个普通对象也可以<code>for...of</code>遍历</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.iterator]() &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            i: <span class="number">0</span>,</span><br><span class="line">            next() &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">this</span>.i++ &lt; 5) &#123;</span><br><span class="line">                    return &#123;</span><br><span class="line">                        value: this.i,</span><br><span class="line">                        done: false</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                return &#123;</span><br><span class="line">                    done: true</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">for (let item of obj) &#123;</span><br><span class="line">    console.log(item) // 1 2 3 4 5</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>内建的可迭代对象默认拥有<code>Symbol.iterator</code>属性，一般都位于对象的原型上，所以都可以通过<code>for...of</code>遍历。</p>
-<p>诸如<code>Set.keys()</code>方法返回的是迭代器，但是其可以被<code>for...of</code>遍历不是因为是迭代器，而是这个迭代器包含<code>Symbol.iterator</code>属性。</p>
-<p>重要的事情说三遍:<br><strong>迭代器不是可迭代对象，不能被<code>for...of</code>循环遍历</strong></p>
-<h3 id="使用迭代器的其它场合"><a href="#使用迭代器的其它场合" class="headerlink" title="使用迭代器的其它场合"></a>使用迭代器的其它场合</h3><p>虽然上面的例子中一直以<code>for...of</code>为迭代器的使用例子，但是还有一些其它情况也会调用迭代器接口</p>
-<ol>
-<li>展开运算符 <code>...</code></li>
-<li>yield * 。生成器的内部方法，具体参考生成器。</li>
-<li>Array.from()</li>
-</ol>
-<p>还有一些其它场合，基本上 es6 之后新的遍历都会使用迭代器</p>
-<h3 id="内建迭代器"><a href="#内建迭代器" class="headerlink" title="内建迭代器"></a>内建迭代器</h3><p>js 中,Array、Set、Map 都包含有内建的迭代器 entries(),values(),keys()</p>
-<p>其中 keys 返回键的迭代器，但是仍然可以被 for…of 遍历，因为 keys 返回的也是一个可迭代对象。values()和 entries()也类似<br>values()返回值的迭代器<br>entries()返回键值对数组的迭代器</p>
-<h3 id="迭代器的高级用法"><a href="#迭代器的高级用法" class="headerlink" title="迭代器的高级用法"></a>迭代器的高级用法</h3><p>迭代器的高级用法，如迭代器的 throw 方法，迭代器 next 方法传参，几乎都与生成器相关。所以放在生成器中一起讲。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/basis/type-cast/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/19/basis/type-cast/" itemprop="url">类型转换</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-19T20:57:14+08:00">
-                2019-03-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="显示转换"><a href="#显示转换" class="headerlink" title="显示转换"></a>显示转换</h3><p>Number Boolean String Object</p>
-<h3 id="隐式转换"><a href="#隐式转换" class="headerlink" title="隐式转换"></a>隐式转换</h3><h3 id="装箱转换-拆箱转换"><a href="#装箱转换-拆箱转换" class="headerlink" title="装箱转换/拆箱转换"></a>装箱转换/拆箱转换</h3><h3 id="抽象转换-ToNumber-ToString-ToPrimitive-ToBoolean"><a href="#抽象转换-ToNumber-ToString-ToPrimitive-ToBoolean" class="headerlink" title="抽象转换 ToNumber ToString ToPrimitive ToBoolean"></a>抽象转换 ToNumber ToString ToPrimitive ToBoolean</h3><p><code>ToNumber ToString</code> 只是 <code>ToPrimitive</code>的一种情况<br><code>ToBoolean</code> 不属于其中，有一套独立的规则<br><code>ToPrimitive</code>可以理解为就是<code>Symbol.toPrimitive</code>函数的结果</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.toPrimitive](hint) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (hint) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'default'</span>:</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'default'</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'string'</span>:</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'string'</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'number'</span>:</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'number'</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">3</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="built_in">console</span>.log(hint)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">4</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    toString() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'toString'</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">5</span></span><br><span class="line">    &#125;,</span><br><span class="line">    valueOf() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'valueOf'</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">6</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">Number</span>(obj) <span class="comment">// 3</span></span><br><span class="line">    <span class="built_in">String</span>(obj) <span class="comment">// 2</span></span><br><span class="line">    obj + <span class="number">1</span> <span class="comment">// 1+1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>Symbol.toPrimitive</code>传入的<code>hint</code>只有<code>string/number/default</code>三种情况，<code>default</code>只是为了代码完备。<br><code>Symbol.toPrimitive</code>的返回结果就是<code>Number(obj)</code>等的返回结果,如果返回的不是<code>hint</code>的基本类型，会强制转换为<code>hint</code>类型(可能会失败，如<code>Symbol</code>转数字)，如果返回的是对象，会抛出错误。<br><code>toString</code>和<code>valueOf</code>方法不会执行。</p>
-<p>默认<code>Symbol.toPrimitive</code>情况下，根据不同的<code>hint</code>,会先后调用<code>valueOf</code>和<code>toString</code>，只要有一个返回基本类型，就会将该基本类型强制转换为<code>hint</code>类型，如果两者都返回对象，报错。至于调用的先后顺序，<code>string</code>是<code>toString-valueOf</code>，<code>number</code>相反，<code>default</code>在<code>Date</code>对象中是<code>toString</code>优先，其它是<code>valueOf</code>。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1914,7 +1928,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -1927,7 +1941,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
