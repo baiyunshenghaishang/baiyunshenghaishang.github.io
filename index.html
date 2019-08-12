@@ -239,6 +239,177 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/basis/proto/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/12/basis/proto/" itemprop="url">面向对象、原型、原型链、prototype</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-12T11:26:28+08:00">
+                2019-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h3><p>初学 JS 的人可能会有疑惑，JS 到底是不是一门面向对象语言。如果是，为什么 JS 的什么原型好像与其它面向对象语言，如 Java、C++相去甚远。如果说不是，JS 标准中又明确提到了 JS 是一门面向对象语言.</p>
+<blockquote>
+<p>ECMAScript is an object-oriented programming language for performing computations and manipulating computational objects within a host environment.</p>
+</blockquote>
+<p>那么先回到最原始的问题，什么是面向对象</p>
+<h5 id="什么是面向对象"><a href="#什么是面向对象" class="headerlink" title="什么是面向对象"></a>什么是面向对象</h5><p>对象一词在英文中是<code>object</code>，指代一切事物。但是由于翻译的原因，中文中很难体现出这层意思。</p>
+<p>对象的灵感来源于生活，面向对象也是。比如，在生活中，我们看到一只猫，只会想到一只猫。但是我们见识到各种各样的猫之后，逐渐会认识到猫这个类型。你会发现，这和面向对象中的类型和实例非常相似。</p>
+<p>那如何定义面向对象呢，Grady Booch 在《面向对象程序与设计》一书中对面向对象的定义中描述了三个基本特征</p>
+<ol>
+<li>对象具有唯一标识性</li>
+<li>对象具有状态</li>
+<li>对象具有行为</li>
+</ol>
+<p>现有的面向对象语言中，对象的区分一般使用内存地址，从而做到即使看上去完全一样的对象，实际上也是不相等的，JS 也是如此。<br>而对象具有状态和行为，在 JS 中对应普通属性和函数类型的属性，在其它面向对象语言中的叫法则各不相同，例如 Java 中好像叫属性和方法。</p>
+<p>以此看来，JS 完全是正统的面向对象语言，那么为什么我们会觉得 JS 和其它流行的面向对象语言差别很大呢。<br>这就在于 JS 的面向对象和其它面向对象语言的不同之处</p>
+<h3 id="JS-的面向对象实现"><a href="#JS-的面向对象实现" class="headerlink" title="JS 的面向对象实现"></a>JS 的面向对象实现</h3><p>JS 的对象的特殊之处有两点</p>
+<ol>
+<li>JS 的对象的属性具有动态性。</li>
+<li>JS 的使用原型链而不是 class 来实现面向对象的继承</li>
+</ol>
+<p>在 Java 等语言中，总是先有类型后有对象，对象创建之后，其拥有的属性数量是不可变的。<br>JS 不同，JS 中对象创建之后可以随便增加和删除属性。</p>
+<h5 id="原型、原型链"><a href="#原型、原型链" class="headerlink" title="原型、原型链"></a>原型、原型链</h5><p>JS 中的原型其实非常简单，两句话就可以讲清楚</p>
+<ol>
+<li>每个对象都有<code>[[Prototype]]</code>属性</li>
+<li>在对象上找不到的属性，会沿着<code>[[Prototype]]</code>继续寻找</li>
+</ol>
+<p>而每个对象的原型本身也是也是一个对象，也会有<code>[[Prototype]]</code>属性，这就形成了原型的链条，即原型链</p>
+<p>注意<code>[[Prototype]]</code>是对象的内置属性，不是函数的<code>prototype</code>属性，正常情况下是无法在浏览器中查看该属性的，有些浏览器会以属性名<code>__proto__</code>暴露这个内置属性</p>
+<p>这两点从 JS 创建以来几乎就没有变过，唯一不太确认的地方是<code>Object.create(null)</code>创建的对象是否有<code>[[Prototype]]</code>属性，估计可能也有，只不过是 null</p>
+<p>在 Java 等语言中，继承是方式是通过 class 继承。而在 JS 中，以一个对象为原型创建新的对象就可以实现对某个对象的继承</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> parent = &#123;</span><br><span class="line">    name: <span class="string">"爸爸"</span>,</span><br><span class="line">    say() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`我是你<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> son = <span class="built_in">Object</span>.create(parent)</span><br><span class="line">son.name = <span class="string">"儿子"</span></span><br><span class="line">son.say() <span class="comment">// 我是你儿子</span></span><br></pre></td></tr></table></figure>
+<p>如上所示，JS 中的继承是通过原型和原型链实现，继承一个对象只需要以原有对象为原型创建一个新对象即可</p>
+<p>讲到这儿，似乎 JS 的面向对象就讲完了。但是我们讲到 JS 的面向对象和继承，总是会讲到<code>prototype、new、class</code>等，那这些在 JS 的面向对象中又是什么关系呢</p>
+<h3 id="prototype、class"><a href="#prototype、class" class="headerlink" title="prototype、class"></a>prototype、class</h3><p>在前面的面向对象中讲到了面向对象的三个基本特征，但是面向对象并没有规定应该如何实现。</p>
+<p>很明显，现如今最流行最成功的方式是通过类的方式来实现面向对象。即先创建类型<code>class</code>，然后通过<code>new class</code>的方式来创建对象。</p>
+<p>现在流行的面向对象语言，Java/C++都是这种方式，这也导致我们经常认为，这就是面向对象的基本特征之一。而这其实仅仅只是面向对象的实现方式之一。</p>
+<p>除此之外，还有其他实现面向对象的方式。比如 JS 采用的原型链方式，也是一种不错的实现面向对象的方式。</p>
+<p><code>prototype、new、class</code>是 JS 用来模拟类的方式实现面向对象的方法。</p>
+<h5 id="prototype"><a href="#prototype" class="headerlink" title="prototype"></a>prototype</h5><p>为了模拟 Java 中的 class 的类属性和方法，JS 给函数增加了<code>prototype</code><br>为了模拟 class 的 new 操作，JS 给函数增加了<code>[[Constructor]]</code>方法</p>
+<p>使用<code>new function</code>的方式可以创建一个新的对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = <span class="string">"爸爸"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Parent()</span><br><span class="line"><span class="built_in">console</span>.log(p.name) <span class="comment">// 爸爸</span></span><br></pre></td></tr></table></figure>
+<p>对于当做构造函数使用的函数，我们经常将首字母大写，但这只是一种约定，并没有任何运行上的区别。</p>
+<p><code>new</code>操作实际上包含三步</p>
+<ol>
+<li>以当前函数的<code>prototype</code>属性为原型创建对象</li>
+<li>以上一步创建的对象为<code>this</code>执行当前函数的<code>[[Contructor]]</code>方法</li>
+<li>如果上一步的<code>[[Constructor]]</code>方法返回一个对象，返回改对象，否则返回第一步创建的对象</li>
+</ol>
+<p>JS 通过函数的<code>prototype</code>属性和<code>[[Constructor]]</code>模拟了 class 方式面向对象的构造函数和<code>new</code>操作，但是对于继承，直到<code>es6</code>之前，都没有官方的模拟方式</p>
+<h5 id="class"><a href="#class" class="headerlink" title="class"></a>class</h5><p>在 es6 之前，class 一直都只是一个内部属性，唯一访问的方式是通过<code>Object.prototype.toString</code>访问。<br>这也是通过<code>Object.prototype.toString</code>能判断对象类型的原因</p>
+<p>在 es6 中，JS 引入了原生的 class 实现，虽然也是使用原型来模拟，但是封装了很多容易出现的错误，而且语言加入了内置的<code>extends</code>关键字支持</p>
+<p>关于 class 的具体细节，已经另外写了<a href="https://baiyunshenghaishang.github.io/2019/05/05/basis/class/" target="_blank" rel="noopener">一篇博客</a>，这里就不赘述了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/26/basis/object-classify/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -469,10 +640,18 @@
 </ol>
 <h3 id="cli"><a href="#cli" class="headerlink" title="cli"></a>cli</h3><p>prettier 的 cli 主要有两个<br><code>prettier --check [filename...]</code> 检测文件是否已经格式化，filename 的指定可以是文件名也可以是 glob 匹配<br><code>prettier --write [filename...]</code> 格式化文件<br>cli 方式会自动读取 prettier 配置文件</p>
 <h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><p>prettier 的 API 方式调用主要是<code>prettier.format</code>方法，API 方式并不会自动读取配置文件，所以需要查找配置文件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以下是读取css文件并格式化写入的代码</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> prettier = <span class="built_in">require</span>(<span class="string">'prettier'</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="keyword">const</span> util = <span class="built_in">require</span>(<span class="string">'util'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> filePath = <span class="string">'./test.css'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getPrettierStr</span>(<span class="params">filePath</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> fileStr = <span class="keyword">await</span> util.promisify(fs.readFile)(filePath, <span class="string">'utf-8'</span>)</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> prettier.getFileInfo(filePath)</span><br><span class="line">  <span class="keyword">const</span> parser = data.ignored ? <span class="literal">null</span> : data.inferredParser</span><br><span class="line">  <span class="keyword">if</span> (!parser) <span class="keyword">return</span> fileStr</span><br><span class="line">  <span class="keyword">const</span> config = <span class="keyword">await</span> prettier.resolveConfig(filePath)</span><br><span class="line">  <span class="keyword">const</span> formattedStr = <span class="keyword">await</span> prettier.format(fileStr, &#123; ...config, parser &#125;)</span><br><span class="line">  <span class="keyword">return</span> formattedStr</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">getPrettierStr(filePath).then(<span class="function"><span class="params">formattedStr</span> =&gt;</span> &#123;</span><br><span class="line">  fs.writeFile(filePath, formattedStr)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h3 id="prettier配置"><a href="#prettier配置" class="headerlink" title="prettier配置"></a>prettier配置</h3><p>prettier的配置项并不多，而且也不建议使用太复杂的配置，我常用的配置如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .prettierrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    semi: <span class="literal">false</span>,</span><br><span class="line">    singleQuote: <span class="literal">true</span>,</span><br><span class="line">    endOfLine: <span class="string">'lf'</span>,</span><br><span class="line">    trailingComma: <span class="string">'none'</span>,</span><br><span class="line">    bracketSpacing: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>还可以通过发布npm导出配置文件，这样可以直接引入配置文件。 <a href="https://www.npmjs.com/package/@baixiaogou/prettier-config" target="_blank" rel="noopener">@baixiaogou/prettier-config</a></p>
-<h3 id="与eslint结合"><a href="#与eslint结合" class="headerlink" title="与eslint结合"></a>与eslint结合</h3><p>未完待续<br>与eslint结合的思路原来考虑是使用eslint-config-prettier和eslint-plugin-prettier，然后eslint增加<code>prettier/prettier</code>规则，但是这样只能校验js<br>所以正确的思路应该是禁用eslint的格式化规则，格式化全部使用prettier，提交时自动格式化（这一步是不是还需要lint-stage），<br>补充与eslint的结合，如何禁用eslint的格式化规则，以及未格式化时报错<br>这个方案不太好，最终方案等lint-stage和eslint再看之后再写综合篇</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以下是读取css文件并格式化写入的代码</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> prettier = <span class="built_in">require</span>(<span class="string">"prettier"</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">"fs"</span>)</span><br><span class="line"><span class="keyword">const</span> util = <span class="built_in">require</span>(<span class="string">"util"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> filePath = <span class="string">"./test.css"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getPrettierStr</span>(<span class="params">filePath</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> fileStr = <span class="keyword">await</span> util.promisify(fs.readFile)(filePath, <span class="string">"utf-8"</span>)</span><br><span class="line">    <span class="keyword">const</span> data = <span class="keyword">await</span> prettier.getFileInfo(filePath)</span><br><span class="line">    <span class="keyword">const</span> parser = data.ignored ? <span class="literal">null</span> : data.inferredParser</span><br><span class="line">    <span class="keyword">if</span> (!parser) <span class="keyword">return</span> fileStr</span><br><span class="line">    <span class="keyword">const</span> config = <span class="keyword">await</span> prettier.resolveConfig(filePath)</span><br><span class="line">    <span class="keyword">const</span> formattedStr = <span class="keyword">await</span> prettier.format(fileStr, &#123; ...config, parser &#125;)</span><br><span class="line">    <span class="keyword">return</span> formattedStr</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">getPrettierStr(filePath).then(<span class="function"><span class="params">formattedStr</span> =&gt;</span> &#123;</span><br><span class="line">    fs.writeFile(filePath, formattedStr)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="prettier-配置"><a href="#prettier-配置" class="headerlink" title="prettier 配置"></a>prettier 配置</h3><p>prettier 的配置项并不多，而且也不建议使用太复杂的配置，我常用的配置如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .prettierrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    semi: <span class="literal">false</span>,</span><br><span class="line">    singleQuote: <span class="literal">true</span>,</span><br><span class="line">    endOfLine: <span class="string">"lf"</span>,</span><br><span class="line">    trailingComma: <span class="string">"none"</span>,</span><br><span class="line">    bracketSpacing: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还可以通过发布 npm 导出配置文件，这样可以直接引入配置文件。 <a href="https://www.npmjs.com/package/@baixiaogou/prettier-config" target="_blank" rel="noopener">@baixiaogou/prettier-config</a></p>
+<p>使用方式如下:<br>在<code>package.json</code>中</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"prettier"</span>: <span class="string">"@baixiogou/prettier-config"</span></span><br></pre></td></tr></table></figure>
+<p>或者<br>使用<code>prettier</code>配置文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .pretterrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    ...require(<span class="string">"@baixiaogou/prettier-config"</span>)</span><br><span class="line">    <span class="comment">// 额外的覆盖配置</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="与-eslint-结合"><a href="#与-eslint-结合" class="headerlink" title="与 eslint 结合"></a>与 eslint 结合</h3><p>与 eslint 结合使用的思路是禁用 eslint 的格式化校验规则，然后开启 prettier 的规则校验</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .eslintrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  ...</span><br><span class="line">  plugins: [<span class="string">'prettier'</span>],</span><br><span class="line">  extends: [<span class="string">'eslint:recommended'</span>, <span class="string">'prettier'</span>],</span><br><span class="line">  rules: &#123;</span><br><span class="line">    <span class="string">'prettier/prettier'</span>: <span class="number">2</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>eslint-plugin-prettier</code>增加<code>prettier/prettier</code>校验规则<br><code>eslint-config-prettier</code>去掉 eslint 中关于格式的校验，所以最好防砸爱 extends 的最后防止被覆盖</p>
+<p>这种方案只能用于 js 的校验和格式化。</p>
 
           
         
@@ -597,10 +776,12 @@
 <p>eslint 的目的，个人认为是代码的质量控制。插件化是其实现方式。</p>
 <p>代码的质量控制其实是一个比较大的话题，从更高的层面来看，组件化也是一种很重要的方式。<br>eslint 不能保证写出好的代码，但是 eslint 可以检测一些低级错误，比如使用未声明的变量、变量声明但是没有使用。</p>
 <h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>esint 的配置项种类不多，大致包括以下几种</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    root: <span class="literal">true</span>, <span class="comment">// 标识eslint配置文件检测到此为止,不再往父目录查找</span></span><br><span class="line">    parserOption: &#123;</span><br><span class="line">        ecmaVersion: <span class="number">6</span>, <span class="comment">// 指定可用的ecma版本,</span></span><br><span class="line">        sourceType: <span class="string">'module'</span> <span class="comment">// 指定可用的文件类型，脚本还是模块</span></span><br><span class="line">    &#125;,</span><br><span class="line">    extends: [<span class="string">'eslint:recommended'</span>], <span class="comment">// 用于指定一组初始的规则，可以省略 eslint-config 前缀，必须是安装好的npm包</span></span><br><span class="line">    plugins: [<span class="string">'exmaple'</span>], <span class="comment">// 定义自定义的规则，可以省略eslint-plugin前缀，必须是安装好的npm包</span></span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="comment">// 最主要的的配置项，用于指定规则的开启/关闭，以及错误等级</span></span><br><span class="line">        quotes: [<span class="string">'error'</span>, <span class="string">'double'</span>],</span><br><span class="line">        eqeqeq: [<span class="string">'off'</span>],</span><br><span class="line">        curly: [<span class="string">'warn'</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    env: &#123;</span><br><span class="line">        <span class="comment">// 指定环境，应该是某些全局变量使用不会被eslint报错</span></span><br><span class="line">        browser: <span class="literal">true</span>,</span><br><span class="line">        node: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    globals: &#123;</span><br><span class="line">        <span class="comment">// 指定额外的全局变量，false表示不能修改，true表示可以修改</span></span><br><span class="line">        _app_config: <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>eslint 最主要的的配置项是 rules,一般是先找一个喜欢风格的规则包继承，然后对需要修改的规则在 rules 中单独定义覆盖。<br>eslint 的全部规则在可以<a href="https://cn.eslint.org/docs/rules/" target="_blank" rel="noopener">在此查看</a></p>
-<p>如果想要使用额外的规则，需要使用 plugins 自行创建</p>
-<p>eslint 的配置本身没有太多需要深究的地方，找一个流行的 config 继承，然后额外配置自己的规则就好。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    root: <span class="literal">true</span>, <span class="comment">// 标识eslint配置文件检测到此为止,不再往父目录查找</span></span><br><span class="line">    parserOption: &#123;</span><br><span class="line">        ecmaVersion: <span class="number">6</span>, <span class="comment">// 指定可用的ecma版本,</span></span><br><span class="line">        sourceType: <span class="string">"module"</span> <span class="comment">// 指定可用的文件类型，脚本还是模块</span></span><br><span class="line">    &#125;,</span><br><span class="line">    extends: [<span class="string">"eslint:recommended"</span>], <span class="comment">// 用于指定一组初始的规则，可以省略 eslint-config 前缀，必须是安装好的npm包</span></span><br><span class="line">    plugins: [<span class="string">"exmaple"</span>], <span class="comment">// 定义自定义的规则，可以省略eslint-plugin前缀，必须是安装好的npm包</span></span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="comment">// 最主要的的配置项，用于指定规则的开启/关闭，以及错误等级</span></span><br><span class="line">        quotes: [<span class="string">"error"</span>, <span class="string">"double"</span>],</span><br><span class="line">        eqeqeq: [<span class="string">"off"</span>],</span><br><span class="line">        curly: [<span class="string">"warn"</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    env: &#123;</span><br><span class="line">        <span class="comment">// 指定环境，应该是某些全局变量使用不会被eslint报错</span></span><br><span class="line">        browser: <span class="literal">true</span>,</span><br><span class="line">        node: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    globals: &#123;</span><br><span class="line">        <span class="comment">// 指定额外的全局变量，false表示不能修改，true表示可以修改</span></span><br><span class="line">        _app_config: <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完整的配置项查看<a href="https://cn.eslint.org/docs/user-guide/configuring" target="_blank" rel="noopener">eslint 配置(官方)</a></p>
+<p>eslint 配置主要是通过添加<code>plugin</code>增加额外的配置规则，通过<code>extends</code>添加默认的规则，然后通过<code>rules</code>增加或覆盖特殊的配置</p>
+<p>eslint 默认全部规则在可以<a href="https://cn.eslint.org/docs/rules/" target="_blank" rel="noopener">在此查看</a></p>
+<p>但是可以通过插件增加其他规则。如<code>eslint-plugin-import</code>增加导入/导出规则校验</p>
+<p>除此之外，配置没有太多需要细究的地方</p>
 <h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>学习 eslint 的目的一个是项目中用到了，了解一下其整体情况。<br>更重要是是想梳理下代码质量控制的整套流程。<br>eslint 问题检测，lint-stage 禁止提交可以保证提交的代码质量有基础的保证<br>再加上提交代码 prettier 自动格式化，这样即使多人合作，代码的风格和质量也可以得到基本保证。更不会出现多人合作时互相提交的代码因为格式化大量冲突。</p>
 
           
@@ -1687,195 +1868,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/basis/generator/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/28/basis/generator/" itemprop="url">生成器</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T19:52:57+08:00">
-                2019-03-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>[TOC]</p>
-<h3 id="什么是生成器"><a href="#什么是生成器" class="headerlink" title="什么是生成器"></a>什么是生成器</h3><p>生成器是一个返回迭代器的函数。<br>不同于普通的函数，生成器在声明语法和执行上都差异极大。</p>
-<p>以下是一个生成器的例子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">say</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> x <span class="comment">// yield是生成器内的特殊语法，只能在生成器内出现</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>有一点需要注意，生成器返回的不仅仅是一个迭代器，也是一个可迭代对象，所以生成器的返回值可以直接使用<code>for...of</code>遍历</p>
-<h5 id="生成器的声明"><a href="#生成器的声明" class="headerlink" title="生成器的声明"></a>生成器的声明</h5><p>不同于普通的函数生成，生成器的声明需要在<code>function</code>关键字和函数名之间加上<code>*</code>。</p>
-<p>对于*、function 和函数名之间的位置关系，以下三种都可以</p>
-<ol>
-<li><code>function* say</code></li>
-<li><code>function * say</code></li>
-<li><code>function *say</code></li>
-</ol>
-<p>对于没有<code>function</code>关键字的方法声明，<code>*</code>号放在方法名之前即可。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    *say() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="生成器的执行"><a href="#生成器的执行" class="headerlink" title="生成器的执行"></a>生成器的执行</h5><p>作为函数，生成器也有返回值。不同于普通的函数，生成的返回值是一个可以调度生成器执行的迭代器。</p>
-<p>以以下生成器为例</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">say</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">3</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> gen = say()</span><br><span class="line">gen.next() <span class="comment">// 执行 yield 1</span></span><br><span class="line"><span class="comment">// gen.next()返回值 &#123;value:1,done:false&#125;</span></span><br><span class="line">gen.next() <span class="comment">// 执行 console.log(2) yield 2</span></span><br><span class="line"><span class="comment">// &#123;value:2,done:false&#125;</span></span><br><span class="line">gen.next() <span class="comment">// 执行 yield 3</span></span><br><span class="line"><span class="comment">// &#123;value:3,done:false&#125;</span></span><br><span class="line">gen.next()</span><br><span class="line"><span class="comment">// &#123;value:undefined,done:true&#125;</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>生成器 say 执行后并不立即执行函数内部代码，而是返回一个迭代器，通过执行迭代器的 next 方法，可以让生成器继续执行。</li>
-<li>每次调用迭代器的 next 方法，生成器会从上次暂停的地方开始执行，直到碰到下一个 yield 语句，或者函数结束。</li>
-<li>如果碰到 yield 语句，生成器将 yield 后的值作为迭代器的 value 返回，然后函数暂停，等待下一次 next 方法调用。</li>
-<li>如果函数结束(执行到最后一行或者碰到 return),将 return 的值作为 value 返回，此时 done 为 true</li>
-</ol>
-<h3 id="next-throw-return"><a href="#next-throw-return" class="headerlink" title="next/throw/return"></a>next/throw/return</h3><p>在迭代器中讲到过，迭代器必须有 next 方法，对于生成器返回的迭代器，除了 next 方法之外，还有 throw 和 return 方法</p>
-<h5 id="next"><a href="#next" class="headerlink" title="next"></a>next</h5><p>生成器中 yield 表达式本身是没有值的，或者说值都是 undefined,可以通过跟 next 方法传值给 yield 表达式赋值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">NextValue</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> x</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> gen = NextValue()</span><br><span class="line">gen.next()</span><br><span class="line"><span class="comment">// &#123;value:1,done:false&#125;</span></span><br><span class="line">gen.next(<span class="number">8</span>)</span><br><span class="line"><span class="comment">// &#123;value:8,done:false&#125;</span></span><br></pre></td></tr></table></figure>
-<p>如上，第一次执行 next 返回 1<br>第二次执行 next 方法传入 8，8 会被赋值给 x,所以第二次 next 返回 8</p>
-<p>next 的传值对于生成器十分重要，这意味着在生成器执行过程中，仍然可以通过给生成器传递不同值从而得到不同的结果</p>
-<h5 id="throw"><a href="#throw" class="headerlink" title="throw"></a>throw</h5><p>通过 throw 方法可以在生成器内抛出一个错误，如果生成器内部没有捕获错误，错误会冒泡到生成器之外。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">ErrorGenerator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> x</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> gen = ErrorGenerator()</span><br><span class="line">gen.throw(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'出错啦'</span>))</span><br><span class="line"><span class="comment">//  Uncaught Error: 出错啦</span></span><br></pre></td></tr></table></figure>
-<h5 id="return"><a href="#return" class="headerlink" title="return"></a>return</h5><p>调用迭代器的 return 方法后，生成器会直接结束，返回的 value 为 return 的传入值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">ReturnGenerator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> x</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> gen = ReturnGenerator()</span><br><span class="line">gen.return(<span class="number">3</span>)</span><br><span class="line"><span class="comment">// &#123;value:3,done:true&#125;</span></span><br><span class="line">gen.next(<span class="number">9</span>)</span><br><span class="line"><span class="comment">// &#123;value:undefined,done:true&#125;</span></span><br></pre></td></tr></table></figure>
-<h5 id="共同点"><a href="#共同点" class="headerlink" title="共同点"></a>共同点</h5><p>方法 next/throw/return 都可以理解为将 yield 语句替换为一段其它语句，然后继续执行</p>
-<ol>
-<li>next 使用 next 方法的参数替换 yield 语句</li>
-<li>throw 方法用 <code>throw</code>替换 yield 语句，throw 的值为 throw 方法的参数</li>
-<li>return 使用<code>return</code>语句替换 yield 语句，return 的值为 return 方法的参数</li>
-</ol>
-<h3 id="yield"><a href="#yield" class="headerlink" title="yield*"></a>yield*</h3><p>在生成器内部可以使用<code>yield*</code>嵌套 yield 其它可迭代对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">NestedGenerator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">Generator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="comment">// 也可以是等其它可迭代对象</span></span><br><span class="line">    <span class="keyword">yield</span>* NestedGenerator()</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">4</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> gen = Generator()</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">of</span> gen) &#123;</span><br><span class="line">    <span class="comment">//1 2 3 4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h3><p>先看一个回调函数的异步例子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ajax(<span class="string">'a/b/c'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, res</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="keyword">throw</span> err</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    handle(res)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">123</span>)</span><br></pre></td></tr></table></figure>
-<p>setTimeout 需要传入一个回调函数。回调函数的方式缺点很多，这里只指出生成器能解决的最重要的一条。</p>
-<p>回调函数的执行顺序不符合直觉。</p>
-<p>代码<code>handle(res)</code>位于<code>console.log(123)</code>之前，执行却在<code>console.log(123)</code>之后。</p>
-<p>先看一下上面的代码用生成器执行应该怎么写。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    ajax(<span class="string">'a/b/c'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, res</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            it.throw(err)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        it.next(res)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">runTask</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> request()</span><br><span class="line">    handle(x)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> it = runTask()</span><br><span class="line">it.next()</span><br></pre></td></tr></table></figure>
-<p>第一眼的感觉这段代码比回调的复杂很多，而且也不是很好理解。</p>
-<p>继续之前，先梳理下这段代码的逻辑</p>
-<ol>
-<li>it.next()执行了 request 方法</li>
-<li>request 方法执行了一个异步方法 ajax(假设存在这样一个异步方法)</li>
-<li>在异步方法的回调函数中调用了 it.next，传入了回调函数的返回值 res</li>
-<li>res 被赋值给 x,handle(x)是真正处理 ajax 返回值的代码</li>
-</ol>
-<p>上例中处理异步的核心代码其实只有两行</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> x = <span class="keyword">yield</span> request()</span><br><span class="line">handle(x)</span><br></pre></td></tr></table></figure>
-<p>这两行代码独特的地方在于它完全没有涉及异步、回调。就好像这是一个同步调用一样。</p>
-<p>当然，上面的代码过于麻烦，而且硬编码严重，不具有通用性，可以改造如下。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 改造后的生成器异步代码</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">tasks</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> it = tasks(),</span><br><span class="line">        result = it.next()</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (result.done) <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> result.value === <span class="string">'function'</span>) &#123;</span><br><span class="line">            result.value(<span class="function">(<span class="params">err, res</span>) =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (err) &#123;</span><br><span class="line">                    it.throw(err)</span><br><span class="line">                    <span class="keyword">return</span></span><br><span class="line">                &#125;</span><br><span class="line">                result = it.next(res)</span><br><span class="line">                step()</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result = it.next(result.value)</span><br><span class="line">            step()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    step()</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">        ajax(<span class="string">'a/b/c'</span>, callback)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> request()</span><br><span class="line">    handle(x)</span><br><span class="line">&#125;</span><br><span class="line">run(main)</span><br></pre></td></tr></table></figure>
-<p>改造后的代码更加复杂了，但是通用性更强。<code>run</code>方法完全通用，<code>request</code>方法可以用一个工厂方法生成。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">requestFactory</span>(<span class="params">func, ...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">        func(...args, callback)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>修改后的<code>request</code>方法如下所示</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改前</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">        ajax(<span class="string">'a/b/c'</span>, callback)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> request()</span><br><span class="line">    handle(x)</span><br><span class="line">&#125;</span><br><span class="line">run(main)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改后</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">requestFactory</span>(<span class="params">func, ...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">        func(...args, callback)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> requestFactory(ajax, <span class="string">'a/b/c'</span>)</span><br><span class="line">    handle(x)</span><br><span class="line">&#125;</span><br><span class="line">run(main)</span><br></pre></td></tr></table></figure>
-<p>至此，<code>run</code>和<code>requestFactory</code>都成了通用方法，真正的执行代码只有生成器<code>main</code>方法和<code>run(main)</code>语句。</p>
-<p>在上面的<code>run</code>方法中，我们一直有一个假设，即<code>ajax</code>异步方法接收的回调是 error-first 风格的。写出这样风格的异步方法不难，但是也总是难免会存在不是这种风格的回调。但要在<code>run</code>方法中判断回调的第一个参数是不是错误很难，或者说不可能。<br>所以对于<code>run</code>方法的回调方法的参数必须有所约定，<code>Promise</code>是最好的选择。即<code>requestFactory</code>方法需要返回一个 Promise,或者 ajax 方法直接返回<code>Promise</code></p>
-<p>最终的代码如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">tasks</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> it = tasks(),</span><br><span class="line">        result = it.next()</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (result.done) <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> (value <span class="keyword">instanceof</span> <span class="built_in">Promise</span>) &#123;</span><br><span class="line">            result.value.then(</span><br><span class="line">                res =&gt; &#123;</span><br><span class="line">                    result = it.next(res)</span><br><span class="line">                    step()</span><br><span class="line">                &#125;,</span><br><span class="line">                err =&gt; &#123;</span><br><span class="line">                    it.throw(err)</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result = it.next(result.value)</span><br><span class="line">            step()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    step()</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> ajax(<span class="string">'a/b/c'</span>) <span class="comment">// ajax需要返回一个Promise</span></span><br><span class="line">    handle(x)</span><br><span class="line">&#125;</span><br><span class="line">run(main)</span><br></pre></td></tr></table></figure>
-<p>其中<code>run</code>方法可以封装为一个工具函数。</p>
-<p>es7 将这种异步方式规范化了。没错，就是<code>async await</code></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1928,7 +1920,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -1941,7 +1933,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

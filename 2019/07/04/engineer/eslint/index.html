@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="bai">
 <meta property="og:description" content="eslint 简介 起源eslint 是 2013 年由 Nicholas C. Zakas 发起的开源项目。目标是提供一个插件化的JavaScript代码检测工具。 eslint 的目的，个人认为是代码的质量控制。插件化是其实现方式。 代码的质量控制其实是一个比较大的话题，从更高的层面来看，组件化也是一种很重要的方式。eslint 不能保证写出好的代码，但是 eslint 可以检测一些低级错误，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-23T12:57:56.300Z">
+<meta property="og:updated_time" content="2019-08-08T09:54:36.107Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="eslint">
 <meta name="twitter:description" content="eslint 简介 起源eslint 是 2013 年由 Nicholas C. Zakas 发起的开源项目。目标是提供一个插件化的JavaScript代码检测工具。 eslint 的目的，个人认为是代码的质量控制。插件化是其实现方式。 代码的质量控制其实是一个比较大的话题，从更高的层面来看，组件化也是一种很重要的方式。eslint 不能保证写出好的代码，但是 eslint 可以检测一些低级错误，">
@@ -314,10 +314,12 @@
 <p>eslint 的目的，个人认为是代码的质量控制。插件化是其实现方式。</p>
 <p>代码的质量控制其实是一个比较大的话题，从更高的层面来看，组件化也是一种很重要的方式。<br>eslint 不能保证写出好的代码，但是 eslint 可以检测一些低级错误，比如使用未声明的变量、变量声明但是没有使用。</p>
 <h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>esint 的配置项种类不多，大致包括以下几种</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    root: <span class="literal">true</span>, <span class="comment">// 标识eslint配置文件检测到此为止,不再往父目录查找</span></span><br><span class="line">    parserOption: &#123;</span><br><span class="line">        ecmaVersion: <span class="number">6</span>, <span class="comment">// 指定可用的ecma版本,</span></span><br><span class="line">        sourceType: <span class="string">'module'</span> <span class="comment">// 指定可用的文件类型，脚本还是模块</span></span><br><span class="line">    &#125;,</span><br><span class="line">    extends: [<span class="string">'eslint:recommended'</span>], <span class="comment">// 用于指定一组初始的规则，可以省略 eslint-config 前缀，必须是安装好的npm包</span></span><br><span class="line">    plugins: [<span class="string">'exmaple'</span>], <span class="comment">// 定义自定义的规则，可以省略eslint-plugin前缀，必须是安装好的npm包</span></span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="comment">// 最主要的的配置项，用于指定规则的开启/关闭，以及错误等级</span></span><br><span class="line">        quotes: [<span class="string">'error'</span>, <span class="string">'double'</span>],</span><br><span class="line">        eqeqeq: [<span class="string">'off'</span>],</span><br><span class="line">        curly: [<span class="string">'warn'</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    env: &#123;</span><br><span class="line">        <span class="comment">// 指定环境，应该是某些全局变量使用不会被eslint报错</span></span><br><span class="line">        browser: <span class="literal">true</span>,</span><br><span class="line">        node: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    globals: &#123;</span><br><span class="line">        <span class="comment">// 指定额外的全局变量，false表示不能修改，true表示可以修改</span></span><br><span class="line">        _app_config: <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>eslint 最主要的的配置项是 rules,一般是先找一个喜欢风格的规则包继承，然后对需要修改的规则在 rules 中单独定义覆盖。<br>eslint 的全部规则在可以<a href="https://cn.eslint.org/docs/rules/" target="_blank" rel="noopener">在此查看</a></p>
-<p>如果想要使用额外的规则，需要使用 plugins 自行创建</p>
-<p>eslint 的配置本身没有太多需要深究的地方，找一个流行的 config 继承，然后额外配置自己的规则就好。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    root: <span class="literal">true</span>, <span class="comment">// 标识eslint配置文件检测到此为止,不再往父目录查找</span></span><br><span class="line">    parserOption: &#123;</span><br><span class="line">        ecmaVersion: <span class="number">6</span>, <span class="comment">// 指定可用的ecma版本,</span></span><br><span class="line">        sourceType: <span class="string">"module"</span> <span class="comment">// 指定可用的文件类型，脚本还是模块</span></span><br><span class="line">    &#125;,</span><br><span class="line">    extends: [<span class="string">"eslint:recommended"</span>], <span class="comment">// 用于指定一组初始的规则，可以省略 eslint-config 前缀，必须是安装好的npm包</span></span><br><span class="line">    plugins: [<span class="string">"exmaple"</span>], <span class="comment">// 定义自定义的规则，可以省略eslint-plugin前缀，必须是安装好的npm包</span></span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="comment">// 最主要的的配置项，用于指定规则的开启/关闭，以及错误等级</span></span><br><span class="line">        quotes: [<span class="string">"error"</span>, <span class="string">"double"</span>],</span><br><span class="line">        eqeqeq: [<span class="string">"off"</span>],</span><br><span class="line">        curly: [<span class="string">"warn"</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    env: &#123;</span><br><span class="line">        <span class="comment">// 指定环境，应该是某些全局变量使用不会被eslint报错</span></span><br><span class="line">        browser: <span class="literal">true</span>,</span><br><span class="line">        node: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    globals: &#123;</span><br><span class="line">        <span class="comment">// 指定额外的全局变量，false表示不能修改，true表示可以修改</span></span><br><span class="line">        _app_config: <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完整的配置项查看<a href="https://cn.eslint.org/docs/user-guide/configuring" target="_blank" rel="noopener">eslint 配置(官方)</a></p>
+<p>eslint 配置主要是通过添加<code>plugin</code>增加额外的配置规则，通过<code>extends</code>添加默认的规则，然后通过<code>rules</code>增加或覆盖特殊的配置</p>
+<p>eslint 默认全部规则在可以<a href="https://cn.eslint.org/docs/rules/" target="_blank" rel="noopener">在此查看</a></p>
+<p>但是可以通过插件增加其他规则。如<code>eslint-plugin-import</code>增加导入/导出规则校验</p>
+<p>除此之外，配置没有太多需要细究的地方</p>
 <h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>学习 eslint 的目的一个是项目中用到了，了解一下其整体情况。<br>更重要是是想梳理下代码质量控制的整套流程。<br>eslint 问题检测，lint-stage 禁止提交可以保证提交的代码质量有基础的保证<br>再加上提交代码 prettier 自动格式化，这样即使多人合作，代码的风格和质量也可以得到基本保证。更不会出现多人合作时互相提交的代码因为格式化大量冲突。</p>
 
       
@@ -434,7 +436,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -447,7 +449,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

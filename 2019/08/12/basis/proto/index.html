@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="prototype,__proto__,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="面向对象初学 JS 的人可能会有疑惑，JS 到底是不是一门面向对象语言。如果是，为什么 JS 的什么原型好像与其它面向对象语言，如 Java、C++相去甚远。如果说不是，JS 标准中又明确提到了 JS 是一门面向对象语言.  ECMAScript is an object-oriented programming language for performing computations and m">
+<meta name="keywords" content="prototype,__proto__">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面向对象、原型、原型链、prototype">
+<meta property="og:url" content="http://yoursite.com/2019/08/12/basis/proto/index.html">
+<meta property="og:site_name" content="bai">
+<meta property="og:description" content="面向对象初学 JS 的人可能会有疑惑，JS 到底是不是一门面向对象语言。如果是，为什么 JS 的什么原型好像与其它面向对象语言，如 Java、C++相去甚远。如果说不是，JS 标准中又明确提到了 JS 是一门面向对象语言.  ECMAScript is an object-oriented programming language for performing computations and m">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-12T09:47:38.576Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面向对象、原型、原型链、prototype">
+<meta name="twitter:description" content="面向对象初学 JS 的人可能会有疑惑，JS 到底是不是一门面向对象语言。如果是，为什么 JS 的什么原型好像与其它面向对象语言，如 Java、C++相去甚远。如果说不是，JS 标准中又明确提到了 JS 是一门面向对象语言.  ECMAScript is an object-oriented programming language for performing computations and m">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/12/basis/proto/">
+
+
+
+
+
+  <title>面向对象、原型、原型链、prototype | bai</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/baiyunshenghaishang"><img style="position:absolute;top:0;right:0" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_gray_6d6d6d.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">bai</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/basis/proto/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">面向对象、原型、原型链、prototype</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-12T11:26:28+08:00">
+                2019-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h3><p>初学 JS 的人可能会有疑惑，JS 到底是不是一门面向对象语言。如果是，为什么 JS 的什么原型好像与其它面向对象语言，如 Java、C++相去甚远。如果说不是，JS 标准中又明确提到了 JS 是一门面向对象语言.</p>
+<blockquote>
+<p>ECMAScript is an object-oriented programming language for performing computations and manipulating computational objects within a host environment.</p>
+</blockquote>
+<p>那么先回到最原始的问题，什么是面向对象</p>
+<h5 id="什么是面向对象"><a href="#什么是面向对象" class="headerlink" title="什么是面向对象"></a>什么是面向对象</h5><p>对象一词在英文中是<code>object</code>，指代一切事物。但是由于翻译的原因，中文中很难体现出这层意思。</p>
+<p>对象的灵感来源于生活，面向对象也是。比如，在生活中，我们看到一只猫，只会想到一只猫。但是我们见识到各种各样的猫之后，逐渐会认识到猫这个类型。你会发现，这和面向对象中的类型和实例非常相似。</p>
+<p>那如何定义面向对象呢，Grady Booch 在《面向对象程序与设计》一书中对面向对象的定义中描述了三个基本特征</p>
+<ol>
+<li>对象具有唯一标识性</li>
+<li>对象具有状态</li>
+<li>对象具有行为</li>
+</ol>
+<p>现有的面向对象语言中，对象的区分一般使用内存地址，从而做到即使看上去完全一样的对象，实际上也是不相等的，JS 也是如此。<br>而对象具有状态和行为，在 JS 中对应普通属性和函数类型的属性，在其它面向对象语言中的叫法则各不相同，例如 Java 中好像叫属性和方法。</p>
+<p>以此看来，JS 完全是正统的面向对象语言，那么为什么我们会觉得 JS 和其它流行的面向对象语言差别很大呢。<br>这就在于 JS 的面向对象和其它面向对象语言的不同之处</p>
+<h3 id="JS-的面向对象实现"><a href="#JS-的面向对象实现" class="headerlink" title="JS 的面向对象实现"></a>JS 的面向对象实现</h3><p>JS 的对象的特殊之处有两点</p>
+<ol>
+<li>JS 的对象的属性具有动态性。</li>
+<li>JS 的使用原型链而不是 class 来实现面向对象的继承</li>
+</ol>
+<p>在 Java 等语言中，总是先有类型后有对象，对象创建之后，其拥有的属性数量是不可变的。<br>JS 不同，JS 中对象创建之后可以随便增加和删除属性。</p>
+<h5 id="原型、原型链"><a href="#原型、原型链" class="headerlink" title="原型、原型链"></a>原型、原型链</h5><p>JS 中的原型其实非常简单，两句话就可以讲清楚</p>
+<ol>
+<li>每个对象都有<code>[[Prototype]]</code>属性</li>
+<li>在对象上找不到的属性，会沿着<code>[[Prototype]]</code>继续寻找</li>
+</ol>
+<p>而每个对象的原型本身也是也是一个对象，也会有<code>[[Prototype]]</code>属性，这就形成了原型的链条，即原型链</p>
+<p>注意<code>[[Prototype]]</code>是对象的内置属性，不是函数的<code>prototype</code>属性，正常情况下是无法在浏览器中查看该属性的，有些浏览器会以属性名<code>__proto__</code>暴露这个内置属性</p>
+<p>这两点从 JS 创建以来几乎就没有变过，唯一不太确认的地方是<code>Object.create(null)</code>创建的对象是否有<code>[[Prototype]]</code>属性，估计可能也有，只不过是 null</p>
+<p>在 Java 等语言中，继承是方式是通过 class 继承。而在 JS 中，以一个对象为原型创建新的对象就可以实现对某个对象的继承</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> parent = &#123;</span><br><span class="line">    name: <span class="string">"爸爸"</span>,</span><br><span class="line">    say() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`我是你<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> son = <span class="built_in">Object</span>.create(parent)</span><br><span class="line">son.name = <span class="string">"儿子"</span></span><br><span class="line">son.say() <span class="comment">// 我是你儿子</span></span><br></pre></td></tr></table></figure>
+<p>如上所示，JS 中的继承是通过原型和原型链实现，继承一个对象只需要以原有对象为原型创建一个新对象即可</p>
+<p>讲到这儿，似乎 JS 的面向对象就讲完了。但是我们讲到 JS 的面向对象和继承，总是会讲到<code>prototype、new、class</code>等，那这些在 JS 的面向对象中又是什么关系呢</p>
+<h3 id="prototype、class"><a href="#prototype、class" class="headerlink" title="prototype、class"></a>prototype、class</h3><p>在前面的面向对象中讲到了面向对象的三个基本特征，但是面向对象并没有规定应该如何实现。</p>
+<p>很明显，现如今最流行最成功的方式是通过类的方式来实现面向对象。即先创建类型<code>class</code>，然后通过<code>new class</code>的方式来创建对象。</p>
+<p>现在流行的面向对象语言，Java/C++都是这种方式，这也导致我们经常认为，这就是面向对象的基本特征之一。而这其实仅仅只是面向对象的实现方式之一。</p>
+<p>除此之外，还有其他实现面向对象的方式。比如 JS 采用的原型链方式，也是一种不错的实现面向对象的方式。</p>
+<p><code>prototype、new、class</code>是 JS 用来模拟类的方式实现面向对象的方法。</p>
+<h5 id="prototype"><a href="#prototype" class="headerlink" title="prototype"></a>prototype</h5><p>为了模拟 Java 中的 class 的类属性和方法，JS 给函数增加了<code>prototype</code><br>为了模拟 class 的 new 操作，JS 给函数增加了<code>[[Constructor]]</code>方法</p>
+<p>使用<code>new function</code>的方式可以创建一个新的对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = <span class="string">"爸爸"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Parent()</span><br><span class="line"><span class="built_in">console</span>.log(p.name) <span class="comment">// 爸爸</span></span><br></pre></td></tr></table></figure>
+<p>对于当做构造函数使用的函数，我们经常将首字母大写，但这只是一种约定，并没有任何运行上的区别。</p>
+<p><code>new</code>操作实际上包含三步</p>
+<ol>
+<li>以当前函数的<code>prototype</code>属性为原型创建对象</li>
+<li>以上一步创建的对象为<code>this</code>执行当前函数的<code>[[Contructor]]</code>方法</li>
+<li>如果上一步的<code>[[Constructor]]</code>方法返回一个对象，返回改对象，否则返回第一步创建的对象</li>
+</ol>
+<p>JS 通过函数的<code>prototype</code>属性和<code>[[Constructor]]</code>模拟了 class 方式面向对象的构造函数和<code>new</code>操作，但是对于继承，直到<code>es6</code>之前，都没有官方的模拟方式</p>
+<h5 id="class"><a href="#class" class="headerlink" title="class"></a>class</h5><p>在 es6 之前，class 一直都只是一个内部属性，唯一访问的方式是通过<code>Object.prototype.toString</code>访问。<br>这也是通过<code>Object.prototype.toString</code>能判断对象类型的原因</p>
+<p>在 es6 中，JS 引入了原生的 class 实现，虽然也是使用原型来模拟，但是封装了很多容易出现的错误，而且语言加入了内置的<code>extends</code>关键字支持</p>
+<p>关于 class 的具体细节，已经另外写了<a href="https://baiyunshenghaishang.github.io/2019/05/05/basis/class/" target="_blank" rel="noopener">一篇博客</a>，这里就不赘述了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/prototype/" rel="tag"># prototype</a>
+          
+            <a href="/tags/proto/" rel="tag"># __proto__</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/26/basis/object-classify/" rel="next" title="对象分类">
+                <i class="fa fa-chevron-left"></i> 对象分类
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Zhen Huang">
+            
+              <p class="site-author-name" itemprop="name">Zhen Huang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">博客</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象"><span class="nav-number">1.</span> <span class="nav-text">面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是面向对象"><span class="nav-number">1.0.1.</span> <span class="nav-text">什么是面向对象</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#JS-的面向对象实现"><span class="nav-number">2.</span> <span class="nav-text">JS 的面向对象实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#原型、原型链"><span class="nav-number">2.0.1.</span> <span class="nav-text">原型、原型链</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prototype、class"><span class="nav-number">3.</span> <span class="nav-text">prototype、class</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#prototype"><span class="nav-number">3.0.1.</span> <span class="nav-text">prototype</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#class"><span class="nav-number">3.0.2.</span> <span class="nav-text">class</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhen Huang</span>
+  <div class="powered-by">
+    <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+      本站访客数:<span id="busuanzi_value_site_uv"></span>
+    </span>
+  </div>
+  
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
