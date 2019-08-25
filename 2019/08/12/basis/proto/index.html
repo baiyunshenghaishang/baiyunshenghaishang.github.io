@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="bai">
 <meta property="og:description" content="面向对象初学 JS 的人可能会有疑惑，JS 到底是不是一门面向对象语言。如果是，为什么 JS 的什么原型好像与其它面向对象语言，如 Java、C++相去甚远。如果说不是，JS 标准中又明确提到了 JS 是一门面向对象语言.  ECMAScript is an object-oriented programming language for performing computations and m">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-12T09:47:38.576Z">
+<meta property="og:updated_time" content="2019-08-13T02:48:52.873Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面向对象、原型、原型链、prototype">
 <meta name="twitter:description" content="面向对象初学 JS 的人可能会有疑惑，JS 到底是不是一门面向对象语言。如果是，为什么 JS 的什么原型好像与其它面向对象语言，如 Java、C++相去甚远。如果说不是，JS 标准中又明确提到了 JS 是一门面向对象语言.  ECMAScript is an object-oriented programming language for performing computations and m">
@@ -315,9 +315,10 @@
 <p>ECMAScript is an object-oriented programming language for performing computations and manipulating computational objects within a host environment.</p>
 </blockquote>
 <p>那么先回到最原始的问题，什么是面向对象</p>
-<h5 id="什么是面向对象"><a href="#什么是面向对象" class="headerlink" title="什么是面向对象"></a>什么是面向对象</h5><p>对象一词在英文中是<code>object</code>，指代一切事物。但是由于翻译的原因，中文中很难体现出这层意思。</p>
+<h5 id="什么是面向对象"><a href="#什么是面向对象" class="headerlink" title="什么是面向对象"></a>什么是面向对象</h5><p>面向对象是一种编程思想，即以对象作为程序基本单元的思想。</p>
+<p>对象一词在英文中是<code>object</code>，指代一切事物。但是由于翻译的原因，中文中很难体现出这层意思。</p>
 <p>对象的灵感来源于生活，面向对象也是。比如，在生活中，我们看到一只猫，只会想到一只猫。但是我们见识到各种各样的猫之后，逐渐会认识到猫这个类型。你会发现，这和面向对象中的类型和实例非常相似。</p>
-<p>那如何定义面向对象呢，Grady Booch 在《面向对象程序与设计》一书中对面向对象的定义中描述了三个基本特征</p>
+<p>那如何定义对象呢，Grady Booch 在《面向对象程序与设计》一书中对对象的定义中描述了三个基本特征</p>
 <ol>
 <li>对象具有唯一标识性</li>
 <li>对象具有状态</li>
@@ -333,12 +334,12 @@
 <p>在 Java 等语言中，总是先有类型后有对象，对象创建之后，其拥有的属性数量是不可变的。<br>JS 不同，JS 中对象创建之后可以随便增加和删除属性。</p>
 <h5 id="原型、原型链"><a href="#原型、原型链" class="headerlink" title="原型、原型链"></a>原型、原型链</h5><p>JS 中的原型其实非常简单，两句话就可以讲清楚</p>
 <ol>
-<li>每个对象都有<code>[[Prototype]]</code>属性</li>
-<li>在对象上找不到的属性，会沿着<code>[[Prototype]]</code>继续寻找</li>
+<li>每个对象都有<code>[[prototype]]</code>属性</li>
+<li>在对象上找不到的属性，会沿着<code>[[prototype]]</code>继续寻找</li>
 </ol>
-<p>而每个对象的原型本身也是也是一个对象，也会有<code>[[Prototype]]</code>属性，这就形成了原型的链条，即原型链</p>
-<p>注意<code>[[Prototype]]</code>是对象的内置属性，不是函数的<code>prototype</code>属性，正常情况下是无法在浏览器中查看该属性的，有些浏览器会以属性名<code>__proto__</code>暴露这个内置属性</p>
-<p>这两点从 JS 创建以来几乎就没有变过，唯一不太确认的地方是<code>Object.create(null)</code>创建的对象是否有<code>[[Prototype]]</code>属性，估计可能也有，只不过是 null</p>
+<p>而每个对象的原型本身也是也是一个对象，也会有<code>[[prototype]]</code>属性，这就形成了原型的链条，即原型链</p>
+<p>注意<code>[[prototype]]</code>是对象的内置属性，不是函数的<code>prototype</code>属性，正常情况下是无法在浏览器中查看该属性的，有些浏览器会以属性名<code>__proto__</code>暴露这个内置属性</p>
+<p>这两点从 JS 创建以来几乎就没有变过，唯一不太确认的地方是<code>Object.create(null)</code>创建的对象是否有<code>[[prototype]]</code>属性，估计可能也有，只不过是 null</p>
 <p>在 Java 等语言中，继承是方式是通过 class 继承。而在 JS 中，以一个对象为原型创建新的对象就可以实现对某个对象的继承</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> parent = &#123;</span><br><span class="line">    name: <span class="string">"爸爸"</span>,</span><br><span class="line">    say() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`我是你<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> son = <span class="built_in">Object</span>.create(parent)</span><br><span class="line">son.name = <span class="string">"儿子"</span></span><br><span class="line">son.say() <span class="comment">// 我是你儿子</span></span><br></pre></td></tr></table></figure>
 <p>如上所示，JS 中的继承是通过原型和原型链实现，继承一个对象只需要以原有对象为原型创建一个新对象即可</p>
@@ -403,6 +404,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/15/engineer/code-quanlity/" rel="prev" title="代码质量控制">
+                代码质量控制 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -481,7 +486,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -494,7 +499,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

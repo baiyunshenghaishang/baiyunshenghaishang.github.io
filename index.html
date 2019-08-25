@@ -239,6 +239,149 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/15/engineer/code-quanlity/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/15/engineer/code-quanlity/" itemprop="url">代码质量控制</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-15T19:56:15+08:00">
+                2019-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h3><p>关于代码质量问题的想法有段时间了，最开始考虑的是如何写出高质量的代码，拖来拖去最后不了了之。</p>
+<p>前端时间看 eslint，考虑到可以使用 eslint 来保证提交代码的基本质量，于是就有了这篇文章。</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>代码基本质量的控制，在我看来应该包含两部分</p>
+<ol>
+<li>代码格式，这部分主要是为了风格统一，以及防止意外的 git 冲突</li>
+<li>代码基本质量，如声明的变量未使用这种低级错误</li>
+</ol>
+<p>第一点考虑使用 prettier 控制，第二点因为现在只有 js 的代码质量检测工具，使用 eslint</p>
+<p>考虑到老项目的存在，选择 husky,lint-staged 在提交时检测修改的文件，否则在老项目添加 eslint 报错太多</p>
+<p><strong>所以整体思路是在<code>git commit</code>前格式化所有文件，然后对 <code>.js,.vue,.jsx</code>文件执行 eslint 检测,如果 eslint 校验不通过，停止提交</strong></p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>配置包含三部分</p>
+<ol>
+<li>prettier 配置</li>
+<li>eslint 配置</li>
+<li>husky 和 lint-staged 配置</li>
+</ol>
+<h5 id="prettier-配置"><a href="#prettier-配置" class="headerlink" title="prettier 配置"></a>prettier 配置</h5><p>可参考 <a href="https://baiyunshenghaishang.github.io/2019/07/25/engineer/prettier/" target="_blank" rel="noopener">prettier 配置</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .prettierrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    ...require(<span class="string">"@baixiaogou/prettier-config"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>考虑到打包后的文件都会在新增文件里面，所以需要增加<code>.prettierignore</code>，可以参考如下配置<br>node_modules 一般会在<code>.gitignore</code>中，所以不需要添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// .prettierignore</span><br><span class="line"></span><br><span class="line">dist</span><br><span class="line">**/*.min.*</span><br></pre></td></tr></table></figure>
+<h5 id="eslint-配置"><a href="#eslint-配置" class="headerlink" title="eslint 配置"></a>eslint 配置</h5><p>可参考<a href="https://baiyunshenghaishang.github.io/2019/07/04/engineer/eslint/" target="_blank" rel="noopener">eslint 配置</a></p>
+<p>注意，老项目不建议开启 eslint-loader，因为 eslint-loader 会检测全部代码，如果开启 eslint-loader，虽然提交时能通过校验，但是项目启动时会有很多报错。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .eslintrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    root: <span class="literal">true</span>,</span><br><span class="line">    parserOptions: &#123;</span><br><span class="line">        parser: <span class="string">"babel-eslint"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    parserOptions: &#123;</span><br><span class="line">        ecmaVersion: <span class="number">6</span>,</span><br><span class="line">        sourceType: <span class="string">"module"</span>,</span><br><span class="line">        ecmaFeatures: &#123;</span><br><span class="line">            jsx: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    env: &#123;</span><br><span class="line">        browser: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [<span class="string">"prettier"</span>, <span class="string">"html"</span>, <span class="string">"vue"</span>],</span><br><span class="line">    extends: [<span class="string">"eslint:recommended"</span>, <span class="string">"plugin:vue/recommended"</span>, <span class="string">"prettier"</span>],</span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="string">"prettier/prettier"</span>: <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="husky-lint-staged-配置"><a href="#husky-lint-staged-配置" class="headerlink" title="husky/lint-staged 配置"></a>husky/lint-staged 配置</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// package.json</span><br><span class="line"> "husky": &#123;</span><br><span class="line">    "hooks": &#123;</span><br><span class="line">      "pre-commit": "lint-staged"</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  "lint-staged": &#123;</span><br><span class="line">    "src/*": [</span><br><span class="line">      "prettier --write",</span><br><span class="line">      <span class="string">"git add"</span></span><br><span class="line">    ],</span><br><span class="line">    "src/**/*.&#123;js,vue&#125;": [</span><br><span class="line">      "eslint",</span><br><span class="line">      <span class="string">"git add"</span></span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/basis/proto/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -315,9 +458,10 @@
 <p>ECMAScript is an object-oriented programming language for performing computations and manipulating computational objects within a host environment.</p>
 </blockquote>
 <p>那么先回到最原始的问题，什么是面向对象</p>
-<h5 id="什么是面向对象"><a href="#什么是面向对象" class="headerlink" title="什么是面向对象"></a>什么是面向对象</h5><p>对象一词在英文中是<code>object</code>，指代一切事物。但是由于翻译的原因，中文中很难体现出这层意思。</p>
+<h5 id="什么是面向对象"><a href="#什么是面向对象" class="headerlink" title="什么是面向对象"></a>什么是面向对象</h5><p>面向对象是一种编程思想，即以对象作为程序基本单元的思想。</p>
+<p>对象一词在英文中是<code>object</code>，指代一切事物。但是由于翻译的原因，中文中很难体现出这层意思。</p>
 <p>对象的灵感来源于生活，面向对象也是。比如，在生活中，我们看到一只猫，只会想到一只猫。但是我们见识到各种各样的猫之后，逐渐会认识到猫这个类型。你会发现，这和面向对象中的类型和实例非常相似。</p>
-<p>那如何定义面向对象呢，Grady Booch 在《面向对象程序与设计》一书中对面向对象的定义中描述了三个基本特征</p>
+<p>那如何定义对象呢，Grady Booch 在《面向对象程序与设计》一书中对对象的定义中描述了三个基本特征</p>
 <ol>
 <li>对象具有唯一标识性</li>
 <li>对象具有状态</li>
@@ -333,12 +477,12 @@
 <p>在 Java 等语言中，总是先有类型后有对象，对象创建之后，其拥有的属性数量是不可变的。<br>JS 不同，JS 中对象创建之后可以随便增加和删除属性。</p>
 <h5 id="原型、原型链"><a href="#原型、原型链" class="headerlink" title="原型、原型链"></a>原型、原型链</h5><p>JS 中的原型其实非常简单，两句话就可以讲清楚</p>
 <ol>
-<li>每个对象都有<code>[[Prototype]]</code>属性</li>
-<li>在对象上找不到的属性，会沿着<code>[[Prototype]]</code>继续寻找</li>
+<li>每个对象都有<code>[[prototype]]</code>属性</li>
+<li>在对象上找不到的属性，会沿着<code>[[prototype]]</code>继续寻找</li>
 </ol>
-<p>而每个对象的原型本身也是也是一个对象，也会有<code>[[Prototype]]</code>属性，这就形成了原型的链条，即原型链</p>
-<p>注意<code>[[Prototype]]</code>是对象的内置属性，不是函数的<code>prototype</code>属性，正常情况下是无法在浏览器中查看该属性的，有些浏览器会以属性名<code>__proto__</code>暴露这个内置属性</p>
-<p>这两点从 JS 创建以来几乎就没有变过，唯一不太确认的地方是<code>Object.create(null)</code>创建的对象是否有<code>[[Prototype]]</code>属性，估计可能也有，只不过是 null</p>
+<p>而每个对象的原型本身也是也是一个对象，也会有<code>[[prototype]]</code>属性，这就形成了原型的链条，即原型链</p>
+<p>注意<code>[[prototype]]</code>是对象的内置属性，不是函数的<code>prototype</code>属性，正常情况下是无法在浏览器中查看该属性的，有些浏览器会以属性名<code>__proto__</code>暴露这个内置属性</p>
+<p>这两点从 JS 创建以来几乎就没有变过，唯一不太确认的地方是<code>Object.create(null)</code>创建的对象是否有<code>[[prototype]]</code>属性，估计可能也有，只不过是 null</p>
 <p>在 Java 等语言中，继承是方式是通过 class 继承。而在 JS 中，以一个对象为原型创建新的对象就可以实现对某个对象的继承</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> parent = &#123;</span><br><span class="line">    name: <span class="string">"爸爸"</span>,</span><br><span class="line">    say() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`我是你<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> son = <span class="built_in">Object</span>.create(parent)</span><br><span class="line">son.name = <span class="string">"儿子"</span></span><br><span class="line">son.say() <span class="comment">// 我是你儿子</span></span><br></pre></td></tr></table></figure>
 <p>如上所示，JS 中的继承是通过原型和原型链实现，继承一个对象只需要以原有对象为原型创建一个新对象即可</p>
@@ -652,6 +796,8 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .eslintrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  ...</span><br><span class="line">  plugins: [<span class="string">'prettier'</span>],</span><br><span class="line">  extends: [<span class="string">'eslint:recommended'</span>, <span class="string">'prettier'</span>],</span><br><span class="line">  rules: &#123;</span><br><span class="line">    <span class="string">'prettier/prettier'</span>: <span class="number">2</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><code>eslint-plugin-prettier</code>增加<code>prettier/prettier</code>校验规则<br><code>eslint-config-prettier</code>去掉 eslint 中关于格式的校验，所以最好防砸爱 extends 的最后防止被覆盖</p>
 <p>这种方案只能用于 js 的校验和格式化。</p>
+<h3 id="ignore"><a href="#ignore" class="headerlink" title="ignore"></a>ignore</h3><p>增加<code>.prettierignore</code>文件可以指定<code>prettier</code>不格式化的文件，在某些文件夹或者某些文件不格式化时非常有用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// .prettierignore</span><br><span class="line"></span><br><span class="line">node_modules</span><br><span class="line">dist</span><br><span class="line">**/*.min.*</span><br></pre></td></tr></table></figure>
 
           
         
@@ -782,7 +928,21 @@
 <p>eslint 默认全部规则在可以<a href="https://cn.eslint.org/docs/rules/" target="_blank" rel="noopener">在此查看</a></p>
 <p>但是可以通过插件增加其他规则。如<code>eslint-plugin-import</code>增加导入/导出规则校验</p>
 <p>除此之外，配置没有太多需要细究的地方</p>
-<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>学习 eslint 的目的一个是项目中用到了，了解一下其整体情况。<br>更重要是是想梳理下代码质量控制的整套流程。<br>eslint 问题检测，lint-stage 禁止提交可以保证提交的代码质量有基础的保证<br>再加上提交代码 prettier 自动格式化，这样即使多人合作，代码的风格和质量也可以得到基本保证。更不会出现多人合作时互相提交的代码因为格式化大量冲突。</p>
+<h3 id="常用插件配置"><a href="#常用插件配置" class="headerlink" title="常用插件配置"></a>常用插件配置</h3><p>下文中的插件均需要安装</p>
+<h5 id="vue"><a href="#vue" class="headerlink" title="vue"></a>vue</h5><p>eslint 是 js 的检测工具，原本是不能检查.vue 文件的，想要检查.vue 文件，需要 eslint-plugin-vue 和 eslint-plugin-html</p>
+<p>规则可以使用 <code>plugin:vue/recommended</code></p>
+<h5 id="import-export"><a href="#import-export" class="headerlink" title="import/export"></a>import/export</h5><p>本插件可能不需要，import 提示应该通过编辑器插件来做，而 import 找不到 webpack 也会提示</p>
+<p>eslint-plugin-import 插件可以检查引入的包或者文件是否存在<br>由于 import 受 webpack 的配置影响，import 插件可能无法正确判断引入路径是否正确，可以使用 eslint-import-resolver-webpack 来配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .eslintrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    settings: &#123;</span><br><span class="line">        <span class="string">"import/resolver"</span>: &#123;</span><br><span class="line">            webpack: &#123;</span><br><span class="line">                config: <span class="string">"./build/webpack.dev.conf.js"</span> <span class="comment">// 指定要使用的 webpack 配置文件</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [<span class="string">"import"</span>],</span><br><span class="line">    extends: [<span class="string">"plugin:import/errors"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="prettier"><a href="#prettier" class="headerlink" title="prettier"></a>prettier</h5><p>eslint 本身有格式的校验，但是 eslint 本身只能校验 js 的格式，而且 eslint 的格式化配置不如 prettier 丰富</p>
+<p>从另一个角度考虑，写代码时不应该太多考虑格式的问题，所以个人习惯是采用 prettier 格式化代码，eslint 只做格式化之外的校验</p>
+<p>为此需要引入 eslint-plugin-prettier 插件，并继承 eslint-config-prettier 配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    plugins: [<span class="string">"prettier"</span>],</span><br><span class="line">    extends: [<span class="string">"prettier"</span>],</span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="string">"prettier/prettier"</span>: <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="eslint-loader"><a href="#eslint-loader" class="headerlink" title="eslint-loader"></a>eslint-loader</h5><p>如果想要代码书写时动态检查 js 代码，需要安装 eslint-loader<br>由于 babel 的关系，需要指定 eslint 的 parse 为 babel-eslint</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    parseOptions: &#123;</span><br><span class="line">        parse: <span class="string">"babel-eslint"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在webpack的配置文件中</span></span><br><span class="line">rules: [</span><br><span class="line">    &#123;</span><br><span class="line">        test: <span class="regexp">/\.(vue|js|jsx)$/</span>,</span><br><span class="line">        loader: <span class="string">"eslint-loader"</span>,</span><br><span class="line">        exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">        enforce: <span class="string">"pre"</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>一份常见的配置文件如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    root: <span class="literal">true</span>,</span><br><span class="line">    parserOptions: &#123;</span><br><span class="line">        parser: <span class="string">"babel-eslint"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    parserOptions: &#123;</span><br><span class="line">        ecmaVersion: <span class="number">6</span>,</span><br><span class="line">        sourceType: <span class="string">"module"</span>,</span><br><span class="line">        ecmaFeatures: &#123;</span><br><span class="line">            jsx: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    env: &#123;</span><br><span class="line">        browser: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    settings: &#123;</span><br><span class="line">        <span class="string">"import/resolver"</span>: &#123;</span><br><span class="line">            webpack: &#123;</span><br><span class="line">                config: <span class="string">"webpack.dev.config.js"</span> <span class="comment">// 指定要使用的 webpack 配置文件</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [<span class="string">"prettier"</span>, <span class="string">"import"</span>, <span class="string">"html"</span>, <span class="string">"vue"</span>],</span><br><span class="line">    extends: [<span class="string">"eslint:recommended"</span>, <span class="string">"prettier"</span>, <span class="string">"plugin:import/errors"</span>, <span class="string">"plugin:vue/recommended"</span>],</span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="string">"prettier/prettier"</span>: <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1714,160 +1874,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/14/basis/promise/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/14/basis/promise/" itemprop="url">Promise</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-14T18:51:27+08:00">
-                2019-04-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="什么是-Promise"><a href="#什么是-Promise" class="headerlink" title="什么是 Promise"></a>什么是 Promise</h3><p>Promise 是 es6 中一种新的数据类型/结构，目的在于解决回调方式的一些问题，如回调地狱、控制权反转。</p>
-<p>Promise 包含三种状态<code>pending</code>、<code>fulfilled</code>、<code>rejected</code>。Promise 一旦变成<code>fulfilled</code>或者<code>rejected</code>，状态就不能在改变。这也是 Promise 命名的来源，即状态只会改变一次。<br><code>fulfilled</code> 状态表示成功状态，<code>rejected</code> 表示失败状态。</p>
-<p>Promise 包含一个值，在创建 Promise 时生成。具体见 <strong>创建 Promise</strong></p>
-<h3 id="创建-Promise"><a href="#创建-Promise" class="headerlink" title="创建 Promise"></a>创建 Promise</h3><p>创建 Promise 有两种方式<br>一种是通过构造函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        resolve(<span class="number">123</span>)</span><br><span class="line">    &#125;, <span class="number">1000</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>Promise 构造函数接受一个函数，函数接受两个参数，resolve 会决议传入的值，具体行为类似于 Promise.resolve，区别在于 resolve 方法永远返回一个新的 Promsie<br>reject 将 Promsie 变为<code>rejected</code>状态。<br>resolve 和 reject 的参数就是 Promise 的值</p>
-<p>另外一种是通过 Promise 的静态方法<code>Promise.resolve</code>和<code>Promise.reject</code><br><code>Promise.reject</code> 会创建一个 <code>rejected</code> 状态的 Promise</p>
-<p>对于 <code>Promise.resolve</code>，有一点不同。<br>resolve 在英文中的意思是决议，规范最后选择 resolve 而不是 fulfill，是因为<code>Promise.resolve</code>的意思更接近于决议，而不是成功完成。</p>
-<p><code>Promise.resolve</code>根据传入的参数不同会做不同的处理。</p>
-<p>如果传入的是一个 Promise，Promise.resolve 会直接返回这个 Promise<br>如果传入的是包含 then 方法的对象，会使用 Promise 的构造函数创建一个新的 Promise，以 then 方法作为构造函数的参数<br>否则返回状态 fulfilled，值为 Promise.resolve 参数的 Promise</p>
-<h3 id="then-方法"><a href="#then-方法" class="headerlink" title="then 方法"></a>then 方法</h3><p>Promise 最重要的方法是 then 方法。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.resolve(<span class="number">123</span>).then(</span><br><span class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(val)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err)</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>then 方法接受两个参数，分别表示 fulfilled 和 rejected 状态下的执行函数<br>其中的 val 和 err 就是 Promise 在不同状态下的值。参数可以是普通函数，也可以箭头函数。</p>
-<p>then 方法的两个参数都可以省略，如果不想传入第一个参数，可以传入 null 或者 undefined 等</p>
-<p>then 方法返回一个 Promise，所以 Promise 可以一直串联下去</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.resolve(<span class="number">123</span>)</span><br><span class="line">    .then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(val) <span class="comment">// 123</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">456</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">        val <span class="comment">// 456</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
-<p>then 方法第一个参数不仅可以返回数值和普通对象作为下一个 Promise 的值，还可以返回一个 Promise<br>如果返回的是一个 Promise，则 then 方法的状态和值取决于返回 Promise 的状态和值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.resolve(<span class="number">123</span>)</span><br><span class="line">    .then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(<span class="number">999</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    .then(<span class="literal">null</span>, err =&gt; &#123;</span><br><span class="line">        err <span class="comment">// 999</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
-<p>如果 Promise 的值在 then 方法没有参数处理，则会一直像后传递。所以可以在 Promise 链的最后添加一个错误处理函数，处理之前所有 Promise 抛出的错误</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.resolve(<span class="number">123</span>)</span><br><span class="line">    .then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'error'</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    .then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 不会被执行</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .then(<span class="literal">null</span>, err =&gt; &#123;</span><br><span class="line">        err <span class="comment">// 这里处理错误</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
-<p><code>then</code>方法一个非常重要的特点是<code>then</code>的回调永远是异步的。准确来讲是在当前事件循环结束的微任务中执行。</p>
-<h3 id="catch、Promise-all、Promise-race"><a href="#catch、Promise-all、Promise-race" class="headerlink" title="catch、Promise.all、Promise.race"></a>catch、Promise.all、Promise.race</h3><p>前例中在 Promise 链最后添加错误处理函数的情况十分普通，所以 es6 为 Promise 增加了 catch 方法。catch 方法等同于 then(null)</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.resovle(<span class="number">123</span>)</span><br><span class="line">    .then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'error'</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;&#125;)</span><br></pre></td></tr></table></figure>
-<p><code>Promise.all</code> 接受一个 Promise 数组，返回一个 Promise。数组的所有 Promsie 都变为 fulfilled 状态后，返回 Promise 的状态变为 fulfilled，值为数组所有 Promise 值的数组。其中任意一个 Promise 变为 rejected，返回 Promise 的状态变为 rejected。</p>
-<p>Promise.race 同样返回一个 Promise，返回的 Promise 在任何一个 Promise 决议后决议，决议的结果就是返回 Promise 的结果。</p>
-<h3 id="Promise-的问题"><a href="#Promise-的问题" class="headerlink" title="Promise 的问题"></a>Promise 的问题</h3><p>Promise 最大的问题在于会吞掉错误。即如果 Promise 内部抛出了错误，如果错误没有被 catch 方法处理，错误也不会冒泡到 Promise 外部。</p>
-<p>这种设计的原因在于 Promise 被设计为在任何时候添加 then 方法都可以获取 Promise 决议的值。所以即使 Promise 内部报错了，引擎也不能确定将来是不是会存在一个 catch 方法来捕获这个错误，所以不能讲错误抛出。</p>
-<p>这种设计有时候会导致 Promise 的异常被吞掉。所以最佳实践是永远在 Promise 链的最后添加一个 catch 方法。</p>
-<p>在浏览器和 nodejs 中都有事件可以监听未捕获的 Promise 错误。</p>
-<p>浏览器中的事件如下<br><code>unhandledrejection</code>,同一个事件循环中，Promise 被拒绝，没有提供拒绝处理程序时触发<br><code>rejectionhandled</code>,一个事件循环后，拒绝的 Promise 被处理时触发</p>
-<p>nodejs 的事件与浏览器中基本一致，只是事件名是驼峰格式</p>
-<h3 id="Promise-的实现"><a href="#Promise-的实现" class="headerlink" title="Promise 的实现"></a>Promise 的实现</h3><p>完全模拟实现 Promise 是不可能的，因为 Promise 的 then 虽然永远是异步的，但是在事件循环中 Promise 属于微任务，setTimeout 属于宏任务，所以无法完全模拟。</p>
-<p>以下是一个 Promise 的模拟实现</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _status = <span class="built_in">Symbol</span>(<span class="string">'status'</span>)</span><br><span class="line"><span class="keyword">const</span> _value = <span class="built_in">Symbol</span>(<span class="string">'value'</span>)</span><br><span class="line"><span class="keyword">const</span> _fulfilledQueue = <span class="built_in">Symbol</span>(<span class="string">'fulfilledQueue'</span>)</span><br><span class="line"><span class="keyword">const</span> _rejectedQueue = <span class="built_in">Symbol</span>(<span class="string">'rejectedQueue'</span>)</span><br><span class="line"><span class="keyword">const</span> PENDING = <span class="built_in">Symbol</span>(<span class="string">'pending'</span>)</span><br><span class="line"><span class="keyword">const</span> FULFILLED = <span class="built_in">Symbol</span>(<span class="string">'fulfilled'</span>)</span><br><span class="line"><span class="keyword">const</span> REJECTED = <span class="built_in">Symbol</span>(<span class="string">'rejected'</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPromise</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(handler) &#123;</span><br><span class="line">        <span class="keyword">this</span>[_status] = PENDING</span><br><span class="line">        <span class="keyword">this</span>[_value] = <span class="string">''</span></span><br><span class="line">        <span class="keyword">this</span>[_fulfilledQueue] = []</span><br><span class="line">        <span class="keyword">this</span>[_rejectedQueue] = []</span><br><span class="line">        <span class="keyword">const</span> reject = <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>[_status] !== PENDING) <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">this</span>[_status] = REJECTED</span><br><span class="line">            <span class="keyword">this</span>[_value] = err</span><br><span class="line">            setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">let</span> cb <span class="keyword">of</span> <span class="keyword">this</span>[_rejectedQueue]) &#123;</span><br><span class="line">                    cb(<span class="keyword">this</span>[_value])</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> resolve = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (val <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">                val.then(resolve, reject)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>[_status] !== PENDING) <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">this</span>[_status] = FULFILLED</span><br><span class="line">            <span class="keyword">this</span>[_value] = val</span><br><span class="line">            setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">let</span> cb <span class="keyword">of</span> <span class="keyword">this</span>[_fulfilledQueue]) &#123;</span><br><span class="line">                    cb(<span class="keyword">this</span>[_value])</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            handler(resolve, reject)</span><br><span class="line">        &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">            reject(error)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(<span class="keyword">this</span>, &#123;</span><br><span class="line">            ownKeys(target) &#123;</span><br><span class="line">                <span class="keyword">const</span> notIncludedKeys = [_status, _value, _fulfilledQueue, _rejectedQueue]</span><br><span class="line">                <span class="keyword">return</span> <span class="built_in">Reflect</span>.ownKeys(target).filter(<span class="function"><span class="params">key</span> =&gt;</span> !notIncludedKeys.includes(key))</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="keyword">return</span> proxy</span><br><span class="line">    &#125;</span><br><span class="line">    then(onResolve, onRejected) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">nextResolve, nextReject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> _onResolve = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (<span class="keyword">typeof</span> onResolve !== <span class="string">'function'</span>) &#123;</span><br><span class="line">                        nextResolve(val)</span><br><span class="line">                        <span class="keyword">return</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">let</span> result = onResolve(val)</span><br><span class="line">                    <span class="keyword">if</span> (result <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">                        result.then(nextResolve, nextReject)</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        nextResolve(result)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">                    nextReject(error)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">const</span> _onReject = <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (<span class="keyword">typeof</span> onRejected !== <span class="string">'function'</span>) &#123;</span><br><span class="line">                        nextReject(err)</span><br><span class="line">                        <span class="keyword">return</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">let</span> result = onRejected(err)</span><br><span class="line">                    <span class="keyword">if</span> (result <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">                        result.then(nextResolve, nextReject)</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        nextResolve(result)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">                    nextReject(error)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>[_status] === PENDING) &#123;</span><br><span class="line">                <span class="keyword">this</span>[_fulfilledQueue].push(_onResolve)</span><br><span class="line">                <span class="keyword">this</span>[_rejectedQueue].push(_onReject)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>[_status] === FULFILLED) &#123;</span><br><span class="line">                setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                    _onResolve(<span class="keyword">this</span>[_value])</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>[_status] === REJECTED) &#123;</span><br><span class="line">                setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                    _onReject(<span class="keyword">this</span>[_value])</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span>(handler) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.then(<span class="literal">undefined</span>, handler)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">finally</span>(handler) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.then(</span><br><span class="line">            val =&gt; &#123;</span><br><span class="line">                <span class="keyword">return</span> MyPromise.resolve(handler()).then(<span class="function"><span class="params">()</span> =&gt;</span> val)</span><br><span class="line">            &#125;,</span><br><span class="line">            err =&gt; &#123;</span><br><span class="line">                <span class="keyword">return</span> MyPromise.resolve(handler()).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">throw</span> err</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> resolve(val) &#123;</span><br><span class="line">        <span class="keyword">if</span> (val <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">            <span class="keyword">return</span> val</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function"><span class="params">resolve</span> =&gt;</span> resolve(val))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> reject(err) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> reject(err))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> all(args) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> resolvedCount = <span class="number">0</span>,</span><br><span class="line">                resolveValueQueue = []</span><br><span class="line">            <span class="keyword">const</span> onResolved = <span class="function">(<span class="params">val, index</span>) =&gt;</span> &#123;</span><br><span class="line">                resolveValueQueue[index] = val</span><br><span class="line">                resolvedCount++</span><br><span class="line">                <span class="keyword">if</span> (resolvedCount == args.length) &#123;</span><br><span class="line">                    resolve(resolveValueQueue)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">const</span> onRejected = <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                reject(err)</span><br><span class="line">            &#125;</span><br><span class="line">            args.forEach(<span class="function">(<span class="params">item, index</span>) =&gt;</span> &#123;</span><br><span class="line">                MyPromise.resolve(item).then(<span class="function"><span class="params">val</span> =&gt;</span> onResolved(val, index), onRejected)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> race(args) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> onResolved = <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">                resolve(val)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">const</span> onRejected = <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                reject(err)</span><br><span class="line">            &#125;</span><br><span class="line">            args.forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">                MyPromise.resolve(item).then(onResolved, onRejected)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> MyPromise</span><br></pre></td></tr></table></figure>
-<p>整体思路是对状态的值的改变是同步，回调是异步，然后 then 方法的回调同样要异步(处理 FULFILLED 状态后添加的 then 方法)。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1920,7 +1926,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -1933,7 +1939,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

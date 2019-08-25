@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="bai">
 <meta property="og:description" content="什么是 prettierprettier 是一种代码格式化工具，支持 js、jsx、ts、css 等多种类型的语言 why prettierprettier 的作用我认为有两点  减少书写代码时控制代码格式的烦恼，一键就可以格式化 多人协作时保证代码格式一致。对于 git 而言这点很重要，否则对公共文件格式化，将会导致文件大范围改动，对合并代码是噩梦  总结起来其实就一点，保证代码格式的统一。不管">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-08T09:23:32.414Z">
+<meta property="og:updated_time" content="2019-08-21T12:25:43.471Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="prettier">
 <meta name="twitter:description" content="什么是 prettierprettier 是一种代码格式化工具，支持 js、jsx、ts、css 等多种类型的语言 why prettierprettier 的作用我认为有两点  减少书写代码时控制代码格式的烦恼，一键就可以格式化 多人协作时保证代码格式一致。对于 git 而言这点很重要，否则对公共文件格式化，将会导致文件大范围改动，对合并代码是噩梦  总结起来其实就一点，保证代码格式的统一。不管">
@@ -337,6 +337,8 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .eslintrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  ...</span><br><span class="line">  plugins: [<span class="string">'prettier'</span>],</span><br><span class="line">  extends: [<span class="string">'eslint:recommended'</span>, <span class="string">'prettier'</span>],</span><br><span class="line">  rules: &#123;</span><br><span class="line">    <span class="string">'prettier/prettier'</span>: <span class="number">2</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><code>eslint-plugin-prettier</code>增加<code>prettier/prettier</code>校验规则<br><code>eslint-config-prettier</code>去掉 eslint 中关于格式的校验，所以最好防砸爱 extends 的最后防止被覆盖</p>
 <p>这种方案只能用于 js 的校验和格式化。</p>
+<h3 id="ignore"><a href="#ignore" class="headerlink" title="ignore"></a>ignore</h3><p>增加<code>.prettierignore</code>文件可以指定<code>prettier</code>不格式化的文件，在某些文件夹或者某些文件不格式化时非常有用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// .prettierignore</span><br><span class="line"></span><br><span class="line">node_modules</span><br><span class="line">dist</span><br><span class="line">**/*.min.*</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -458,7 +460,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -471,7 +473,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -504,7 +506,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-prettier"><span class="nav-number">1.</span> <span class="nav-text">什么是 prettier</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#why-prettier"><span class="nav-number">2.</span> <span class="nav-text">why prettier</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prettier-vs-eslint"><span class="nav-number">3.</span> <span class="nav-text">prettier vs eslint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cli"><span class="nav-number">4.</span> <span class="nav-text">cli</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API"><span class="nav-number">5.</span> <span class="nav-text">API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prettier-配置"><span class="nav-number">6.</span> <span class="nav-text">prettier 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与-eslint-结合"><span class="nav-number">7.</span> <span class="nav-text">与 eslint 结合</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-prettier"><span class="nav-number">1.</span> <span class="nav-text">什么是 prettier</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#why-prettier"><span class="nav-number">2.</span> <span class="nav-text">why prettier</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prettier-vs-eslint"><span class="nav-number">3.</span> <span class="nav-text">prettier vs eslint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cli"><span class="nav-number">4.</span> <span class="nav-text">cli</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API"><span class="nav-number">5.</span> <span class="nav-text">API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prettier-配置"><span class="nav-number">6.</span> <span class="nav-text">prettier 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与-eslint-结合"><span class="nav-number">7.</span> <span class="nav-text">与 eslint 结合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ignore"><span class="nav-number">8.</span> <span class="nav-text">ignore</span></a></li></ol></div>
             
 
           </div>
