@@ -239,6 +239,326 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/13/engineer/webpack-hot/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/13/engineer/webpack-hot/" itemprop="url">webpack nodejs api热加载</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-13T11:21:31+08:00">
+                2019-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="webpack-nodejs-api如何实现热加载"><a href="#webpack-nodejs-api如何实现热加载" class="headerlink" title="webpack nodejs api如何实现热加载"></a>webpack nodejs api如何实现热加载</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>)</span><br><span class="line"><span class="keyword">const</span> webpackDevServer = <span class="built_in">require</span>(<span class="string">'webpack-dev-server'</span>)</span><br><span class="line">webpackDevServer(webpack(webpackConfig),devConfig)</span><br></pre></td></tr></table></figure>
+<p>这是webpack-dev-server使用nodejs api调用的<a href="https://github.com/webpack/webpack-dev-server/blob/master/examples/api/simple/server.js" target="_blank" rel="noopener">例子</a>,要实现热加载，webpackConfig的entry必须包含下面两个入口。devConfig的hot应该要设置为true。(没确认过)<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// localhost:8080是打开的ip和端口，去掉也可以</span></span><br><span class="line"><span class="string">'webpack-dev-server/client?http://localhost:8080'</span></span><br><span class="line"><span class="comment">// 这个还有其他选项 'webpack/hot/only-dev-server'，具体区别尚不明确。</span></span><br><span class="line"><span class="string">'webpack/hot/dev-server'</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>未完待续</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/05/basis/array-typed/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/05/basis/array-typed/" itemprop="url">定型数组</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-05T20:16:54+08:00">
+                2019-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>[TOC]</p>
+<h3 id="什么是定型数组"><a href="#什么是定型数组" class="headerlink" title="什么是定型数组"></a>什么是定型数组</h3><p>JS中数组一直是不限类型的，一个数组中可以同时存在多种不同类型的数据。普通的数组算术运算速度无法满足WebGL的需求，所以es6引入了定型数组。<br>定型数组是用于处理数值类型的(不是所有类型)的专用数组，定型数组<strong>不是</strong>数组类型。</p>
+<h3 id="定型数组类型"><a href="#定型数组类型" class="headerlink" title="定型数组类型"></a>定型数组类型</h3><p>不同于普通的数组，定型数组的长度是固定的，创建之后就不能改变。所以定型数组可以在内存中对应一段固定的地址，这就是数组缓冲区。</p>
+<h5 id="数组缓冲区"><a href="#数组缓冲区" class="headerlink" title="数组缓冲区"></a>数组缓冲区</h5><p>数组缓冲区是内存中一段字节的地址，可以使用如下方式创建包含<code>10</code>个字节的数组缓冲区。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> buffer = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">10</span>)</span><br><span class="line">buffer.byteLength <span class="comment">// 10</span></span><br></pre></td></tr></table></figure></p>
+<p>注意传递给<code>ArrayBuffer</code>的是字节而不是byte<br>显然，数组缓冲区的大小是固定的，创建之后就不能修改。可以通过<code>byteLength</code>属性查看缓冲区的大小。<br>还可以通过<code>slice</code>方法在原有的缓冲区上创建新的缓冲区。<br>不能通过数组缓冲区直接修改数据，要修改缓冲区的数据，必须创建视图。</p>
+<h5 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h5><p>视图用于操作数组缓冲区，可以基于数组缓冲区创建视图<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> view = <span class="keyword">new</span> <span class="built_in">DataView</span>(buffer,start,length)</span><br></pre></td></tr></table></figure></p>
+<p>其中<code>buffer</code>是数据缓冲区，<code>start</code>和<code>length</code>分别表示视图在视图缓冲区的开始位置和视图的长度。<br>也可以直接传入数值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> view = <span class="keyword">new</span> <span class="built_in">DataView</span>(<span class="number">10</span>)</span><br></pre></td></tr></table></figure></p>
+<p>表示创建<code>10</code>字节大小的视图，通过视图的<code>buffer</code>属性获取视图对应的数据缓冲区</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">视图属性</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">buffer</td>
+<td style="text-align:center">绑定的数组缓冲区</td>
+</tr>
+<tr>
+<td style="text-align:center">byteLength</td>
+<td style="text-align:center">视图的长度，单位为字节</td>
+</tr>
+<tr>
+<td style="text-align:center">byteOffset</td>
+<td style="text-align:center">视图在缓冲区中的开始位置，默认0，通过new DataView(buffer)创建时传入的第二个参数</td>
+</tr>
+</tbody>
+</table>
+<p>可以基于一个数组缓冲区创建多个视图，多个视图都可以修改缓冲区的数据</p>
+<p>视图获取和写入数据的方法</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方法</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">getInt8(byteOffset,littleEndian)</td>
+<td style="text-align:center">获取int8类型的数据</td>
+</tr>
+<tr>
+<td style="text-align:center">setInt8(byteOffset,value,littleEndian)</td>
+<td style="text-align:center">写入int8类型的数据</td>
+</tr>
+</tbody>
+</table>
+<p><code>byteOffset</code>用于表示从视图的哪个位置读取和写入数据，<code>littleEndian</code>是否按照小端序(不明，不确定与字符的大小端有无关系)<br><code>Int8</code>只是一种类型，所有的8中类型(见下文定型数组类型)都是同样的方法读取和写入数据</p>
+<h5 id="定型数组的8种类型"><a href="#定型数组的8种类型" class="headerlink" title="定型数组的8种类型"></a>定型数组的8种类型</h5><p>定型数组包含8中类型<br><code>Int8Array</code>、<code>Uint8Array</code>、<code>Int16Array</code>、<code>Uint16Array</code>、<code>Int32Array</code>、<code>Uint32Array</code>、<code>Float32Array</code>、<code>Float64Array</code>，去掉array后就对应上文中视图读取和写入数字的方法<br>对于<code>Uint8Array</code>还有一种特殊的类型<code>Uint8ClampedArray</code>，区别在于缓冲区的值如果小于0或者大于255，会将其转换到这个范围中</p>
+<h3 id="创建定型数组"><a href="#创建定型数组" class="headerlink" title="创建定型数组"></a>创建定型数组</h3><p>从上文可以知道，定型数组其实就是一种固定类型的视图，所以创建方式和视图非常相似。<br>创建定型数组的方式有三种</p>
+<ol>
+<li>使用数组缓冲区创建<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Int8Array</span>(buffer, start, length)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>参数与创建视图一样，同样，视图有的三个属性，定型数组都有。如果创建的buffer区域的字节长度不是定型数组基础长度的整数倍，会报错。</p>
+<ol start="2">
+<li>使用数字创建<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Int16Array</span>(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>不同的是，这个<code>10</code>代表的是元素的个数，通过定型数组的<code>length</code>属性可以查看元素的个数。<br>对于不同类型的定型数组，元素个数相同，包含的字节长度不相同。比如都是10个元素的定型数组，<code>Int8Array</code>类型的<code>byteLength</code>只有10,<code>Int16Array</code>类型的<code>byteLength</code>是20。</p>
+<ol start="3">
+<li>使用数组相关对象创建<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Float32Array</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>类数组对象包括:数组、定型数组、可迭代对象、类数组对象<br>如果相关对象包含不能转换的值，会以0代替。</p>
+<h3 id="操作定型数组"><a href="#操作定型数组" class="headerlink" title="操作定型数组"></a>操作定型数组</h3><p>定型数组虽然不是数组，但是和数组非常类似</p>
+<p>可以使用<code>arr[0]</code>方式<strong>获取和写入</strong>数据，也可以通过<code>length</code>属性获取定型数组的长度，但是不能修改长度，还可以通过<code>for...of</code>遍历定型数组</p>
+<p>数组的方法定型数组基本都支持，除了以下几个方法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">concat</span><br><span class="line">push</span><br><span class="line">pop</span><br><span class="line">shift</span><br><span class="line">unshift</span><br><span class="line">splice</span><br></pre></td></tr></table></figure></p>
+<p><code>concat</code>不支持是因为不同类型的定型数组合并结果不确定，其它方法则是他们都会改变数组本身的长度，而定型数组的长度是不变的，所以不支持。</p>
+<p>定型数组还支持两个额外的方法<code>set</code>和<code>subarray</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Int8Array</span>(<span class="number">4</span>)</span><br><span class="line">arr.set([<span class="number">1</span>, <span class="number">2</span>])</span><br><span class="line">arr.set([<span class="number">3</span>, <span class="number">4</span>], <span class="number">2</span>)</span><br><span class="line">arr <span class="comment">// [1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure></p>
+<p><code>set</code>方法将一个数组复制到定型数组，第一个参数是目标数组(或其他类数组对象),第二个参数表示开始复制的位置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Int8Array</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]),</span><br><span class="line">arr2 = arr.subarray(<span class="number">1</span>,<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p><code>subarray</code>方法提取已有定型数组的一部分作为一个新的定型数组，两个参数表示开始和结束位置。与<code>slice</code>方法非常类型，区别在于<code>slice</code>方法会创建一个新的<code>buffer</code>，而<code>subarray</code>方法会使用原有的<code>buffer</code>，相当于在原有的<code>buffer</code>上创建一个新的视图。<br>基本等同于一下代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Int8Array</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]),</span><br><span class="line">arr2 = <span class="keyword">new</span> <span class="built_in">Int8Array</span>(arr.buffer, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"><span class="comment">//注意此处是2，因为subarray和new Int8Array的第二个参数不同</span></span><br></pre></td></tr></table></figure></p>
+<p>区别在于<code>subarray</code>的第二个参数是结束元素位置，而不是新建视图的视图字节长度</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/26/basis/object-traverse/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1189,7 +1509,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -1202,7 +1522,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

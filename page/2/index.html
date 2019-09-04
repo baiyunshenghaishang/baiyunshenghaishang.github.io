@@ -239,6 +239,300 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/05/basis/class/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/05/basis/class/" itemprop="url">class</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-05T19:06:19+08:00">
+                2019-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>class 语法介绍</p>
+<h3 id="什么是-class"><a href="#什么是-class" class="headerlink" title="什么是 class"></a>什么是 class</h3><p>class 是 es6 新增的一种语法。</p>
+<p>es 中 function 一直包含两种用途,类和函数。其中类的用途保存在内部属性[[Construct]]中,函数的用途保存在[[Call]]中。对于使用 function 关键字声明的函数而言，两种功能的表现是相同的。</p>
+<p>class 的目的是将函数的类用途从 function 中抽取出来标准化。所以 class 无法使用 new 以外的方式调用。本质上来讲，class 是一种只具有类功能的函数。</p>
+<p>有了 class 之后，不要再使用 function 来模拟类的使用。</p>
+<h3 id="创建-class"><a href="#创建-class" class="headerlink" title="创建 class"></a>创建 class</h3><p>class 的创建有两种方式，一种是声明式，一种是表达式方式。<br><strong>声明式</strong><br>声明式创建的 class 类似于 let/const，在声明之前使用会报错。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">        <span class="keyword">this</span>.age = age</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>表达式方式</strong><br>除了声明提升效果之外，表达式和声明效果的效果完全相同。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Person = <span class="class"><span class="keyword">class</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">        <span class="keyword">this</span>.age = age</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="class-的属性和方法"><a href="#class-的属性和方法" class="headerlink" title="class 的属性和方法"></a>class 的属性和方法</h3><p>从本质上来讲，class 就是 function，class 的功能大部分也可以通过 function 来模拟。所以和 function 类似，class 的属性和方法包含以下几种</p>
+<ol>
+<li>constructor 方法</li>
+<li>实例属性和方法</li>
+<li>原型方法</li>
+<li>静态属性和方法</li>
+</ol>
+<h5 id="constructor-方法"><a href="#constructor-方法" class="headerlink" title="constructor 方法"></a>constructor 方法</h5><p>class 的目的是将函数类的功能抽取出来，constructor 方法对应的就是函数的函数体。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">        <span class="keyword">this</span>.age = age</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">new</span> Person(<span class="string">'huang'</span>, <span class="number">18</span>)</span><br></pre></td></tr></table></figure>
+<p>在上面声明的 Person 中,constructor 方法中就是生成新对象的代码。<br>name 和 age 属性保存在新生成对象的实例上</p>
+<h5 id="实例属性和方法"><a href="#实例属性和方法" class="headerlink" title="实例属性和方法"></a>实例属性和方法</h5><p>实例属性和方法在 constructor 方法中声明。<br>实际上一般是不存在实例方法的，方法一般保存在原型上。<br>访问器属性时比较特殊的属性，声明方式和原型方法比较类似</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">        <span class="keyword">this</span>._name = name</span><br><span class="line">        <span class="keyword">this</span>.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// name是访问器属性，而不是原型方法</span></span><br><span class="line">    get name() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="原型方法"><a href="#原型方法" class="headerlink" title="原型方法"></a>原型方法</h5><p>es6 规范已经明确表明，<strong>不存在原型属性</strong>。<br>原型方法的声明方式和对象方法的声明方式相同。下例中，getName 方法保存在 Person 的 prototype 属性上</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">        <span class="keyword">this</span>.age = age</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="静态属性和方法"><a href="#静态属性和方法" class="headerlink" title="静态属性和方法"></a>静态属性和方法</h5><p>函数本身也是特殊的对象，所以也可以添加自己的属性和方法。<br>静态属性和方法就是 class 对象本身的属性和方法，而不是创建实例的属性和方法<br>在 class 中声明静态属性和方法的方式是在声明的属性和方法前加上 static</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> className = <span class="string">'Person'</span></span><br><span class="line">    <span class="keyword">static</span> getClassName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'Person'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="class-继承"><a href="#class-继承" class="headerlink" title="class 继承"></a>class 继承</h3><p>通过 class 继承一个类非常简单，使用 extends 关键字即可。extends 后面不一定是一个 class，可以是任何一个包含[[Construct]]的函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Male</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">super</span>(name)</span><br><span class="line">        <span class="keyword">this</span>.sex = <span class="string">'male'</span></span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getName() + <span class="keyword">this</span>.getSex()</span><br><span class="line">    &#125;</span><br><span class="line">    getSex() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.sex</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Male 继承 Person 后，Male 的 prototype 对象的原型指向 Person 的 prototype 对象 ，而 Male 的原型会指向 Person</p>
+<p>class 的继承包含四部分</p>
+<ol>
+<li>constructor 的继承</li>
+<li>实例属性和方法的继承</li>
+<li>原型方法的继承</li>
+<li>静态属性和方法的继承</li>
+</ol>
+<p>对应上面 class 的属性和方法的 4 部分</p>
+<h5 id="constructor-的继承"><a href="#constructor-的继承" class="headerlink" title="constructor 的继承"></a>constructor 的继承</h5><p>constructor 本身是不能被直接继承的,要调用父类的 constructor，必须使用 super()方法。在子类的 constructor 方法中，使用 this 之前必须使用先调用 super()方法，否则会报错<br>这也是 class 继承和函数模拟继承的不同之处。class 继承是先创建父类的实例，然后在父类的实例上调用子类的构造方法。而函数模拟类是先创建子类的实例，然后在实例上执行父类的构造方法，最后在实例上执行子类的构造方法。</p>
+<p>如果子类省略 constructor 方法，会默认生成一个 constructor 方法，调用 super()方法并传入所有参数</p>
+<h5 id="实例属性和方法的继承"><a href="#实例属性和方法的继承" class="headerlink" title="实例属性和方法的继承"></a>实例属性和方法的继承</h5><p>实例属性和方法的继承就是执行 super()方法的过程，不再赘叙。</p>
+<h5 id="原型方法的继承"><a href="#原型方法的继承" class="headerlink" title="原型方法的继承"></a>原型方法的继承</h5><p>原型方法的继承是通过修改子类 prototype 属性的原型指向，使其指向父类 prototype 属性<br>这样子类的实例原型链上就包含父类的 prototype 属性</p>
+<h5 id="静态方法和属性的继承"><a href="#静态方法和属性的继承" class="headerlink" title="静态方法和属性的继承"></a>静态方法和属性的继承</h5><p>class 静态方法和属性的继承是通过将子类的原型对象指向父类</p>
+<p>继承的完整图形如下所示<br><img src="/images/class继承.png" alt="class继承图"><br>由上图可以发现，抛开 function 本身的原型系统,继承只做了两件事情，一个是将子类的原型指向父类，另一个是将子类的 prototype 对象的原型指向父类的 prototype 对象</p>
+<h5 id="super"><a href="#super" class="headerlink" title="super"></a>super</h5><p>super 有两种用途，一种是在子类的 constructor 方法内直接调用 super()方法，此时会调用父类的 constructor 方法<br>另一种是在子类的方法中通过 super.XXX()方式调用父类的方法，包括子类的静态方法中也可以使用 super.XXX()方式。同样的方式也可以在对象的方法中使用。</p>
+<p>第一种用途的 super 指向明确，指向父类的 constructor 方法<br>第二种用途的 super 指向方法所属对象的原型<br>关于方法，只有使用属性简写方式的函数属性才是方法，才有所属对象。class 中函数也是使用属性简写方式声明，所以 class 中定义的也是方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    name()&#123;&#125; <span class="comment">// 这是方法</span></span><br><span class="line">    age:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125; <span class="comment">// 不是属性简写方式，不是方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>class 中的方法定义在 class 的 prototype 属性上，所以 class 内定义的方法所属对象是 class 的 prototype 属性，class 的 prototype 属性的原型指向父类的 prototype 属性。所以 super 指向的是父类 prototype 属性，通过 super.XXX 可以访问父类的 prototype 属性上的方法。</p>
+<h3 id="class-模拟实现"><a href="#class-模拟实现" class="headerlink" title="class 模拟实现"></a>class 模拟实现</h3><p>完整模拟 class 的实现是不行的，因为 class 的实现中是先创建父类实例，然后以父类实例为 this 执行子类构造函数。而模拟实现中只能下创建子类实例，然后以子类实例为 this 执行父类的构造函数，最后执行子类的构造函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>等同于以下实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Person = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> Person = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">new</span>.target === <span class="string">'undefined'</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'构造函数不能使用new以外的方式调用'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">Object</span>.defineProperty(Person.prototype, <span class="string">'getName'</span>, &#123;</span><br><span class="line">        enumerable: <span class="literal">false</span>,</span><br><span class="line">        writable: <span class="literal">true</span>,</span><br><span class="line">        configrable: <span class="literal">true</span>,</span><br><span class="line">        value() &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">new</span>.target !== <span class="string">'undefined'</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'方法不能使用new调用'</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> Person</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<p>继承的模拟实现也比较简单，除了子类的构造函数中需要调用父类的构造函数外，只需要使用 Object.setPrototypeOf 将子类和子类的 prototype 的原型分别指向父类和父类的 prototype</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Male</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">super</span>(name)</span><br><span class="line">        <span class="keyword">this</span>.sex = <span class="string">'male'</span></span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getName() + <span class="keyword">this</span>.getSex()</span><br><span class="line">    &#125;</span><br><span class="line">    getSex() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.sex</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>模拟实现如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Person部分省略</span></span><br><span class="line"><span class="keyword">let</span> Male = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> Male = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">        Person.call(<span class="keyword">this</span>, name)</span><br><span class="line">        <span class="keyword">this</span>.sex = <span class="string">'male'</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 省略定义getName和getSex方法，类似于Person getName的模拟实现</span></span><br><span class="line">    <span class="built_in">Object</span>.setPrototypeOf(Male, Person)</span><br><span class="line">    <span class="built_in">Object</span>.setPrototypeOf(Male.prototype, Person.prototype)</span><br><span class="line">    <span class="keyword">return</span> Male</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/21/basis/json/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/21/basis/json/" itemprop="url">JSON</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-21T12:04:06+08:00">
+                2019-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="JSON-parse"><a href="#JSON-parse" class="headerlink" title="JSON.parse"></a>JSON.parse</h3><p>JSON.parse 报错的处理方法,多半是换行之类的作怪</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str = str.replace(<span class="regexp">/\\/g</span>, <span class="string">'\\\\'</span>)</span><br><span class="line">str = str.replace(<span class="regexp">/\r/g</span>, <span class="string">'\\r'</span>)</span><br><span class="line">str = str.replace(<span class="regexp">/\n/g</span>, <span class="string">'\\n'</span>)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/14/basis/promise/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1508,326 +1802,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/13/engineer/webpack-hot/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/13/engineer/webpack-hot/" itemprop="url">webpack nodejs api热加载</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-13T11:21:31+08:00">
-                2019-03-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="webpack-nodejs-api如何实现热加载"><a href="#webpack-nodejs-api如何实现热加载" class="headerlink" title="webpack nodejs api如何实现热加载"></a>webpack nodejs api如何实现热加载</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>)</span><br><span class="line"><span class="keyword">const</span> webpackDevServer = <span class="built_in">require</span>(<span class="string">'webpack-dev-server'</span>)</span><br><span class="line">webpackDevServer(webpack(webpackConfig),devConfig)</span><br></pre></td></tr></table></figure>
-<p>这是webpack-dev-server使用nodejs api调用的<a href="https://github.com/webpack/webpack-dev-server/blob/master/examples/api/simple/server.js" target="_blank" rel="noopener">例子</a>,要实现热加载，webpackConfig的entry必须包含下面两个入口。devConfig的hot应该要设置为true。(没确认过)<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// localhost:8080是打开的ip和端口，去掉也可以</span></span><br><span class="line"><span class="string">'webpack-dev-server/client?http://localhost:8080'</span></span><br><span class="line"><span class="comment">// 这个还有其他选项 'webpack/hot/only-dev-server'，具体区别尚不明确。</span></span><br><span class="line"><span class="string">'webpack/hot/dev-server'</span></span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>未完待续</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/05/basis/array-typed/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/05/basis/array-typed/" itemprop="url">定型数组</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-05T20:16:54+08:00">
-                2019-03-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>[TOC]</p>
-<h3 id="什么是定型数组"><a href="#什么是定型数组" class="headerlink" title="什么是定型数组"></a>什么是定型数组</h3><p>JS中数组一直是不限类型的，一个数组中可以同时存在多种不同类型的数据。普通的数组算术运算速度无法满足WebGL的需求，所以es6引入了定型数组。<br>定型数组是用于处理数值类型的(不是所有类型)的专用数组，定型数组<strong>不是</strong>数组类型。</p>
-<h3 id="定型数组类型"><a href="#定型数组类型" class="headerlink" title="定型数组类型"></a>定型数组类型</h3><p>不同于普通的数组，定型数组的长度是固定的，创建之后就不能改变。所以定型数组可以在内存中对应一段固定的地址，这就是数组缓冲区。</p>
-<h5 id="数组缓冲区"><a href="#数组缓冲区" class="headerlink" title="数组缓冲区"></a>数组缓冲区</h5><p>数组缓冲区是内存中一段字节的地址，可以使用如下方式创建包含<code>10</code>个字节的数组缓冲区。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> buffer = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">10</span>)</span><br><span class="line">buffer.byteLength <span class="comment">// 10</span></span><br></pre></td></tr></table></figure></p>
-<p>注意传递给<code>ArrayBuffer</code>的是字节而不是byte<br>显然，数组缓冲区的大小是固定的，创建之后就不能修改。可以通过<code>byteLength</code>属性查看缓冲区的大小。<br>还可以通过<code>slice</code>方法在原有的缓冲区上创建新的缓冲区。<br>不能通过数组缓冲区直接修改数据，要修改缓冲区的数据，必须创建视图。</p>
-<h5 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h5><p>视图用于操作数组缓冲区，可以基于数组缓冲区创建视图<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> view = <span class="keyword">new</span> <span class="built_in">DataView</span>(buffer,start,length)</span><br></pre></td></tr></table></figure></p>
-<p>其中<code>buffer</code>是数据缓冲区，<code>start</code>和<code>length</code>分别表示视图在视图缓冲区的开始位置和视图的长度。<br>也可以直接传入数值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> view = <span class="keyword">new</span> <span class="built_in">DataView</span>(<span class="number">10</span>)</span><br></pre></td></tr></table></figure></p>
-<p>表示创建<code>10</code>字节大小的视图，通过视图的<code>buffer</code>属性获取视图对应的数据缓冲区</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">视图属性</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">buffer</td>
-<td style="text-align:center">绑定的数组缓冲区</td>
-</tr>
-<tr>
-<td style="text-align:center">byteLength</td>
-<td style="text-align:center">视图的长度，单位为字节</td>
-</tr>
-<tr>
-<td style="text-align:center">byteOffset</td>
-<td style="text-align:center">视图在缓冲区中的开始位置，默认0，通过new DataView(buffer)创建时传入的第二个参数</td>
-</tr>
-</tbody>
-</table>
-<p>可以基于一个数组缓冲区创建多个视图，多个视图都可以修改缓冲区的数据</p>
-<p>视图获取和写入数据的方法</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">方法</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">getInt8(byteOffset,littleEndian)</td>
-<td style="text-align:center">获取int8类型的数据</td>
-</tr>
-<tr>
-<td style="text-align:center">setInt8(byteOffset,value,littleEndian)</td>
-<td style="text-align:center">写入int8类型的数据</td>
-</tr>
-</tbody>
-</table>
-<p><code>byteOffset</code>用于表示从视图的哪个位置读取和写入数据，<code>littleEndian</code>是否按照小端序(不明，不确定与字符的大小端有无关系)<br><code>Int8</code>只是一种类型，所有的8中类型(见下文定型数组类型)都是同样的方法读取和写入数据</p>
-<h5 id="定型数组的8种类型"><a href="#定型数组的8种类型" class="headerlink" title="定型数组的8种类型"></a>定型数组的8种类型</h5><p>定型数组包含8中类型<br><code>Int8Array</code>、<code>Uint8Array</code>、<code>Int16Array</code>、<code>Uint16Array</code>、<code>Int32Array</code>、<code>Uint32Array</code>、<code>Float32Array</code>、<code>Float64Array</code>，去掉array后就对应上文中视图读取和写入数字的方法<br>对于<code>Uint8Array</code>还有一种特殊的类型<code>Uint8ClampedArray</code>，区别在于缓冲区的值如果小于0或者大于255，会将其转换到这个范围中</p>
-<h3 id="创建定型数组"><a href="#创建定型数组" class="headerlink" title="创建定型数组"></a>创建定型数组</h3><p>从上文可以知道，定型数组其实就是一种固定类型的视图，所以创建方式和视图非常相似。<br>创建定型数组的方式有三种</p>
-<ol>
-<li>使用数组缓冲区创建<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Int8Array</span>(buffer, start, length)</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>参数与创建视图一样，同样，视图有的三个属性，定型数组都有。如果创建的buffer区域的字节长度不是定型数组基础长度的整数倍，会报错。</p>
-<ol start="2">
-<li>使用数字创建<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Int16Array</span>(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>不同的是，这个<code>10</code>代表的是元素的个数，通过定型数组的<code>length</code>属性可以查看元素的个数。<br>对于不同类型的定型数组，元素个数相同，包含的字节长度不相同。比如都是10个元素的定型数组，<code>Int8Array</code>类型的<code>byteLength</code>只有10,<code>Int16Array</code>类型的<code>byteLength</code>是20。</p>
-<ol start="3">
-<li>使用数组相关对象创建<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Float32Array</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>类数组对象包括:数组、定型数组、可迭代对象、类数组对象<br>如果相关对象包含不能转换的值，会以0代替。</p>
-<h3 id="操作定型数组"><a href="#操作定型数组" class="headerlink" title="操作定型数组"></a>操作定型数组</h3><p>定型数组虽然不是数组，但是和数组非常类似</p>
-<p>可以使用<code>arr[0]</code>方式<strong>获取和写入</strong>数据，也可以通过<code>length</code>属性获取定型数组的长度，但是不能修改长度，还可以通过<code>for...of</code>遍历定型数组</p>
-<p>数组的方法定型数组基本都支持，除了以下几个方法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">concat</span><br><span class="line">push</span><br><span class="line">pop</span><br><span class="line">shift</span><br><span class="line">unshift</span><br><span class="line">splice</span><br></pre></td></tr></table></figure></p>
-<p><code>concat</code>不支持是因为不同类型的定型数组合并结果不确定，其它方法则是他们都会改变数组本身的长度，而定型数组的长度是不变的，所以不支持。</p>
-<p>定型数组还支持两个额外的方法<code>set</code>和<code>subarray</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Int8Array</span>(<span class="number">4</span>)</span><br><span class="line">arr.set([<span class="number">1</span>, <span class="number">2</span>])</span><br><span class="line">arr.set([<span class="number">3</span>, <span class="number">4</span>], <span class="number">2</span>)</span><br><span class="line">arr <span class="comment">// [1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure></p>
-<p><code>set</code>方法将一个数组复制到定型数组，第一个参数是目标数组(或其他类数组对象),第二个参数表示开始复制的位置</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Int8Array</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]),</span><br><span class="line">arr2 = arr.subarray(<span class="number">1</span>,<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-<p><code>subarray</code>方法提取已有定型数组的一部分作为一个新的定型数组，两个参数表示开始和结束位置。与<code>slice</code>方法非常类型，区别在于<code>slice</code>方法会创建一个新的<code>buffer</code>，而<code>subarray</code>方法会使用原有的<code>buffer</code>，相当于在原有的<code>buffer</code>上创建一个新的视图。<br>基本等同于一下代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Int8Array</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]),</span><br><span class="line">arr2 = <span class="keyword">new</span> <span class="built_in">Int8Array</span>(arr.buffer, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"><span class="comment">//注意此处是2，因为subarray和new Int8Array的第二个参数不同</span></span><br></pre></td></tr></table></figure></p>
-<p>区别在于<code>subarray</code>的第二个参数是结束元素位置，而不是新建视图的视图字节长度</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1880,7 +1854,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -1893,7 +1867,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

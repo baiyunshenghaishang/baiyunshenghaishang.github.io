@@ -239,6 +239,280 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/04/basis/asynciterator/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/04/basis/asynciterator/" itemprop="url">异步迭代</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-04T19:04:27+08:00">
+                2019-09-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="for…of"><a href="#for…of" class="headerlink" title="for…of"></a>for…of</h3><p>在<a href="https://baiyunshenghaishang.github.io/2019/03/25/basis/iterator/" target="_blank" rel="noopener">迭代器</a>中讲到了，<code>for...of</code>可以用来遍历可迭代对象，<br>相比于传统的 for 循环，<code>for...of</code>循环更加简洁</p>
+<p><code>for...of</code>循环包含一个默认的约定，即可迭代对象的 next 方法必须是同步的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">generator</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="built_in">Promise</span>.resolve(<span class="number">3</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">of</span> generator())&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(item) <span class="comment">// 1 2 Promise对象</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，对于返回 Promise 对象可迭代对象，<code>for...of</code>循环并不能正确获取 Promise resolve 的值</p>
+<h3 id="异步生成器"><a href="#异步生成器" class="headerlink" title="异步生成器"></a>异步生成器</h3><p>为了处理异步的迭代，js 增加了异步生成器和<code>for await ... of</code></p>
+<p>下面是一个简单的异步生成器例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span>* <span class="title">asyncGenerator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">await</span> <span class="built_in">Promise</span>.resolve(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">await</span> <span class="built_in">Promise</span>.resolve(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> setTimeout(resolve, <span class="number">3000</span>))</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> gen = asyncGenerator()</span><br><span class="line">gen.next() <span class="comment">// Promise对象</span></span><br></pre></td></tr></table></figure>
+<p>异步生成器是一个生成器函数，返回一个可迭代对象<br>但是不同于普通生成器返回的可迭代对象，异步生成器返回的可迭代对象每次调用 next 方法都会返回一个 Promise</p>
+<h3 id="for-await-…of"><a href="#for-await-…of" class="headerlink" title="for await …of"></a>for await …of</h3><p>有了异步生成器，自然也需要异步迭代器</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span>* <span class="title">asyncGenerator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">await</span> <span class="built_in">Promise</span>.resolve(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">await</span> <span class="built_in">Promise</span>.resolve(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> setTimeout(resolve, <span class="number">3000</span>))</span><br><span class="line">&#125;</span><br><span class="line">;(<span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">let</span> item <span class="keyword">of</span> asyncGenerator()) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(item) <span class="comment">// 1 2 undefined</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<p>上面的例子中，<code>for await ... of</code>会先执行 next 方法，然后等待 next 方法返回的 Promise resolve,然后执行下一个 next 方法，然后等待下一个 Promise resolve，直到 next 方法返回 done：true</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/27/basis/async/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/27/basis/async/" itemprop="url">异步函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-27T07:13:46+08:00">
+                2019-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="为什么需要异步函数"><a href="#为什么需要异步函数" class="headerlink" title="为什么需要异步函数"></a>为什么需要异步函数</h3><p>异步函数时 js 新增的一种语法，用于异步的处理</p>
+<p>js 中异步的处理经历了三个阶段</p>
+<ol>
+<li>回调函数</li>
+<li>Promise</li>
+<li>异步函数</li>
+</ol>
+<p>Promise 解决了很多回调函数的缺陷，比如回调地狱等，在回调函数的基础上前进了一大步</p>
+<p>但是 Promise 并不完美，大量的 then 语法虽然结构上比回调函数清晰很多，但是同样令人眼花缭乱</p>
+<p>所以我们需要一种更简洁的语法来表示异步编程，异步函数就是一种方案</p>
+<h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><p>异步函数也是一种函数，其声明方式和其它函数相同，唯一的区别是在 function 关键字之前需要加上 async 关键字，在异步函数内部可以使用 await 关键字。如果没有 function 关键字，需要在函数名之前加上 async 关键字</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="keyword">let</span> say = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    <span class="keyword">async</span> say() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>await 之后可以跟 Promsie 或者普通变量，如果是 Promise，异步函数会暂停执行，等待 Promise resolve 之后继续执行。await 的返回值就是 Promise 的决议值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> pause = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params">secs</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">        setTimeout(resolve, secs)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`paused <span class="subst">$&#123;secs&#125;</span> milsecs`</span>)</span><br><span class="line">&#125;</span><br><span class="line">pause(<span class="number">3000</span>)</span><br></pre></td></tr></table></figure>
+<p>上面的代码会在 3s 之后打印结果，这就是异步函数的最基本用法</p>
+<p>异步函数会返回 Promise，如果异步函数执行报错，返回的 Promise 会执行 reject</p>
+<h3 id="异步函数的错误处理"><a href="#异步函数的错误处理" class="headerlink" title="异步函数的错误处理"></a>异步函数的错误处理</h3><p>异步函数内部可以包含多个 await，任何 await 之后的 Promise reject 都会导致后续的 await 不会不行，异步函数返回的 Promise 会执行 reject</p>
+<p>所以如果想某一个 await 之后的 Promise reject 之后继续执行，需要使用 catch 或者 try…catch</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">await</span> someThrowErrorPromise()</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;&#125;</span><br><span class="line">    <span class="keyword">await</span> executePromiseAfterError()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">await</span> someThrowErrorPromise().catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;&#125;)</span><br><span class="line">    <span class="keyword">await</span> executePromiseAfterError()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="异步函数的模拟实现"><a href="#异步函数的模拟实现" class="headerlink" title="异步函数的模拟实现"></a>异步函数的模拟实现</h3><p>在生成器一章中讲到过，异步函数其实就是对生成器异步执行的一种标准化，所以完全可以用生成器来模拟异步函数。</p>
+<p>当然，相比于生成器的模拟，异步函数的不需要执行器，而且语义更明确，所以还是推荐使用异步函数</p>
+<p>在<a href="https://baiyunshenghaishang.github.io/2019/03/28/basis/generator/" target="_blank" rel="noopener">生成器</a>中已经详细讲解了如何模拟异步函数，这里只给出执行器的代码，其它的参考生成器一篇即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">tasks</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> gen = tasks(),</span><br><span class="line">            result = gen.next()</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params">result</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (result.done) <span class="keyword">return</span> resolve(result.value)</span><br><span class="line">            <span class="built_in">Promise</span>.resolve(result.value).then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">                step(gen.next(val))</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        step(result)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>异步函数的出现是为了提供比 Promise 更简洁、语义更明确的异步代码。但是异步函数并不是完全取代 Promise，而是在 Promise 的基础上实现。从前面的代码中也可以看出，异步函数和 Promise 息息相关</p>
+<p>所以并不是有了异步函数就不需要 Promise，我们仍然需要 Promise，只是在合适的地方，可以使用异步函数替代 Promise</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/15/engineer/code-quanlity/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -794,7 +1068,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .pretterrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    ...require(<span class="string">"@baixiaogou/prettier-config"</span>)</span><br><span class="line">    <span class="comment">// 额外的覆盖配置</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="与-eslint-结合"><a href="#与-eslint-结合" class="headerlink" title="与 eslint 结合"></a>与 eslint 结合</h3><p>与 eslint 结合使用的思路是禁用 eslint 的格式化校验规则，然后开启 prettier 的规则校验</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .eslintrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  ...</span><br><span class="line">  plugins: [<span class="string">'prettier'</span>],</span><br><span class="line">  extends: [<span class="string">'eslint:recommended'</span>, <span class="string">'prettier'</span>],</span><br><span class="line">  rules: &#123;</span><br><span class="line">    <span class="string">'prettier/prettier'</span>: <span class="number">2</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>eslint-plugin-prettier</code>增加<code>prettier/prettier</code>校验规则<br><code>eslint-config-prettier</code>去掉 eslint 中关于格式的校验，所以最好防砸爱 extends 的最后防止被覆盖</p>
+<p><code>eslint-plugin-prettier</code>增加<code>prettier/prettier</code>校验规则<br><code>eslint-config-prettier</code>去掉 eslint 中关于格式的校验，所以最好放在 extends 的最后防止被覆盖</p>
 <p>这种方案只能用于 js 的校验和格式化。</p>
 <h3 id="ignore"><a href="#ignore" class="headerlink" title="ignore"></a>ignore</h3><p>增加<code>.prettierignore</code>文件可以指定<code>prettier</code>不格式化的文件，在某些文件夹或者某些文件不格式化时非常有用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// .prettierignore</span><br><span class="line"></span><br><span class="line">node_modules</span><br><span class="line">dist</span><br><span class="line">**/*.min.*</span><br></pre></td></tr></table></figure>
@@ -1580,300 +1854,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/05/basis/class/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/05/basis/class/" itemprop="url">class</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-05T19:06:19+08:00">
-                2019-05-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>class 语法介绍</p>
-<h3 id="什么是-class"><a href="#什么是-class" class="headerlink" title="什么是 class"></a>什么是 class</h3><p>class 是 es6 新增的一种语法。</p>
-<p>es 中 function 一直包含两种用途,类和函数。其中类的用途保存在内部属性[[Construct]]中,函数的用途保存在[[Call]]中。对于使用 function 关键字声明的函数而言，两种功能的表现是相同的。</p>
-<p>class 的目的是将函数的类用途从 function 中抽取出来标准化。所以 class 无法使用 new 以外的方式调用。本质上来讲，class 是一种只具有类功能的函数。</p>
-<p>有了 class 之后，不要再使用 function 来模拟类的使用。</p>
-<h3 id="创建-class"><a href="#创建-class" class="headerlink" title="创建 class"></a>创建 class</h3><p>class 的创建有两种方式，一种是声明式，一种是表达式方式。<br><strong>声明式</strong><br>声明式创建的 class 类似于 let/const，在声明之前使用会报错。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">        <span class="keyword">this</span>.age = age</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>表达式方式</strong><br>除了声明提升效果之外，表达式和声明效果的效果完全相同。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Person = <span class="class"><span class="keyword">class</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">        <span class="keyword">this</span>.age = age</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="class-的属性和方法"><a href="#class-的属性和方法" class="headerlink" title="class 的属性和方法"></a>class 的属性和方法</h3><p>从本质上来讲，class 就是 function，class 的功能大部分也可以通过 function 来模拟。所以和 function 类似，class 的属性和方法包含以下几种</p>
-<ol>
-<li>constructor 方法</li>
-<li>实例属性和方法</li>
-<li>原型方法</li>
-<li>静态属性和方法</li>
-</ol>
-<h5 id="constructor-方法"><a href="#constructor-方法" class="headerlink" title="constructor 方法"></a>constructor 方法</h5><p>class 的目的是将函数类的功能抽取出来，constructor 方法对应的就是函数的函数体。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">        <span class="keyword">this</span>.age = age</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">new</span> Person(<span class="string">'huang'</span>, <span class="number">18</span>)</span><br></pre></td></tr></table></figure>
-<p>在上面声明的 Person 中,constructor 方法中就是生成新对象的代码。<br>name 和 age 属性保存在新生成对象的实例上</p>
-<h5 id="实例属性和方法"><a href="#实例属性和方法" class="headerlink" title="实例属性和方法"></a>实例属性和方法</h5><p>实例属性和方法在 constructor 方法中声明。<br>实际上一般是不存在实例方法的，方法一般保存在原型上。<br>访问器属性时比较特殊的属性，声明方式和原型方法比较类似</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">        <span class="keyword">this</span>._name = name</span><br><span class="line">        <span class="keyword">this</span>.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// name是访问器属性，而不是原型方法</span></span><br><span class="line">    get name() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="原型方法"><a href="#原型方法" class="headerlink" title="原型方法"></a>原型方法</h5><p>es6 规范已经明确表明，<strong>不存在原型属性</strong>。<br>原型方法的声明方式和对象方法的声明方式相同。下例中，getName 方法保存在 Person 的 prototype 属性上</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">        <span class="keyword">this</span>.age = age</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="静态属性和方法"><a href="#静态属性和方法" class="headerlink" title="静态属性和方法"></a>静态属性和方法</h5><p>函数本身也是特殊的对象，所以也可以添加自己的属性和方法。<br>静态属性和方法就是 class 对象本身的属性和方法，而不是创建实例的属性和方法<br>在 class 中声明静态属性和方法的方式是在声明的属性和方法前加上 static</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> className = <span class="string">'Person'</span></span><br><span class="line">    <span class="keyword">static</span> getClassName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'Person'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="class-继承"><a href="#class-继承" class="headerlink" title="class 继承"></a>class 继承</h3><p>通过 class 继承一个类非常简单，使用 extends 关键字即可。extends 后面不一定是一个 class，可以是任何一个包含[[Construct]]的函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Male</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">super</span>(name)</span><br><span class="line">        <span class="keyword">this</span>.sex = <span class="string">'male'</span></span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getName() + <span class="keyword">this</span>.getSex()</span><br><span class="line">    &#125;</span><br><span class="line">    getSex() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.sex</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Male 继承 Person 后，Male 的 prototype 对象的原型指向 Person 的 prototype 对象 ，而 Male 的原型会指向 Person</p>
-<p>class 的继承包含四部分</p>
-<ol>
-<li>constructor 的继承</li>
-<li>实例属性和方法的继承</li>
-<li>原型方法的继承</li>
-<li>静态属性和方法的继承</li>
-</ol>
-<p>对应上面 class 的属性和方法的 4 部分</p>
-<h5 id="constructor-的继承"><a href="#constructor-的继承" class="headerlink" title="constructor 的继承"></a>constructor 的继承</h5><p>constructor 本身是不能被直接继承的,要调用父类的 constructor，必须使用 super()方法。在子类的 constructor 方法中，使用 this 之前必须使用先调用 super()方法，否则会报错<br>这也是 class 继承和函数模拟继承的不同之处。class 继承是先创建父类的实例，然后在父类的实例上调用子类的构造方法。而函数模拟类是先创建子类的实例，然后在实例上执行父类的构造方法，最后在实例上执行子类的构造方法。</p>
-<p>如果子类省略 constructor 方法，会默认生成一个 constructor 方法，调用 super()方法并传入所有参数</p>
-<h5 id="实例属性和方法的继承"><a href="#实例属性和方法的继承" class="headerlink" title="实例属性和方法的继承"></a>实例属性和方法的继承</h5><p>实例属性和方法的继承就是执行 super()方法的过程，不再赘叙。</p>
-<h5 id="原型方法的继承"><a href="#原型方法的继承" class="headerlink" title="原型方法的继承"></a>原型方法的继承</h5><p>原型方法的继承是通过修改子类 prototype 属性的原型指向，使其指向父类 prototype 属性<br>这样子类的实例原型链上就包含父类的 prototype 属性</p>
-<h5 id="静态方法和属性的继承"><a href="#静态方法和属性的继承" class="headerlink" title="静态方法和属性的继承"></a>静态方法和属性的继承</h5><p>class 静态方法和属性的继承是通过将子类的原型对象指向父类</p>
-<p>继承的完整图形如下所示<br><img src="/images/class继承.png" alt="class继承图"><br>由上图可以发现，抛开 function 本身的原型系统,继承只做了两件事情，一个是将子类的原型指向父类，另一个是将子类的 prototype 对象的原型指向父类的 prototype 对象</p>
-<h5 id="super"><a href="#super" class="headerlink" title="super"></a>super</h5><p>super 有两种用途，一种是在子类的 constructor 方法内直接调用 super()方法，此时会调用父类的 constructor 方法<br>另一种是在子类的方法中通过 super.XXX()方式调用父类的方法，包括子类的静态方法中也可以使用 super.XXX()方式。同样的方式也可以在对象的方法中使用。</p>
-<p>第一种用途的 super 指向明确，指向父类的 constructor 方法<br>第二种用途的 super 指向方法所属对象的原型<br>关于方法，只有使用属性简写方式的函数属性才是方法，才有所属对象。class 中函数也是使用属性简写方式声明，所以 class 中定义的也是方法。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    name()&#123;&#125; <span class="comment">// 这是方法</span></span><br><span class="line">    age:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125; <span class="comment">// 不是属性简写方式，不是方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>class 中的方法定义在 class 的 prototype 属性上，所以 class 内定义的方法所属对象是 class 的 prototype 属性，class 的 prototype 属性的原型指向父类的 prototype 属性。所以 super 指向的是父类 prototype 属性，通过 super.XXX 可以访问父类的 prototype 属性上的方法。</p>
-<h3 id="class-模拟实现"><a href="#class-模拟实现" class="headerlink" title="class 模拟实现"></a>class 模拟实现</h3><p>完整模拟 class 的实现是不行的，因为 class 的实现中是先创建父类实例，然后以父类实例为 this 执行子类构造函数。而模拟实现中只能下创建子类实例，然后以子类实例为 this 执行父类的构造函数，最后执行子类的构造函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>等同于以下实现</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Person = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> Person = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">new</span>.target === <span class="string">'undefined'</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'构造函数不能使用new以外的方式调用'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">Object</span>.defineProperty(Person.prototype, <span class="string">'getName'</span>, &#123;</span><br><span class="line">        enumerable: <span class="literal">false</span>,</span><br><span class="line">        writable: <span class="literal">true</span>,</span><br><span class="line">        configrable: <span class="literal">true</span>,</span><br><span class="line">        value() &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">new</span>.target !== <span class="string">'undefined'</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'方法不能使用new调用'</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> Person</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
-<p>继承的模拟实现也比较简单，除了子类的构造函数中需要调用父类的构造函数外，只需要使用 Object.setPrototypeOf 将子类和子类的 prototype 的原型分别指向父类和父类的 prototype</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Male</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">super</span>(name)</span><br><span class="line">        <span class="keyword">this</span>.sex = <span class="string">'male'</span></span><br><span class="line">    &#125;</span><br><span class="line">    getName() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getName() + <span class="keyword">this</span>.getSex()</span><br><span class="line">    &#125;</span><br><span class="line">    getSex() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.sex</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>模拟实现如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Person部分省略</span></span><br><span class="line"><span class="keyword">let</span> Male = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> Male = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">        Person.call(<span class="keyword">this</span>, name)</span><br><span class="line">        <span class="keyword">this</span>.sex = <span class="string">'male'</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 省略定义getName和getSex方法，类似于Person getName的模拟实现</span></span><br><span class="line">    <span class="built_in">Object</span>.setPrototypeOf(Male, Person)</span><br><span class="line">    <span class="built_in">Object</span>.setPrototypeOf(Male.prototype, Person.prototype)</span><br><span class="line">    <span class="keyword">return</span> Male</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/21/basis/json/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/21/basis/json/" itemprop="url">JSON</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-21T12:04:06+08:00">
-                2019-04-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="JSON-parse"><a href="#JSON-parse" class="headerlink" title="JSON.parse"></a>JSON.parse</h3><p>JSON.parse 报错的处理方法,多半是换行之类的作怪</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str = str.replace(<span class="regexp">/\\/g</span>, <span class="string">'\\\\'</span>)</span><br><span class="line">str = str.replace(<span class="regexp">/\r/g</span>, <span class="string">'\\r'</span>)</span><br><span class="line">str = str.replace(<span class="regexp">/\n/g</span>, <span class="string">'\\n'</span>)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1926,7 +1906,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -1939,7 +1919,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
