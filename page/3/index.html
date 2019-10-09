@@ -239,6 +239,134 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/13/engineer/npm-publish/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/13/engineer/npm-publish/" itemprop="url">发布npm包</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-13T11:41:05+08:00">
+                2019-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="main-module字段"><a href="#main-module字段" class="headerlink" title="main/module字段"></a>main/module字段</h3><p>main字段用于指定导入模块时指定的文件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main用于指定require('chalk')访问的文件</span></span><br><span class="line"><span class="keyword">const</span> chalk = <span class="built_in">require</span>(<span class="string">'chalk'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>module也用于指定导入模块时指定的文件，但这个不是package.json的官方字段，用于支持es6模块的环境<br>module字段一般指定使用es6模块打包的文件，而main指向用commonjs规范打包的文件，而不支持es6模块的环境不会查找module字段<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// module 用于指定以es6方式引入包时的文件</span></span><br><span class="line"><span class="keyword">import</span> chalk <span class="keyword">from</span> <span class="string">'chalk'</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="bin-注册指令"><a href="#bin-注册指令" class="headerlink" title="bin 注册指令"></a>bin 注册指令</h3><p>npm包有时候需要注册指令，比如<code>@vue/cli</code>会注册<code>vue</code>指令，这样全局安装<code>@vue/cli</code>之后就可以在任意地方使用<code>vue</code>指令，<code>npm</code>也是以这种方式注册的指令，只是在node安装时就已经默认安装。<code>webpack</code>指令一般会局部注册，这样可以在<code>package.json</code>的<code>scripts</code>中使用。<br>注册指令需要在<code>package.json</code>中增加<code>bin</code>属性<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// in package.json</span><br><span class="line">"bin":&#123;</span><br><span class="line">    "vue":"bin/index.js"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中<code>webpack</code>是要注册的指令，<code>bin/index.js</code>是指定的执行文件路径。指令最好使用npm包名本身，以免与其它指令冲突</p>
+<p>在指定的执行文件路径中，<strong>必须</strong>在第一行加上以下代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env node</span></span><br></pre></td></tr></table></figure></p>
+<p>否则注册的指令无法正常执行，<a href="https://zh.wikipedia.org/wiki/Shebang" target="_blank" rel="noopener">原理参考这里</a></p>
+<blockquote>
+<p>未完待续</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/13/engineer/webpack-hot/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1509,7 +1637,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -1522,7 +1650,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">42</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

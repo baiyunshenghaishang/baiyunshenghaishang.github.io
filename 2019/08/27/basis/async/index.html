@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="bai">
 <meta property="og:description" content="为什么需要异步函数异步函数时 js 新增的一种语法，用于异步的处理 js 中异步的处理经历了三个阶段  回调函数 Promise 异步函数  Promise 解决了很多回调函数的缺陷，比如回调地狱等，在回调函数的基础上前进了一大步 但是 Promise 并不完美，大量的 then 语法虽然结构上比回调函数清晰很多，但是同样令人眼花缭乱 所以我们需要一种更简洁的语法来表示异步编程，异步函数就是一种方">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-27T13:06:55.534Z">
+<meta property="og:updated_time" content="2019-09-04T12:30:23.613Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="异步函数">
 <meta name="twitter:description" content="为什么需要异步函数异步函数时 js 新增的一种语法，用于异步的处理 js 中异步的处理经历了三个阶段  回调函数 Promise 异步函数  Promise 解决了很多回调函数的缺陷，比如回调地狱等，在回调函数的基础上前进了一大步 但是 Promise 并不完美，大量的 then 语法虽然结构上比回调函数清晰很多，但是同样令人眼花缭乱 所以我们需要一种更简洁的语法来表示异步编程，异步函数就是一种方">
@@ -332,7 +332,7 @@
 <h3 id="异步函数的模拟实现"><a href="#异步函数的模拟实现" class="headerlink" title="异步函数的模拟实现"></a>异步函数的模拟实现</h3><p>在生成器一章中讲到过，异步函数其实就是对生成器异步执行的一种标准化，所以完全可以用生成器来模拟异步函数。</p>
 <p>当然，相比于生成器的模拟，异步函数的不需要执行器，而且语义更明确，所以还是推荐使用异步函数</p>
 <p>在<a href="https://baiyunshenghaishang.github.io/2019/03/28/basis/generator/" target="_blank" rel="noopener">生成器</a>中已经详细讲解了如何模拟异步函数，这里只给出执行器的代码，其它的参考生成器一篇即可</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">tasks</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> gen = tasks(),</span><br><span class="line">            result = gen.next()</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params">result</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (result.done) <span class="keyword">return</span> resolve(result.value)</span><br><span class="line">            <span class="built_in">Promise</span>.resolve(result.value).then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">                step(gen.next(val))</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        step(result)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">tasks</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params">result</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (result.done) <span class="keyword">return</span> resolve(result.value)</span><br><span class="line">            <span class="built_in">Promise</span>.resolve(result.value).then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">                step(gen.next(val))</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> gen = tasks(),</span><br><span class="line">            result = gen.next()</span><br><span class="line">        step(result)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>异步函数的出现是为了提供比 Promise 更简洁、语义更明确的异步代码。但是异步函数并不是完全取代 Promise，而是在 Promise 的基础上实现。从前面的代码中也可以看出，异步函数和 Promise 息息相关</p>
 <p>所以并不是有了异步函数就不需要 Promise，我们仍然需要 Promise，只是在合适的地方，可以使用异步函数替代 Promise</p>
 
@@ -458,7 +458,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -471,7 +471,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">42</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

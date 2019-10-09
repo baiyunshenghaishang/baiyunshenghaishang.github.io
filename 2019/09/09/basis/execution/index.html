@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="execution context,scope,vo,lexical environment,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="概述js 的执行过程是一个很庞大的话题。要回答这样一个问题，可以从另外一个角度去思考。如果想要实现 js 引擎，应该如何实现。 考虑到 js 是单线程执行，理论上应该会比较简单。将传递给执行引擎的代码顺序执行即可。 so easy. 执行完成之后引擎是不是就可以洗洗睡了呢。然而并不能，因为实际情况中，还可能有事件、setTimeout 等过一段时间执行的代码，所以 js 引擎必须常驻内存中，等待着">
+<meta name="keywords" content="execution context,scope,vo,lexical environment">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js 执行过程概述">
+<meta property="og:url" content="http://yoursite.com/2019/09/09/basis/execution/index.html">
+<meta property="og:site_name" content="bai">
+<meta property="og:description" content="概述js 的执行过程是一个很庞大的话题。要回答这样一个问题，可以从另外一个角度去思考。如果想要实现 js 引擎，应该如何实现。 考虑到 js 是单线程执行，理论上应该会比较简单。将传递给执行引擎的代码顺序执行即可。 so easy. 执行完成之后引擎是不是就可以洗洗睡了呢。然而并不能，因为实际情况中，还可能有事件、setTimeout 等过一段时间执行的代码，所以 js 引擎必须常驻内存中，等待着">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/语句执行.png">
+<meta property="og:updated_time" content="2019-10-09T07:27:36.962Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js 执行过程概述">
+<meta name="twitter:description" content="概述js 的执行过程是一个很庞大的话题。要回答这样一个问题，可以从另外一个角度去思考。如果想要实现 js 引擎，应该如何实现。 考虑到 js 是单线程执行，理论上应该会比较简单。将传递给执行引擎的代码顺序执行即可。 so easy. 执行完成之后引擎是不是就可以洗洗睡了呢。然而并不能，因为实际情况中，还可能有事件、setTimeout 等过一段时间执行的代码，所以 js 引擎必须常驻内存中，等待着">
+<meta name="twitter:image" content="http://yoursite.com/images/语句执行.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/09/basis/execution/">
+
+
+
+
+
+  <title>js 执行过程概述 | bai</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/baiyunshenghaishang"><img style="position:absolute;top:0;right:0" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_gray_6d6d6d.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">bai</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/09/basis/execution/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">js 执行过程概述</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-09T20:01:01+08:00">
+                2019-09-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>js 的执行过程是一个很庞大的话题。要回答这样一个问题，可以从另外一个角度去思考。如果想要实现 js 引擎，应该如何实现。</p>
+<p>考虑到 js 是单线程执行，理论上应该会比较简单。将传递给执行引擎的代码顺序执行即可。 so easy.</p>
+<p>执行完成之后引擎是不是就可以洗洗睡了呢。然而并不能，因为实际情况中，还可能有事件、setTimeout 等过一段时间执行的代码，所以 js 引擎必须常驻内存中，等待着下一段要执行的代码。</p>
+<p>可以用代码表示如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    execute(code)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>很简单，就是简单的循环判断。当然，实际情况会复杂很多，比如需要判断是否有代码需要执行。</p>
+<p>在 js 中，我们将这样一个过程叫做事件循环。</p>
+<h3 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h3><p>此处讲的是浏览器中的事件循环，nodejs 中的事件循环更复杂一些，此处不讲。</p>
+<p>事件循环就是一个不断循环，执行代码的过程。每一次循环过程中执行的代码称为一个宏任务。<br>所以事件循环就是不断循环执行宏任务的过程。</p>
+<p>诸如 setTimeout、事件回调的代码，都会生成一个新的宏任务。</p>
+<p>如果我们把多个宏任务理解为一个宏任务的队列，那么事件循环就是不断执行宏任务队列的过程。</p>
+<p>一个宏任务中还可能包含多个微任务。微任务是 Promise 的 then 回调生成的任务。每次 then 的回调都会在当前宏任务的末尾增加一个微任务。</p>
+<p>一个宏任务可以包含多个微任务。在执行下一个宏任务之前，执行引擎会先将当前宏任务的所有微任务执行完成。</p>
+<p>所以虽然 Promise 和 setTimeout 生成的都是异步代码，但是其执行顺序是不同的。看以下代码。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"timeout"</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"promise"</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"sync code"</span>)</span><br><span class="line"><span class="comment">// sync code</span></span><br><span class="line"><span class="comment">// promise</span></span><br><span class="line"><span class="comment">// timeout</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，<code>console.log(&quot;promise&quot;)</code>一定会在<code>console.log(&quot;timeout&quot;)</code>之前执行。因为 Promise 的 then 回调是在当前宏任务中末尾增加一个微任务，而 setTimeout 会生成一个新的宏任务。在执行新的宏任务执行，会先将当前宏任务中的所有微任务执行完成。</p>
+<h3 id="执行上下文"><a href="#执行上下文" class="headerlink" title="执行上下文"></a>执行上下文</h3><p>在每一个宏任务/微任务中，执行的都是一段段的代码。</p>
+<p>每一段代码的执行都需要一个环境，包含代码执行所需的所有条件。在 js 中，这个环境叫做执行上下文(execution context)。</p>
+<h3 id="执行上下文的类别"><a href="#执行上下文的类别" class="headerlink" title="执行上下文的类别"></a>执行上下文的类别</h3><p>那什么样的代码能称之为一段代码呢。这样的说法可能不太准确，更准确的说法应该是。</p>
+<p>什么样的代码会生成新的执行上下文呢?</p>
+<p>在 js 中，只有三种执行上下文。所以也只有在这三种情况下会生成新的执行上下文。</p>
+<ol>
+<li>全局执行上下文</li>
+<li>函数执行上下文</li>
+<li>eval 执行上下文</li>
+</ol>
+<p>全局执行上下文只有一个，在 js 引擎生成时就会生成。<br>函数执行上下文在执行新的函数时生成。<br>eval 执行上下文在执行 eval 时生成</p>
+<p>三种执行上下文概念上大体类似，细节处稍有不同，具体细节在讲到执行上下文组成部分时讲解。</p>
+<h4 id="执行栈"><a href="#执行栈" class="headerlink" title="执行栈"></a>执行栈</h4><p>在代码的执行过程中，并不是只有一个执行上下文生成。而是伴随执行的过程不断生成新的执行上下文、销毁旧的执行上下文。</p>
+<p>多个执行上下文需要一个结构来保存，这就是执行栈。</p>
+<p>执行栈用于保存所有的执行上下文。</p>
+<p>执行栈是一个典型的栈结构。即后进入栈的执行上下文先出栈。<br>生成新的执行上下文生成时会入栈，代码执行完成后当前执行上下文出栈。</p>
+<h4 id="执行上下文的内容"><a href="#执行上下文的内容" class="headerlink" title="执行上下文的内容"></a>执行上下文的内容</h4><p>前面讲到，执行上下文包含了代码执行所需的所有条件，那么执行上下文到底包含了那些内容呢。<br>执行上下文的内容在 js 的各个版本中经历了比较大的变化。下面将讲述各个版本的执行上下文</p>
+<h5 id="es3-中的执行上下文"><a href="#es3-中的执行上下文" class="headerlink" title="es3 中的执行上下文"></a>es3 中的执行上下文</h5><p>在 es3 时期，执行上下文包含三个部分: this、变量对象(VO)、作用域链(Scope)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从理解角度我们可以这样认为</span></span><br><span class="line">Execution Context = &#123;</span><br><span class="line">    <span class="keyword">this</span>,</span><br><span class="line">    VO,</span><br><span class="line">    Scope</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="this"><a href="#this" class="headerlink" title="this"></a>this</h6><p>this 是执行上下文的一部分，this 的指向也是一个比较复杂的话题，这里不展开。因为 this 的指向和执行过程的关系不大。</p>
+<h6 id="变量对象"><a href="#变量对象" class="headerlink" title="变量对象"></a>变量对象</h6><p>代码在执行时会定义一些变量，这些变量都定义在变量对象中。<br>变量对象包含了在当前执行上下文中声明的所有变量。</p>
+<p>以函数执行上下文为例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> y = <span class="number">1</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">talk</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">say()</span><br></pre></td></tr></table></figure>
+<p>上面的函数 say 形成的执行上下文中变量对象可以用如下的代码表示</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vo = &#123;</span><br><span class="line">    x,</span><br><span class="line">    y,</span><br><span class="line">    <span class="built_in">arguments</span>,</span><br><span class="line">    talk</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面的例子看到，函数 say 形成的执行上下文中包含了 say 中声明的所有变量和函数，也包含了没有声明的 arguments 变量，这也是可以在函数中直接访问 arguments 的原因。</p>
+<p>在全局执行上下文中，变量对象就是全局上下文本身，也就是 window</p>
+<p>在规范中，变量对象被定义为一个普通对象，其实这是个 bug，变量对象并不是普通对象，没有原型，所以变量查找不会沿着原型链上溯</p>
+<h6 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h6><p>前面讲到，变量对象中存储了所有当前执行上下文中声明的变量（函数声明也是声明变量的一种方式）。<br>那么函数中如何访问变量呢，对于函数中定义的变量，可以通过变量对象访问。<br>但是函数中会访问函数中定义的变量，还会访问函数外定义的变量。</p>
+<p>作用域(Scope)，也称为作用域链，用于控制执行上下文中所有变量的访问。</p>
+<p>作用域是一个包含当前上下文和外部所有上下文变量对象的队列。<br>可以用如下代码表示</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Scope = VO + [[Scope]]</span><br></pre></td></tr></table></figure>
+<p><code>[[Scope]]</code>是一个函数的内部属性，在函数创建时生成，包含了所有函数外部执行上下文的变量对象。</p>
+<p>[[Scope]] = [VO1,VO2,VO3,…]</p>
+<p>[[Scope]]在函数创建时生成，在函数的生命周期中一直存在，这也是为什么闭包可以访问函数外部变量的原因。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> closure = <span class="function"><span class="keyword">function</span> <span class="title">outer</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">3</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> b = <span class="number">4</span></span><br><span class="line">        <span class="built_in">console</span>.log(a + b)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">closure()</span><br></pre></td></tr></table></figure>
+<p>在执行函数 closure 时，函数 outer 的执行已结束，执行上下文也已出栈，但是 closure 仍然可以访问变量 a，因为函数 closure 的[[Scope]]属性会直接引用 outer 的变量对象。</p>
+<h5 id="执行上下文的两个过程"><a href="#执行上下文的两个过程" class="headerlink" title="执行上下文的两个过程"></a>执行上下文的两个过程</h5><p>至此，已经讲完了 es3 中执行上下文的组成部分。<br>执行上下文的三部分，this 不讲，变量对象用于存储执行上下文中声明的变量，作用域用于执行上下文中访问变量时的查找。</p>
+<p>但是关于变量的声明和查找，我们还需要更详细的讲解一下。</p>
+<p>以函数执行上下文为例。<br>函数的执行过程包含两部分</p>
+<ol>
+<li>进入函数时</li>
+<li>函数执行时</li>
+</ol>
+<p>对于语句<code>var a = 1</code>，对于 js 引擎而言，其实包含两部分</p>
+<ol>
+<li>var a，这是变量声明</li>
+<li>a = 1 这是变量赋值</li>
+</ol>
+<p>其中变量声明在<strong>进入函数时</strong>进行，变量赋值在<strong>函数执行时</strong>进行。</p>
+<p>进入函数时会执行以下过程</p>
+<ol>
+<li>声明 arguments 和函数声明的参数并赋值（对于非函数执行上下文没有这一步）</li>
+<li>函数声明会声明函数同名变量并赋值，如果存在同名的变量，会覆盖</li>
+<li>变量声明会被声明，并被赋值为 undefined，如果已存在同名变量，会跳过</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a, b, c) <span class="comment">// 1 ƒ b() &#123;&#125; 3 undefined</span></span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">999</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">    <span class="built_in">console</span>.log(a, b, c) <span class="comment">// 999 ƒ b() &#123;&#125; 3 888</span></span><br><span class="line">&#125;</span><br><span class="line">say(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>上例中，变量 b 是函数的参数，同时也存在函数内部声明的函数 b，所以变量 b 被覆盖为函数 b。</li>
+<li>而 a 因为函数内部声明的是变量，所以声明操作被跳过，所以值还是 1</li>
+<li>c 没有同名变量，所以是 3 不变</li>
+<li>d 是函数内部声明的变量，所以被声明，但是值是 undefined</li>
+</ol>
+<p>函数执行时</p>
+<p>这个没什么好讲的，逐句代码执行</p>
+<h5 id="es5-中的执行上下文"><a href="#es5-中的执行上下文" class="headerlink" title="es5 中的执行上下文"></a>es5 中的执行上下文</h5><p>es5 中的执行上下文同样包含三个部分</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">es5EC = &#123;</span><br><span class="line">    <span class="keyword">this</span>,</span><br><span class="line">    lexicalEnvironment, <span class="comment">// 词法作用域</span></span><br><span class="line">    variableEnvironment <span class="comment">// 变量作用域</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>this 略过不讲。</p>
+<p>其中词法作用域和变量作用域大部分时候是同一个对象，只在某些特殊的情况下，比如 with，两者会有不同，因为 with 已经不推荐使用，所以此处略过，大部分时候也不需要考虑两者之间的区别。</p>
+<p>词法作用域(LexicalEnvironment)包含两部分</p>
+<ol>
+<li>环境记录，包含当前所有上下文声明所有变量的对象</li>
+<li>outer，包含当前上下文的父级上下文的引用。对于全局上下文，这个值是 null</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line">say(<span class="number">10</span>)</span><br><span class="line"><span class="comment">// 词法作用域和变量对象类似，同样包含两个阶段，此处是进入函数时</span></span><br><span class="line">say.LexicalEnvironment = &#123;</span><br><span class="line">    environmentRecord: &#123;</span><br><span class="line">        <span class="built_in">arguments</span>: &#123; xxx &#125;,</span><br><span class="line">        a: <span class="number">10</span>,</span><br><span class="line">        b: <span class="literal">undefined</span></span><br><span class="line">    &#125;,</span><br><span class="line">    outer: globalEnvironment</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>与作用域类似，如果在当前环境记录中找不到变脸，则会继续查找当前词法作用域的父级词法作用域。<br>与作用域不同的是，词法作用域只包含父级词法作用域的引用</p>
+<p>可以发现，词法作用域和变量对象/作用域链的概念非常类似，更多的是名词和实现的变化。而词法作用域概念的引入，主要是为了实现上的效率问题。</p>
+<h5 id="es6-中的执行上下文"><a href="#es6-中的执行上下文" class="headerlink" title="es6 中的执行上下文"></a>es6 中的执行上下文</h5><p>es6 中的执行上下文没有找到比较好的文章，先放着吧。<br>唯一确定的两点</p>
+<ol>
+<li>this 放到了 lexicalEnvironment 中，而不是在执行上下文中</li>
+<li>lexicalEnvironment 用于声明函数和 let/const，而 variableEnvironment 用于 var 的声明</li>
+</ol>
+<h3 id="语句的执行"><a href="#语句的执行" class="headerlink" title="语句的执行"></a>语句的执行</h3><p>代码执行，到最后都变为，在一定的环境（执行上下文）中执行代码。</p>
+<p>所以代码执行的最后一部分是语句执行。</p>
+<p>语句可以分为以下四类</p>
+<ol>
+<li>普通语句，包含声明语句、表达式语句等</li>
+<li>语句块，即用大括号包裹的语句。</li>
+<li>控制语句，包含 while/for/switch/break/continue 等</li>
+<li>标签语句</li>
+</ol>
+<p>在语句的执行阶段，值得注意的只有控制语句。（声明语句虽然也有特殊之处，但是并不是在语句执行阶段）。</p>
+<p>如果没有控制语句，所有语句都是顺序执行。控制语句，顾名思义，就是控制语句的执行顺序。</p>
+<p>控制语句的控制效果可以见下图<br><img src="/images/语句执行.png" alt="控制语句"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/execution-context/" rel="tag"># execution context</a>
+          
+            <a href="/tags/scope/" rel="tag"># scope</a>
+          
+            <a href="/tags/vo/" rel="tag"># vo</a>
+          
+            <a href="/tags/lexical-environment/" rel="tag"># lexical environment</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/04/basis/asynciterator/" rel="next" title="异步迭代">
+                <i class="fa fa-chevron-left"></i> 异步迭代
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Zhen Huang">
+            
+              <p class="site-author-name" itemprop="name">Zhen Huang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">博客</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件循环"><span class="nav-number">2.</span> <span class="nav-text">事件循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行上下文"><span class="nav-number">3.</span> <span class="nav-text">执行上下文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行上下文的类别"><span class="nav-number">4.</span> <span class="nav-text">执行上下文的类别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#执行栈"><span class="nav-number">4.1.</span> <span class="nav-text">执行栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行上下文的内容"><span class="nav-number">4.2.</span> <span class="nav-text">执行上下文的内容</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#es3-中的执行上下文"><span class="nav-number">4.2.1.</span> <span class="nav-text">es3 中的执行上下文</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#this"><span class="nav-number">4.2.1.1.</span> <span class="nav-text">this</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#变量对象"><span class="nav-number">4.2.1.2.</span> <span class="nav-text">变量对象</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#作用域"><span class="nav-number">4.2.1.3.</span> <span class="nav-text">作用域</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#执行上下文的两个过程"><span class="nav-number">4.2.2.</span> <span class="nav-text">执行上下文的两个过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#es5-中的执行上下文"><span class="nav-number">4.2.3.</span> <span class="nav-text">es5 中的执行上下文</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#es6-中的执行上下文"><span class="nav-number">4.2.4.</span> <span class="nav-text">es6 中的执行上下文</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语句的执行"><span class="nav-number">5.</span> <span class="nav-text">语句的执行</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhen Huang</span>
+  <div class="powered-by">
+    <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+      本站访客数:<span id="busuanzi_value_site_uv"></span>
+    </span>
+  </div>
+  
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
