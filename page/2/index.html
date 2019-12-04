@@ -239,6 +239,1067 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/basis/proto/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/12/basis/proto/" itemprop="url">面向对象、原型、原型链、prototype</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-12T11:26:28+08:00">
+                2019-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h3><p>初学 JS 的人可能会有疑惑，JS 到底是不是一门面向对象语言。如果是，为什么 JS 的什么原型好像与其它面向对象语言，如 Java、C++相去甚远。如果说不是，JS 标准中又明确提到了 JS 是一门面向对象语言.</p>
+<blockquote>
+<p>ECMAScript is an object-oriented programming language for performing computations and manipulating computational objects within a host environment.</p>
+</blockquote>
+<p>那么先回到最原始的问题，什么是面向对象</p>
+<h5 id="什么是面向对象"><a href="#什么是面向对象" class="headerlink" title="什么是面向对象"></a>什么是面向对象</h5><p>面向对象是一种编程思想，即以对象作为程序基本单元的思想。</p>
+<p>对象一词在英文中是<code>object</code>，指代一切事物。但是由于翻译的原因，中文中很难体现出这层意思。</p>
+<p>对象的灵感来源于生活，面向对象也是。比如，在生活中，我们看到一只猫，只会想到一只猫。但是我们见识到各种各样的猫之后，逐渐会认识到猫这个类型。你会发现，这和面向对象中的类型和实例非常相似。</p>
+<p>那如何定义对象呢，Grady Booch 在《面向对象程序与设计》一书中对对象的定义中描述了三个基本特征</p>
+<ol>
+<li>对象具有唯一标识性</li>
+<li>对象具有状态</li>
+<li>对象具有行为</li>
+</ol>
+<p>现有的面向对象语言中，对象的区分一般使用内存地址，从而做到即使看上去完全一样的对象，实际上也是不相等的，JS 也是如此。<br>而对象具有状态和行为，在 JS 中对应普通属性和函数类型的属性，在其它面向对象语言中的叫法则各不相同，例如 Java 中好像叫属性和方法。</p>
+<p>以此看来，JS 完全是正统的面向对象语言，那么为什么我们会觉得 JS 和其它流行的面向对象语言差别很大呢。<br>这就在于 JS 的面向对象和其它面向对象语言的不同之处</p>
+<h3 id="JS-的面向对象实现"><a href="#JS-的面向对象实现" class="headerlink" title="JS 的面向对象实现"></a>JS 的面向对象实现</h3><p>JS 的对象的特殊之处有两点</p>
+<ol>
+<li>JS 的对象的属性具有动态性。</li>
+<li>JS 的使用原型链而不是 class 来实现面向对象的继承</li>
+</ol>
+<p>在 Java 等语言中，总是先有类型后有对象，对象创建之后，其拥有的属性数量是不可变的。<br>JS 不同，JS 中对象创建之后可以随便增加和删除属性。</p>
+<h5 id="原型、原型链"><a href="#原型、原型链" class="headerlink" title="原型、原型链"></a>原型、原型链</h5><p>JS 中的原型其实非常简单，两句话就可以讲清楚</p>
+<ol>
+<li>每个对象都有<code>[[prototype]]</code>属性</li>
+<li>在对象上找不到的属性，会沿着<code>[[prototype]]</code>继续寻找</li>
+</ol>
+<p>而每个对象的原型本身也是也是一个对象，也会有<code>[[prototype]]</code>属性，这就形成了原型的链条，即原型链</p>
+<p>注意<code>[[prototype]]</code>是对象的内置属性，不是函数的<code>prototype</code>属性，正常情况下是无法在浏览器中查看该属性的，有些浏览器会以属性名<code>__proto__</code>暴露这个内置属性</p>
+<p>这两点从 JS 创建以来几乎就没有变过，唯一不太确认的地方是<code>Object.create(null)</code>创建的对象是否有<code>[[prototype]]</code>属性，估计可能也有，只不过是 null</p>
+<p>在 Java 等语言中，继承是方式是通过 class 继承。而在 JS 中，以一个对象为原型创建新的对象就可以实现对某个对象的继承</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> parent = &#123;</span><br><span class="line">    name: <span class="string">"爸爸"</span>,</span><br><span class="line">    say() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`我是你<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> son = <span class="built_in">Object</span>.create(parent)</span><br><span class="line">son.name = <span class="string">"儿子"</span></span><br><span class="line">son.say() <span class="comment">// 我是你儿子</span></span><br></pre></td></tr></table></figure>
+<p>如上所示，JS 中的继承是通过原型和原型链实现，继承一个对象只需要以原有对象为原型创建一个新对象即可</p>
+<p>讲到这儿，似乎 JS 的面向对象就讲完了。但是我们讲到 JS 的面向对象和继承，总是会讲到<code>prototype、new、class</code>等，那这些在 JS 的面向对象中又是什么关系呢</p>
+<h3 id="prototype、class"><a href="#prototype、class" class="headerlink" title="prototype、class"></a>prototype、class</h3><p>在前面的面向对象中讲到了面向对象的三个基本特征，但是面向对象并没有规定应该如何实现。</p>
+<p>很明显，现如今最流行最成功的方式是通过类的方式来实现面向对象。即先创建类型<code>class</code>，然后通过<code>new class</code>的方式来创建对象。</p>
+<p>现在流行的面向对象语言，Java/C++都是这种方式，这也导致我们经常认为，这就是面向对象的基本特征之一。而这其实仅仅只是面向对象的实现方式之一。</p>
+<p>除此之外，还有其他实现面向对象的方式。比如 JS 采用的原型链方式，也是一种不错的实现面向对象的方式。</p>
+<p><code>prototype、new、class</code>是 JS 用来模拟类的方式实现面向对象的方法。</p>
+<h5 id="prototype"><a href="#prototype" class="headerlink" title="prototype"></a>prototype</h5><p>为了模拟 Java 中的 class 的类属性和方法，JS 给函数增加了<code>prototype</code><br>为了模拟 class 的 new 操作，JS 给函数增加了<code>[[Constructor]]</code>方法</p>
+<p>使用<code>new function</code>的方式可以创建一个新的对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = <span class="string">"爸爸"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Parent()</span><br><span class="line"><span class="built_in">console</span>.log(p.name) <span class="comment">// 爸爸</span></span><br></pre></td></tr></table></figure>
+<p>对于当做构造函数使用的函数，我们经常将首字母大写，但这只是一种约定，并没有任何运行上的区别。</p>
+<p><code>new</code>操作实际上包含三步</p>
+<ol>
+<li>以当前函数的<code>prototype</code>属性为原型创建对象</li>
+<li>以上一步创建的对象为<code>this</code>执行当前函数的<code>[[Contructor]]</code>方法</li>
+<li>如果上一步的<code>[[Constructor]]</code>方法返回一个对象，返回改对象，否则返回第一步创建的对象</li>
+</ol>
+<p>JS 通过函数的<code>prototype</code>属性和<code>[[Constructor]]</code>模拟了 class 方式面向对象的构造函数和<code>new</code>操作，但是对于继承，直到<code>es6</code>之前，都没有官方的模拟方式</p>
+<h5 id="class"><a href="#class" class="headerlink" title="class"></a>class</h5><p>在 es6 之前，class 一直都只是一个内部属性，唯一访问的方式是通过<code>Object.prototype.toString</code>访问。<br>这也是通过<code>Object.prototype.toString</code>能判断对象类型的原因</p>
+<p>在 es6 中，JS 引入了原生的 class 实现，虽然也是使用原型来模拟，但是封装了很多容易出现的错误，而且语言加入了内置的<code>extends</code>关键字支持</p>
+<p>关于 class 的具体细节，已经另外写了<a href="https://baiyunshenghaishang.github.io/2019/05/05/basis/class/" target="_blank" rel="noopener">一篇博客</a>，这里就不赘述了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/26/basis/object-classify/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/26/basis/object-classify/" itemprop="url">对象分类</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-26T07:11:20+08:00">
+                2019-07-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="对象分类"><a href="#对象分类" class="headerlink" title="对象分类"></a>对象分类</h3><p>js 中的对象是数据结构中最复杂的一种。对象的类型包括两种</p>
+<ol>
+<li>宿主对象。 由 JavaScript 宿主提供的对象，最常见的是浏览器。如 history。不同的宿主环境中，这些对象不同。</li>
+<li>内置对象。 JavaScript 语言提供的对象。</li>
+</ol>
+<p>其中内置对象又包含三种：</p>
+<ol>
+<li>固有对象。标准规定，随着 JavaScript 运行时而自动创建的对象。如 Array 构造函数</li>
+<li>原生对象。用户通过 Array、RegExp 等内置构造器或特殊语法创建的对象</li>
+<li>普通对象。由{}、Object 或 class 等创建的对象。</li>
+</ol>
+<h3 id="宿主对象"><a href="#宿主对象" class="headerlink" title="宿主对象"></a>宿主对象</h3><p>在浏览器中，最顶层的宿主对象是 window。浏览器中的宿主对象千奇百怪，这里不详细介绍。后续介绍浏览器 API 时会介绍。</p>
+<p>浏览器中还包含用户创建的宿主对象，如通过<code>document.createElement</code>创建的对象。</p>
+<h3 id="内置对象"><a href="#内置对象" class="headerlink" title="内置对象"></a>内置对象</h3><h5 id="固有对象"><a href="#固有对象" class="headerlink" title="固有对象"></a>固有对象</h5><p>固有对象是随着 JavaScript 运行时的创建而创建，在任何 JavaScript 代码执行之前就已经存在。<br>JavaScript 中的所有固有对象可以通过以下代码获取</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [</span><br><span class="line">        <span class="built_in">eval</span>,</span><br><span class="line">        <span class="built_in">isFinite</span>,</span><br><span class="line">        <span class="built_in">isNaN</span>,</span><br><span class="line">        <span class="built_in">parseFloat</span>,</span><br><span class="line">        <span class="built_in">parseInt</span>,</span><br><span class="line">        <span class="built_in">decodeURI</span>,</span><br><span class="line">        <span class="built_in">decodeURIComponent</span>,</span><br><span class="line">        <span class="built_in">encodeURI</span>,</span><br><span class="line">        <span class="built_in">encodeURIComponent</span>,</span><br><span class="line">        <span class="built_in">Array</span>,</span><br><span class="line">        <span class="built_in">Date</span>,</span><br><span class="line">        <span class="built_in">RegExp</span>,</span><br><span class="line">        <span class="built_in">Promise</span>,</span><br><span class="line">        <span class="built_in">Proxy</span>,</span><br><span class="line">        <span class="built_in">Map</span>,</span><br><span class="line">        <span class="built_in">WeakMap</span>,</span><br><span class="line">        <span class="built_in">Set</span>,</span><br><span class="line">        <span class="built_in">WeakSet</span>,</span><br><span class="line">        <span class="built_in">Function</span>,</span><br><span class="line">        <span class="built_in">Boolean</span>,</span><br><span class="line">        <span class="built_in">String</span>,</span><br><span class="line">        <span class="built_in">Number</span>,</span><br><span class="line">        <span class="built_in">Symbol</span>,</span><br><span class="line">        <span class="built_in">Object</span>,</span><br><span class="line">        <span class="built_in">Error</span>,</span><br><span class="line">        <span class="built_in">EvalError</span>,</span><br><span class="line">        <span class="built_in">RangeError</span>,</span><br><span class="line">        <span class="built_in">ReferenceError</span>,</span><br><span class="line">        <span class="built_in">SyntaxError</span>,</span><br><span class="line">        <span class="built_in">TypeError</span>,</span><br><span class="line">        <span class="built_in">URIError</span>,</span><br><span class="line">        <span class="built_in">ArrayBuffer</span>,</span><br><span class="line">        SharedArrayBuffer,</span><br><span class="line">        <span class="built_in">DataView</span>,</span><br><span class="line">        <span class="built_in">Float32Array</span>,</span><br><span class="line">        <span class="built_in">Float64Array</span>,</span><br><span class="line">        <span class="built_in">Int8Array</span>,</span><br><span class="line">        <span class="built_in">Int16Array</span>,</span><br><span class="line">        <span class="built_in">Int32Array</span>,</span><br><span class="line">        <span class="built_in">Uint8Array</span>,</span><br><span class="line">        <span class="built_in">Uint16Array</span>,</span><br><span class="line">        <span class="built_in">Uint32Array</span>,</span><br><span class="line">        <span class="built_in">Uint8ClampedArray</span>,</span><br><span class="line">        Atomics,</span><br><span class="line">        <span class="built_in">JSON</span>,</span><br><span class="line">        <span class="built_in">Math</span>,</span><br><span class="line">        <span class="built_in">Reflect</span></span><br><span class="line">    ],</span><br><span class="line">    set = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> arr) &#123;</span><br><span class="line">    set.add(item)</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">of</span> <span class="built_in">Object</span>.getOwnPropertyNames(item)) &#123;</span><br><span class="line">        <span class="keyword">let</span> descriptor = <span class="built_in">Object</span>.getOwnPropertyDescriptor(item, key)</span><br><span class="line">        <span class="keyword">if</span> (</span><br><span class="line">            (descriptor.value !== <span class="literal">null</span> &amp;&amp; <span class="keyword">typeof</span> descriptor.value === <span class="string">"object"</span>) ||</span><br><span class="line">            <span class="keyword">typeof</span> descriptor.value === <span class="string">"function"</span></span><br><span class="line">        ) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!set.has(descriptor.value)) &#123;</span><br><span class="line">                arr.push(descriptor.value)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (descriptor.get) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!set.has(descriptor.get)) &#123;</span><br><span class="line">                arr.push(descriptor.get)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (descriptor.set) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!set.has(descriptor.set)) &#123;</span><br><span class="line">                arr.push(descriptor.set)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(set)</span><br></pre></td></tr></table></figure>
+<h5 id="原生对象"><a href="#原生对象" class="headerlink" title="原生对象"></a>原生对象</h5><p>原生对象是通过 JavaScript 内置的构造函数或特属于方式创建的对象，往往有着普通对象所没有的功能。比如由 Array 构造函数创建的数组，其 length 属性会随着长度自动变化，这是普通对象所不能模拟的。</p>
+<p>JavaScript 中原生的构造函数包括以下这些</p>
+<p>基本类型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span> <span class="built_in">Number</span> <span class="built_in">Boolean</span> <span class="built_in">Symbol</span> <span class="built_in">Object</span></span><br></pre></td></tr></table></figure>
+<p>数据结构</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span> <span class="built_in">Date</span> <span class="built_in">RegExp</span> <span class="built_in">Promise</span> <span class="built_in">Function</span></span><br><span class="line"><span class="built_in">Proxy</span> <span class="built_in">Map</span> <span class="built_in">Set</span> <span class="built_in">WeakMap</span> <span class="built_in">WeakSet</span></span><br></pre></td></tr></table></figure>
+<p>错误类型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Error</span> <span class="built_in">EvalError</span> <span class="built_in">RangeError</span> <span class="built_in">ReferenceError</span> <span class="built_in">SyntaxError</span> <span class="built_in">TypeError</span> <span class="built_in">URIError</span></span><br></pre></td></tr></table></figure>
+<p>二进制操作</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ArrayBuffer</span> SharedArrayBuffer <span class="built_in">DataView</span></span><br><span class="line"><span class="built_in">Float32Array</span> <span class="built_in">Float64Array</span> <span class="built_in">Int8Array</span> <span class="built_in">Int16Array</span> <span class="built_in">Int32Array</span> UInt8Array UInt16Array UInt32Array UInt8ClampedArray</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/25/engineer/prettier/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/25/engineer/prettier/" itemprop="url">prettier</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-25T19:21:08+08:00">
+                2019-07-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="什么是-prettier"><a href="#什么是-prettier" class="headerlink" title="什么是 prettier"></a>什么是 prettier</h3><p>prettier 是一种代码格式化工具，支持 js、jsx、ts、css 等多种类型的语言</p>
+<h3 id="why-prettier"><a href="#why-prettier" class="headerlink" title="why prettier"></a>why prettier</h3><p>prettier 的作用我认为有两点</p>
+<ol>
+<li>减少书写代码时控制代码格式的烦恼，一键就可以格式化</li>
+<li>多人协作时保证代码格式一致。对于 git 而言这点很重要，否则对公共文件格式化，将会导致文件大范围改动，对合并代码是噩梦</li>
+</ol>
+<p>总结起来其实就一点，保证代码格式的统一。不管是个人代码格式的统一，还是项目代码格式的统一。</p>
+<h3 id="prettier-vs-eslint"><a href="#prettier-vs-eslint" class="headerlink" title="prettier vs eslint"></a>prettier vs eslint</h3><p>eslint 提供了对于代码质量控制的检测，其规则包含两部分，代码格式和代码质量。<br>prettier 只包含了其中代码格式一部分。</p>
+<p>eslint 其实算是 prettier 的超集，那为什么还需要 prettier 呢。</p>
+<ol>
+<li>eslint 的目的是代码质量控制，代码格式是质量控制的一部分，多人协作的项目中，代码格式尤为重要。但是代码格式控制的目的只是为了阅读体验和风格统一，书写代码时并不应该为代码格式费神。eslint 也有 fix 可以修复代码格式问题，但是 eslint 的 fix 并不能保证代码格式的统一，所以使用 prettier 更好。</li>
+<li>prettier 不仅能够格式化 js 文件，还能够格式化 css 等文件，这些是 eslint 所不能处理的</li>
+</ol>
+<h3 id="cli"><a href="#cli" class="headerlink" title="cli"></a>cli</h3><p>prettier 的 cli 主要有两个<br><code>prettier --check [filename...]</code> 检测文件是否已经格式化，filename 的指定可以是文件名也可以是 glob 匹配<br><code>prettier --write [filename...]</code> 格式化文件<br>cli 方式会自动读取 prettier 配置文件</p>
+<h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><p>prettier 的 API 方式调用主要是<code>prettier.format</code>方法，API 方式并不会自动读取配置文件，所以需要查找配置文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以下是读取css文件并格式化写入的代码</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> prettier = <span class="built_in">require</span>(<span class="string">"prettier"</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">"fs"</span>)</span><br><span class="line"><span class="keyword">const</span> util = <span class="built_in">require</span>(<span class="string">"util"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> filePath = <span class="string">"./test.css"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getPrettierStr</span>(<span class="params">filePath</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> fileStr = <span class="keyword">await</span> util.promisify(fs.readFile)(filePath, <span class="string">"utf-8"</span>)</span><br><span class="line">    <span class="keyword">const</span> data = <span class="keyword">await</span> prettier.getFileInfo(filePath)</span><br><span class="line">    <span class="keyword">const</span> parser = data.ignored ? <span class="literal">null</span> : data.inferredParser</span><br><span class="line">    <span class="keyword">if</span> (!parser) <span class="keyword">return</span> fileStr</span><br><span class="line">    <span class="keyword">const</span> config = <span class="keyword">await</span> prettier.resolveConfig(filePath)</span><br><span class="line">    <span class="keyword">const</span> formattedStr = <span class="keyword">await</span> prettier.format(fileStr, &#123; ...config, parser &#125;)</span><br><span class="line">    <span class="keyword">return</span> formattedStr</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">getPrettierStr(filePath).then(<span class="function"><span class="params">formattedStr</span> =&gt;</span> &#123;</span><br><span class="line">    fs.writeFile(filePath, formattedStr)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="prettier-配置"><a href="#prettier-配置" class="headerlink" title="prettier 配置"></a>prettier 配置</h3><p>prettier 的配置项并不多，而且也不建议使用太复杂的配置，我常用的配置如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .prettierrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    semi: <span class="literal">false</span>,</span><br><span class="line">    singleQuote: <span class="literal">true</span>,</span><br><span class="line">    endOfLine: <span class="string">"lf"</span>,</span><br><span class="line">    trailingComma: <span class="string">"none"</span>,</span><br><span class="line">    bracketSpacing: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还可以通过发布 npm 导出配置文件，这样可以直接引入配置文件。 <a href="https://www.npmjs.com/package/@baixiaogou/prettier-config" target="_blank" rel="noopener">@baixiaogou/prettier-config</a></p>
+<p>使用方式如下:<br>在<code>package.json</code>中</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"prettier"</span>: <span class="string">"@baixiogou/prettier-config"</span></span><br></pre></td></tr></table></figure>
+<p>或者<br>使用<code>prettier</code>配置文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .pretterrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    ...require(<span class="string">"@baixiaogou/prettier-config"</span>)</span><br><span class="line">    <span class="comment">// 额外的覆盖配置</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="与-eslint-结合"><a href="#与-eslint-结合" class="headerlink" title="与 eslint 结合"></a>与 eslint 结合</h3><p>与 eslint 结合使用的思路是禁用 eslint 的格式化校验规则，然后开启 prettier 的规则校验</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .eslintrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  ...</span><br><span class="line">  plugins: [<span class="string">'prettier'</span>],</span><br><span class="line">  extends: [<span class="string">'eslint:recommended'</span>, <span class="string">'prettier'</span>],</span><br><span class="line">  rules: &#123;</span><br><span class="line">    <span class="string">'prettier/prettier'</span>: <span class="number">2</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>eslint-plugin-prettier</code>增加<code>prettier/prettier</code>校验规则<br><code>eslint-config-prettier</code>去掉 eslint 中关于格式的校验，所以最好放在 extends 的最后防止被覆盖</p>
+<p>这种方案只能用于 js 的校验和格式化。</p>
+<h3 id="ignore"><a href="#ignore" class="headerlink" title="ignore"></a>ignore</h3><p>增加<code>.prettierignore</code>文件可以指定<code>prettier</code>不格式化的文件，在某些文件夹或者某些文件不格式化时非常有用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// .prettierignore</span><br><span class="line"></span><br><span class="line">node_modules</span><br><span class="line">dist</span><br><span class="line">**/*.min.*</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/04/engineer/eslint/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/04/engineer/eslint/" itemprop="url">eslint</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-04T20:22:38+08:00">
+                2019-07-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>eslint 简介</p>
+<h3 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h3><p>eslint 是 2013 年由 Nicholas C. Zakas 发起的开源项目。目标是提供一个插件化的<b>JavaScript</b>代码检测工具。</p>
+<p>eslint 的目的，个人认为是代码的质量控制。插件化是其实现方式。</p>
+<p>代码的质量控制其实是一个比较大的话题，从更高的层面来看，组件化也是一种很重要的方式。<br>eslint 不能保证写出好的代码，但是 eslint 可以检测一些低级错误，比如使用未声明的变量、变量声明但是没有使用。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>esint 的配置项种类不多，大致包括以下几种</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    root: <span class="literal">true</span>, <span class="comment">// 标识eslint配置文件检测到此为止,不再往父目录查找</span></span><br><span class="line">    parserOption: &#123;</span><br><span class="line">        ecmaVersion: <span class="number">6</span>, <span class="comment">// 指定可用的ecma版本,</span></span><br><span class="line">        sourceType: <span class="string">"module"</span> <span class="comment">// 指定可用的文件类型，脚本还是模块</span></span><br><span class="line">    &#125;,</span><br><span class="line">    extends: [<span class="string">"eslint:recommended"</span>], <span class="comment">// 用于指定一组初始的规则，可以省略 eslint-config 前缀，必须是安装好的npm包</span></span><br><span class="line">    plugins: [<span class="string">"exmaple"</span>], <span class="comment">// 定义自定义的规则，可以省略eslint-plugin前缀，必须是安装好的npm包</span></span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="comment">// 最主要的的配置项，用于指定规则的开启/关闭，以及错误等级</span></span><br><span class="line">        quotes: [<span class="string">"error"</span>, <span class="string">"double"</span>],</span><br><span class="line">        eqeqeq: [<span class="string">"off"</span>],</span><br><span class="line">        curly: [<span class="string">"warn"</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    env: &#123;</span><br><span class="line">        <span class="comment">// 指定环境，应该是某些全局变量使用不会被eslint报错</span></span><br><span class="line">        browser: <span class="literal">true</span>,</span><br><span class="line">        node: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    globals: &#123;</span><br><span class="line">        <span class="comment">// 指定额外的全局变量，false表示不能修改，true表示可以修改</span></span><br><span class="line">        _app_config: <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完整的配置项查看<a href="https://cn.eslint.org/docs/user-guide/configuring" target="_blank" rel="noopener">eslint 配置(官方)</a></p>
+<p>eslint 配置主要是通过添加<code>plugin</code>增加额外的配置规则，通过<code>extends</code>继承一组规则集合，然后通过<code>rules</code>指定某个规则的值</p>
+<p>eslint 默认全部规则在可以<a href="https://cn.eslint.org/docs/rules/" target="_blank" rel="noopener">在此查看</a></p>
+<p>但是可以通过插件增加其他规则。如<code>eslint-plugin-import</code>增加导入/导出规则校验</p>
+<p>除此之外，配置没有太多需要细究的地方</p>
+<h3 id="常用插件配置"><a href="#常用插件配置" class="headerlink" title="常用插件配置"></a>常用插件配置</h3><p>下文中的插件均需要安装</p>
+<h5 id="vue"><a href="#vue" class="headerlink" title="vue"></a>vue</h5><p>eslint 是 js 的检测工具，原本是不能检查.vue 文件的，想要检查.vue 文件，需要 eslint-plugin-vue 和 eslint-plugin-html</p>
+<p>规则可以使用 <code>plugin:vue/recommended</code></p>
+<h5 id="import-export"><a href="#import-export" class="headerlink" title="import/export"></a>import/export</h5><p>本插件可能不需要，import 提示应该通过编辑器插件来做，而 import 找不到 webpack 也会提示</p>
+<p>eslint-plugin-import 插件可以检查引入的包或者文件是否存在<br>由于 import 受 webpack 的配置影响，import 插件可能无法正确判断引入路径是否正确，可以使用 eslint-import-resolver-webpack 来配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .eslintrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    settings: &#123;</span><br><span class="line">        <span class="string">"import/resolver"</span>: &#123;</span><br><span class="line">            webpack: &#123;</span><br><span class="line">                config: <span class="string">"./build/webpack.dev.conf.js"</span> <span class="comment">// 指定要使用的 webpack 配置文件</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [<span class="string">"import"</span>],</span><br><span class="line">    extends: [<span class="string">"plugin:import/errors"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="prettier"><a href="#prettier" class="headerlink" title="prettier"></a>prettier</h5><p>eslint 本身有格式的校验，但是 eslint 本身只能校验 js 的格式，而且 eslint 的格式化配置不如 prettier 丰富</p>
+<p>从另一个角度考虑，写代码时不应该太多考虑格式的问题，所以个人习惯是采用 prettier 格式化代码，eslint 只做格式化之外的校验</p>
+<p>为此需要引入 eslint-plugin-prettier 插件，并继承 eslint-config-prettier 配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    plugins: [<span class="string">"prettier"</span>],</span><br><span class="line">    extends: [<span class="string">"prettier"</span>],</span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="string">"prettier/prettier"</span>: <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="eslint-loader"><a href="#eslint-loader" class="headerlink" title="eslint-loader"></a>eslint-loader</h5><p>如果想要代码书写时动态检查 js 代码，需要安装 eslint-loader<br>由于 babel 的关系，需要指定 eslint 的 parse 为 babel-eslint</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    parseOptions: &#123;</span><br><span class="line">        parse: <span class="string">"babel-eslint"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在webpack的配置文件中</span></span><br><span class="line">rules: [</span><br><span class="line">    &#123;</span><br><span class="line">        test: <span class="regexp">/\.(vue|js|jsx)$/</span>,</span><br><span class="line">        loader: <span class="string">"eslint-loader"</span>,</span><br><span class="line">        exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">        enforce: <span class="string">"pre"</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>一份常见的配置文件如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    root: <span class="literal">true</span>,</span><br><span class="line">    parserOptions: &#123;</span><br><span class="line">        parser: <span class="string">"babel-eslint"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    parserOptions: &#123;</span><br><span class="line">        ecmaVersion: <span class="number">6</span>,</span><br><span class="line">        sourceType: <span class="string">"module"</span>,</span><br><span class="line">        ecmaFeatures: &#123;</span><br><span class="line">            jsx: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    env: &#123;</span><br><span class="line">        browser: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    settings: &#123;</span><br><span class="line">        <span class="string">"import/resolver"</span>: &#123;</span><br><span class="line">            webpack: &#123;</span><br><span class="line">                config: <span class="string">"webpack.dev.config.js"</span> <span class="comment">// 指定要使用的 webpack 配置文件</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [<span class="string">"prettier"</span>, <span class="string">"import"</span>, <span class="string">"html"</span>, <span class="string">"vue"</span>],</span><br><span class="line">    extends: [<span class="string">"eslint:recommended"</span>, <span class="string">"prettier"</span>, <span class="string">"plugin:import/errors"</span>, <span class="string">"plugin:vue/recommended"</span>],</span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="string">"prettier/prettier"</span>: <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/03/basis/sytax/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/03/basis/sytax/" itemprop="url">语法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-03T07:35:59+08:00">
+                2019-07-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="js-语言的整体架构"><a href="#js-语言的整体架构" class="headerlink" title="js 语言的整体架构"></a>js 语言的整体架构</h3><p>js 包含两种源文件。一种是脚本，另一种是模块。<br>脚本就是普通的.js 文件，模块是 es6 引入的，与脚本只有一个区别，就是可以使用 export/import 语句。<br>使用模块需要在引入的 script 标签上加上<code>type=module</code>，否则文件会被认为是脚本而报错。模块和 import/export 的更详细了解<a href="https://baiyunshenghaishang.github.io/2019/05/22/basis/import_export/" target="_blank" rel="noopener">可以看这里</a></p>
+<h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>import/export 之外的语句可以分为两种，一种是普通语句，另一种是预处理语句。<br>其中预处理语句在执行之前会有预处理过程，这是很多 js 执行结果让人感到奇怪的原因。<br>预处理的执行时间在代码执行之前，准确来讲应该在包含预处理代码的作用域的所有代码执行之前。每次进入一个新的作用域，执行代码之前都会先进行预处理</p>
+<p>js 中会有预处理效果的语句包括</p>
+<ol>
+<li>var</li>
+<li>function 声明</li>
+<li>let/const/class 声明</li>
+</ol>
+<p>var 的预处理效果是在作用域内声明同名变量，但是并不会赋值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">3</span></span><br><span class="line">say()</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a) <span class="comment">// undefined</span></span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码中，say 函数内部的 console.log(a)打印的是 undefined，因为 a 进行了预处理，在刚进入函数 say，执行 var a = 4 之前，a 就已经声明，但是没有赋值</p>
+<p>function 声明的预处理效果是声明和赋值都会提升到作用域顶部，上面的例子中在 say 声明之前就之前了 say()，但不会报错，就是因为 function 声明会提升到作用域顶部。<br>注意：只有函数声明会被提升，函数表达式不会</p>
+<p>let/const/class 的预处理效果是一样的。下面以 let 为例<br>let 会在作用域内，声明之前形成暂时性死区，此时对 let 声明变量的任何访问都会报错，包括 typeof</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">//  3</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a) <span class="comment">// 报错</span></span><br><span class="line">    <span class="keyword">let</span> a = <span class="number">4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="普通语句"><a href="#普通语句" class="headerlink" title="普通语句"></a>普通语句</h3><p>预处理语句之外，普通语句包括以下这些类型</p>
+<ol>
+<li>空语句</li>
+<li>语句块</li>
+<li>表达式语句</li>
+<li>循环语句</li>
+<li>if 语句</li>
+<li>switch/case 语句</li>
+<li>try/catch 语句</li>
+<li>throw 语句</li>
+<li>debugger 御酒</li>
+<li>return 语句</li>
+<li>break 语句</li>
+<li>continue 语句</li>
+<li>with 语句</li>
+</ol>
+<p>其中循环语句和表达式语句比较复杂一点，其它语句没什么好讲的。<br>循环语句包括以下六种</p>
+<ol>
+<li>while</li>
+<li>do/while</li>
+<li>for</li>
+<li>for/in</li>
+<li>for/of</li>
+<li>for/await of</li>
+</ol>
+<p>推荐尽可能使用 for/of 和 for/await of 语法</p>
+<h3 id="表达式语句"><a href="#表达式语句" class="headerlink" title="表达式语句"></a>表达式语句</h3><p>表达式语句本身的分类比较多，也没有太多的必要去记住每一种分类。表达式语句的分类涉及到操作符的优先级，但是其实不建议使用特别复杂的优先级去写代码。用一个()代码会清晰明了很多。<br>因为操作符的优先级可能会出现微调，而且清晰明了的代码对维护者也是比较友好的。写代码的目的毕竟不是为了炫技。<br>实际代码中最有用的操作符优先级应该是<code>&amp;&amp; 》 || 》 ?:</code></p>
+<p>表达式语句从大类上分为两种，左值表达式和条件表达式。左值表达式是可以出现在=左边的表达式，条件表达式是出现在=右边的表达式。左值表达式同时也是右值表达式。因为高优先级的表达式天然都是低优先级的表达式。<br>赋值表达式可以通过<code>,</code>运算符连接成表达式。但是实际上我们很少用逗号运算符，所以赋值表达式基本就是常用表达式的终极形态，也是优先级最低的表达式</p>
+<h5 id="左值表达式"><a href="#左值表达式" class="headerlink" title="左值表达式"></a>左值表达式</h5><p>左值表达式优先级从高到低顺序如下</p>
+<p>PrimaryExpression =&gt; MemberExpression =&gt; NewExpression/CallExpression =&gt; 左值表达式</p>
+<p>PrimaryExpression: 直接量，包含字面量、变量。<br>任何表达式加上()都会变成 PrimaryExpression</p>
+<p>MemberExpression: 成员表达式。<br>例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a.b</span><br><span class="line">a[b]</span><br><span class="line"><span class="keyword">super</span>.b</span><br><span class="line"><span class="keyword">this</span>.a</span><br><span class="line"><span class="keyword">new</span>.target</span><br><span class="line">say<span class="string">`abc`</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p>有两种比较特殊的情况,跟字符串模板的函数和带参数列表的 NEW 表达式也是成员表达式，他们之间语义上并没有什么关联，放到一起只是因为优先级相同。</p>
+<p>NewExpression/CallExpression: new 表达式和函数调用表达式。<br>例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Array</span>()</span><br><span class="line">a()</span><br><span class="line">a().b</span><br></pre></td></tr></table></figure>
+<p>注意，不带参数列表的是 NewExpression，优先级比带参数列表的低。</p>
+<p>可以看到，左值表达式的类型还是比较少的，大类上就只有 NEW 表达式和函数调用表达式两种。</p>
+<h5 id="条件表达式"><a href="#条件表达式" class="headerlink" title="条件表达式"></a>条件表达式</h5><p>左值表达式也是条件表达式。所以左值表达式的优先级都比条件表达式高。<br>条件表达式的优先级从高到低如下<br>左值表达式 =&gt; updateExpression =&gt; unaryExpression/exponentiationExpression =&gt; MultiplicativeExpression =&gt; addtiveExpression<br>=&gt; shiftExpression =&gt; relationExpression =&gt; equalityExpression =&gt; 位运算表达式 =&gt; 逻辑与/或表达式 =&gt; 条件表达式</p>
+<p>updateExpression 更新表达式<br>左值表达式加上自增++/自减–</p>
+<p>unaryExpression 一元表达式<br>更新表达式搭配医院运算符，包括 +、-、typeof、delete、void、await、!、~</p>
+<p>exponentiationExpression 乘方表达式<br>更新表达式搭配乘方运算符</p>
+<p>MultiplicativeExpression 乘法表达式 * / %<br>addtiveExpression 加法表达式 + -<br>这个没什么好说的</p>
+<p>shiftExpression 位移表达式<br>包括 &gt;&gt; &lt;&lt; &gt;&gt;&gt; 不太懂，最好也不要用<br>js 中使用这个并不能提高性能。</p>
+<p>relationExpression 关系表达式<br>位移表达式和 &gt; &gt;= &lt; &lt;= instanceof in 构成关系表达式</p>
+<p>equalityExpression 相等表达式<br>关系表达式和 == != === !== 构成，也没什么好讲的</p>
+<p>位运算表达式<br>按位与、或、异或的表达式，不太了解。感觉也不太用的上</p>
+<p>逻辑与/或表达式<br>位运算表达式和&amp;&amp; || 构成的表达式</p>
+<p>条件表达式<br>逻辑与/或表达式御 ?: 构成的表达式</p>
+<p>条件表达式就是的种类是比较多的，优先级的顺序也比较复杂。但是其实不需要是了解所有表达式的优先级。也不建议使用特别复杂的优先级顺序写代码。使用大家都熟悉、了解的优先级顺序，然后在需要的时候加括号是更好的习惯。毕竟操作符的优先级也是会发生变化的。</p>
+<p>这是<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence" target="_blank" rel="noopener">mdn 关于各种操作符优先级和结合性的表格</a>。不确定操作符的优先级时可以参考。<br>可以看到，操作符的优先级和表达式的优先级其实是一一对应的。</p>
+<h3 id="自动分号插入"><a href="#自动分号插入" class="headerlink" title="自动分号插入"></a>自动分号插入</h3><p>js 在某些情况下会在语句尾部自动插入分号</p>
+<ol>
+<li>有换行符，且下一个符号是不符合语法的，自动插入分号</li>
+<li>有换行符，语法明确规定不能有换行符的，自动插入分号</li>
+<li>源代码结束处，不能形成完整的脚本或者模块，自动插入分号</li>
+</ol>
+<p>举个栗子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line"><span class="keyword">let</span> b = <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<p>3 后面跟 let 是不合法的语法，所以会自动插入换行符</p>
+<p>第二点中，语法中规定不能有换行符的 no LineTerminator here 规则如下</p>
+<ol>
+<li>带标签的 continue/break 语法，后面不能有换行符</li>
+<li>return 后面不能有换行符</li>
+<li>后自增、后自减运算符前不能插入换行（注意此处不包括前自增、自减）</li>
+<li>throw 和 Exception 之间不能插入换行</li>
+<li>async 关键字后不能插入换行</li>
+<li>箭头函数的箭头前，不能插入换行</li>
+<li>yield 之后，不能插入换行</li>
+</ol>
+<p>on LineTerminator here 规则没有定义，可能会产生歧义的地方包括</p>
+<ol>
+<li>以括号开头的语句<br>主要是 IIFE</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">3</span>)</span><br><span class="line">&#125;)()</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">4</span>)</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<p>上面的代码中第二个 IIFE 前没有分号，语法会认为前一个 IIFE 是一个函数，而第二个 IIFE 被认为是函数执行。从而导致抛出错误</p>
+<ol start="2">
+<li>以数组开头的语句</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line">[(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)].map(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(item)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><code>let a = 3</code>之后没有换行符，<code>[1,2,3]</code>被认为是<code>MemberExpression</code>，对<code>3</code>的属性取值，<code>1,2,3</code>被认为是逗号连接的表达式，自然会抛出错误</p>
+<ol start="3">
+<li>以正则表达式开头的语句</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line">/abc/.test(<span class="string">'ac'</span>)</span><br></pre></td></tr></table></figure>
+<p>3 之后的/会被认为是除法的一部分，这种情况在实际代码中比较少见</p>
+<ol start="4">
+<li>以模板字符串开头的语句</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line"><span class="string">`abc`</span>.match(<span class="regexp">/a/</span>)</span><br></pre></td></tr></table></figure>
+<p>3 之后没有换行符，3`abc`被认为是函数之后跟模板字符串的函数执行。这种情况也比较少见</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/23/basis/lexical/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/23/basis/lexical/" itemprop="url">词法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-23T19:02:02+08:00">
+                2019-05-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>js 词法简介</p>
+<h3 id="什么是词法"><a href="#什么是词法" class="headerlink" title="什么是词法"></a>什么是词法</h3><p>从浏览器执行的角度看，js 文件最先是通过网络从服务器上获取的，得到是一段二进制数据，然后浏览器根据对应的编码将这段二进制数据转换为字符串。<br>再将字符串拆分为有意义的词，一般称之为 token。token 是语言的最小语义单元。<br>词法规定了语言的 token 种类。</p>
+<h3 id="词的分类"><a href="#词的分类" class="headerlink" title="词的分类"></a>词的分类</h3><p>js 中的词包括以下几种</p>
+<ol>
+<li>空白符</li>
+<li>换行符</li>
+<li>注释</li>
+<li>标识符名称</li>
+<li>符号</li>
+<li>数字字面量</li>
+<li>字符串字面量</li>
+<li>字符串模板</li>
+<li>正则表达式字面量</li>
+</ol>
+<p>下面分别讲述这几种不同的词</p>
+<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>注释对于词法而言一般是无意义的，但是对 js 的语法的自动分号补全规则有影响。因为包含换行符的注释会被认为包含换行符，所以注释也是一种有效的词法。<br>除此之外，注释并没有特别的意义。</p>
+<h3 id="空白符"><a href="#空白符" class="headerlink" title="空白符"></a>空白符</h3><p>js 支持 unicode 中的所有空白符，种类很多，下面介绍几种常用的</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">HT</td>
+<td style="text-align:center">U+0009, \t 即常见的 tab 缩进</td>
+</tr>
+<tr>
+<td style="text-align:center">VT</td>
+<td style="text-align:center">\v 垂直缩进，比较少见</td>
+</tr>
+<tr>
+<td style="text-align:center">FF</td>
+<td style="text-align:center">分页符 \f</td>
+</tr>
+<tr>
+<td style="text-align:center">SP</td>
+<td style="text-align:center">U+0020, 常见的空格</td>
+</tr>
+<tr>
+<td style="text-align:center">NBSP</td>
+<td style="text-align:center">U+00a0, 非断行空格，html 中的<code>&amp;nbsp;</code>就是它</td>
+</tr>
+<tr>
+<td style="text-align:center">ZWNBSP</td>
+<td style="text-align:center">BOM，零宽非断行空格，常用于文件头部表示 utf 的编码方式</td>
+</tr>
+<tr>
+<td style="text-align:center">ZWSP</td>
+<td style="text-align:center">零宽空格</td>
+</tr>
+</tbody>
+</table>
+<p>其它空格参见<a href="https://zh.wikipedia.org/wiki/%E7%A9%BA%E6%A0%BC" target="_blank" rel="noopener">wiki-空格</a></p>
+<p>一般而言，空格符对 js 的执行是没有影响的。但是字符串中可以包含零宽空格，会改变字符串的长度，也可以有一些有意思的应用。<br><a href="https://github.com/baiyunshenghaishang/zero-width-space" target="_blank" rel="noopener">零宽空格的一种应用</a></p>
+<h3 id="换行符"><a href="#换行符" class="headerlink" title="换行符"></a>换行符</h3><p>不同于空格符，js 中只提供了 4 种换行符。<br>换行符对语法的影响也只存在于分号自动补全规则。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">LF</td>
+<td style="text-align:center">通常意义的换行符，\n</td>
+</tr>
+<tr>
+<td style="text-align:center">CR</td>
+<td style="text-align:center">回车，\r</td>
+</tr>
+<tr>
+<td style="text-align:center">LS</td>
+<td style="text-align:center">unicode 中的行分隔符</td>
+</tr>
+<tr>
+<td style="text-align:center">PS</td>
+<td style="text-align:center">unicode 中的段落分隔符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="标识符名称"><a href="#标识符名称" class="headerlink" title="标识符名称"></a>标识符名称</h3><p>标识符名称包含变量名、关键字、保留字、true/false 和 null<br>其中变量名可以以 美元符号\$、下划线_或字母开始，还可以包含数字</p>
+<p>关键字和保留字就不列举了<br>可以参见<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Lexical_grammar" target="_blank" rel="noopener">MDN 词法</a></p>
+<h3 id="符号"><a href="#符号" class="headerlink" title="符号"></a>符号</h3><p>js 中的所有符号如下<br><code>{ ( ) [ ] . ... ; , &lt; &gt; &lt;= &gt;= == != === !== + - * % ** ++ -- &lt;&lt; &gt;&gt; &gt;&gt;&gt; &amp; | ^ ! ~ &amp;&amp; || ? : = += -= *= %= **= &lt;&lt;= &gt;&gt;= &gt;&gt;&gt;= &amp;= |= ^= =&gt; / /= }</code></p>
+<h3 id="数字字面量"><a href="#数字字面量" class="headerlink" title="数字字面量"></a>数字字面量</h3><p>数字字面量包含 2 进制、8 进制、10 进制、16 进制 4 种形式<br>2 进制以 0b/0B 开头，数字不能超过 1，如<code>0b011101</code><br>8 进制以 0o/0O 开头，数字不能超过 7，如<code>0o12345667</code><br>10 进制就是我们常见的数字<br>16 进制以 0x/0X 开头，包含<code>0-9,A-F</code>，如<code>0xA32E</code>，也可以使用小写字母</p>
+<p>其中只有10进制可以包含小数和使用科学计数法。</p>
+<p>小数点前面和后面的数字都可以省略，如<code>10.</code>,<code>.03</code>都是有效的数字，但是不能同时省略。</p>
+<p>小数点的优先级比属性获取要高，所以<code>10.toString</code>中的<code>.</code>会被认为是小数点，从而报词法错误。正确的使用方式应该是<code>10..toString</code></p>
+<p>10进制的数字还可以使用科学计数法表示，如<code>3e6</code><br>也可以使用大写E,e之前可以使用小数，e之后只能使用整数，可以是负数，如<code>10.23E-3</code></p>
+<h3 id="字符串字面量"><a href="#字符串字面量" class="headerlink" title="字符串字面量"></a>字符串字面量</h3><p>字符串可以使用单引号，也可以使用双引号。单引号字符串中双引号必须转义，双引号字符串中单引号必须转义，除此之外没有区别。<br>字符串除了字面量的表示，还支持 unicode 表示。</p>
+<ol>
+<li>使用 <code>\uXXXX</code>，表示基本平面的字符</li>
+<li>使用<code>\u{XXXXXX}</code>表示</li>
+</ol>
+<p>字符串的转义<br>关于字符串的转义，包含两部分含义，</p>
+<ol>
+<li>有些字符在字符串中必须被转义，比如 \</li>
+<li>有些字符连在一起之后表示另外一个字符的意思，比如\n</li>
+</ol>
+<p>字符串中必须被转义的字符只有<code>\</code>和换行符，因为换行符是没法在字符串中直接被表示的，空白符可以。</p>
+<p>包含特殊意义的字符则包括以下这些<br><code>\&#39; \&quot; \\ \b \f \t \v \n \r</code><br>其中 <code>\b</code>表示退格符，删除前一个字符，其它的前面都已经讲到</p>
+<p>还有几种包含特殊意义的组合<br>\数字 八进制表示的整数，表示一个字符，数字是unicode编码的8进制表示,如z是\172，最大255<br>\xXX 16进制表示的数字，表示一个字符，数字是unicode编码的16进制表示，最大255</p>
+<p>\uXXXX 16进制表示的数字,表示一个unicode基本平面的字符<br>\u{XXXXXX} 16进制表示的数字，表示一个unicode字符</p>
+<p>除此之外, \和其它字符组合都是字符本身。</p>
+<h3 id="字符串模板"><a href="#字符串模板" class="headerlink" title="字符串模板"></a>字符串模板</h3><p>字符串模板和字符串基本类似。转义规则稍有不同，字符串模板中换行符<code>\n</code>是可以通过换行直接表示的，单双引号也可以直接使用。</p>
+<h3 id="正则表达式字面量"><a href="#正则表达式字面量" class="headerlink" title="正则表达式字面量"></a>正则表达式字面量</h3><p>正则表达式比较复杂，会单独写一篇博客。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/22/basis/import_export/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -824,1011 +1885,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/basis/generator/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/28/basis/generator/" itemprop="url">生成器</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T19:52:57+08:00">
-                2019-03-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>[TOC]</p>
-<h3 id="什么是生成器"><a href="#什么是生成器" class="headerlink" title="什么是生成器"></a>什么是生成器</h3><p>生成器是一个返回迭代器的函数。<br>不同于普通的函数，生成器在声明语法和执行上都差异极大。</p>
-<p>以下是一个生成器的例子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">say</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> x <span class="comment">// yield是生成器内的特殊语法，只能在生成器内出现</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>有一点需要注意，生成器返回的不仅仅是一个迭代器，也是一个可迭代对象，所以生成器的返回值可以直接使用<code>for...of</code>遍历</p>
-<h5 id="生成器的声明"><a href="#生成器的声明" class="headerlink" title="生成器的声明"></a>生成器的声明</h5><p>不同于普通的函数生成，生成器的声明需要在<code>function</code>关键字和函数名之间加上<code>*</code>。</p>
-<p>对于*、function 和函数名之间的位置关系，以下三种都可以</p>
-<ol>
-<li><code>function* say</code></li>
-<li><code>function * say</code></li>
-<li><code>function *say</code></li>
-</ol>
-<p>对于没有<code>function</code>关键字的方法声明，<code>*</code>号放在方法名之前即可。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    *say() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="生成器的执行"><a href="#生成器的执行" class="headerlink" title="生成器的执行"></a>生成器的执行</h5><p>作为函数，生成器也有返回值。不同于普通的函数，生成的返回值是一个可以调度生成器执行的迭代器。</p>
-<p>以以下生成器为例</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">say</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">3</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> gen = say()</span><br><span class="line">gen.next() <span class="comment">// 执行 yield 1</span></span><br><span class="line"><span class="comment">// gen.next()返回值 &#123;value:1,done:false&#125;</span></span><br><span class="line">gen.next() <span class="comment">// 执行 console.log(2) yield 2</span></span><br><span class="line"><span class="comment">// &#123;value:2,done:false&#125;</span></span><br><span class="line">gen.next() <span class="comment">// 执行 yield 3</span></span><br><span class="line"><span class="comment">// &#123;value:3,done:false&#125;</span></span><br><span class="line">gen.next()</span><br><span class="line"><span class="comment">// &#123;value:undefined,done:true&#125;</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>生成器 say 执行后并不立即执行函数内部代码，而是返回一个迭代器，通过执行迭代器的 next 方法，可以让生成器继续执行。</li>
-<li>每次调用迭代器的 next 方法，生成器会从上次暂停的地方开始执行，直到碰到下一个 yield 语句，或者函数结束。</li>
-<li>如果碰到 yield 语句，生成器将 yield 后的值作为迭代器的 value 返回，然后函数暂停，等待下一次 next 方法调用。</li>
-<li>如果函数结束(执行到最后一行或者碰到 return),将 return 的值作为 value 返回，此时 done 为 true</li>
-</ol>
-<h3 id="next-throw-return"><a href="#next-throw-return" class="headerlink" title="next/throw/return"></a>next/throw/return</h3><p>在迭代器中讲到过，迭代器必须有 next 方法，对于生成器返回的迭代器，除了 next 方法之外，还有 throw 和 return 方法</p>
-<h5 id="next"><a href="#next" class="headerlink" title="next"></a>next</h5><p>生成器中 yield 表达式本身是没有值的，或者说值都是 undefined,可以通过跟 next 方法传值给 yield 表达式赋值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">NextValue</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> x</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> gen = NextValue()</span><br><span class="line">gen.next()</span><br><span class="line"><span class="comment">// &#123;value:1,done:false&#125;</span></span><br><span class="line">gen.next(<span class="number">8</span>)</span><br><span class="line"><span class="comment">// &#123;value:8,done:false&#125;</span></span><br></pre></td></tr></table></figure>
-<p>如上，第一次执行 next 返回 1<br>第二次执行 next 方法传入 8，8 会被赋值给 x,所以第二次 next 返回 8</p>
-<p>next 的传值对于生成器十分重要，这意味着在生成器执行过程中，仍然可以通过给生成器传递不同值从而得到不同的结果</p>
-<h5 id="throw"><a href="#throw" class="headerlink" title="throw"></a>throw</h5><p>通过 throw 方法可以在生成器内抛出一个错误，如果生成器内部没有捕获错误，错误会冒泡到生成器之外。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">ErrorGenerator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> x</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> gen = ErrorGenerator()</span><br><span class="line">gen.throw(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'出错啦'</span>))</span><br><span class="line"><span class="comment">//  Uncaught Error: 出错啦</span></span><br></pre></td></tr></table></figure>
-<h5 id="return"><a href="#return" class="headerlink" title="return"></a>return</h5><p>调用迭代器的 return 方法后，生成器会直接结束，返回的 value 为 return 的传入值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">ReturnGenerator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> x</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> gen = ReturnGenerator()</span><br><span class="line">gen.return(<span class="number">3</span>)</span><br><span class="line"><span class="comment">// &#123;value:3,done:true&#125;</span></span><br><span class="line">gen.next(<span class="number">9</span>)</span><br><span class="line"><span class="comment">// &#123;value:undefined,done:true&#125;</span></span><br></pre></td></tr></table></figure>
-<h5 id="共同点"><a href="#共同点" class="headerlink" title="共同点"></a>共同点</h5><p>方法 next/throw/return 都可以理解为将 yield 语句替换为一段其它语句，然后继续执行</p>
-<ol>
-<li>next 使用 next 方法的参数替换 yield 语句</li>
-<li>throw 方法用 <code>throw</code>替换 yield 语句，throw 的值为 throw 方法的参数</li>
-<li>return 使用<code>return</code>语句替换 yield 语句，return 的值为 return 方法的参数</li>
-</ol>
-<h3 id="yield"><a href="#yield" class="headerlink" title="yield*"></a>yield*</h3><p>在生成器内部可以使用<code>yield*</code>嵌套 yield 其它可迭代对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">NestedGenerator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">Generator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="comment">// 也可以是等其它可迭代对象</span></span><br><span class="line">    <span class="keyword">yield</span>* NestedGenerator()</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">4</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> gen = Generator()</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">of</span> gen) &#123;</span><br><span class="line">    <span class="comment">//1 2 3 4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h3><p>先看一个回调函数的异步例子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ajax(<span class="string">'a/b/c'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, res</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="keyword">throw</span> err</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    handle(res)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">123</span>)</span><br></pre></td></tr></table></figure>
-<p>setTimeout 需要传入一个回调函数。回调函数的方式缺点很多，这里只指出生成器能解决的最重要的一条。</p>
-<p>回调函数的执行顺序不符合直觉。</p>
-<p>代码<code>handle(res)</code>位于<code>console.log(123)</code>之前，执行却在<code>console.log(123)</code>之后。</p>
-<p>先看一下上面的代码用生成器执行应该怎么写。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    ajax(<span class="string">'a/b/c'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, res</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            it.throw(err)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        it.next(res)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">runTask</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> request()</span><br><span class="line">    handle(x)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> it = runTask()</span><br><span class="line">it.next()</span><br></pre></td></tr></table></figure>
-<p>第一眼的感觉这段代码比回调的复杂很多，而且也不是很好理解。</p>
-<p>继续之前，先梳理下这段代码的逻辑</p>
-<ol>
-<li>it.next()执行了 request 方法</li>
-<li>request 方法执行了一个异步方法 ajax(假设存在这样一个异步方法)</li>
-<li>在异步方法的回调函数中调用了 it.next，传入了回调函数的返回值 res</li>
-<li>res 被赋值给 x,handle(x)是真正处理 ajax 返回值的代码</li>
-</ol>
-<p>上例中处理异步的核心代码其实只有两行</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> x = <span class="keyword">yield</span> request()</span><br><span class="line">handle(x)</span><br></pre></td></tr></table></figure>
-<p>这两行代码独特的地方在于它完全没有涉及异步、回调。就好像这是一个同步调用一样。</p>
-<p>当然，上面的代码过于麻烦，而且硬编码严重，不具有通用性，可以改造如下。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 改造后的生成器异步代码</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">tasks</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> it = tasks(),</span><br><span class="line">        result = it.next()</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (result.done) <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> result.value === <span class="string">'function'</span>) &#123;</span><br><span class="line">            result.value(<span class="function">(<span class="params">err, res</span>) =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (err) &#123;</span><br><span class="line">                    it.throw(err)</span><br><span class="line">                    <span class="keyword">return</span></span><br><span class="line">                &#125;</span><br><span class="line">                result = it.next(res)</span><br><span class="line">                step()</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result = it.next(result.value)</span><br><span class="line">            step()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    step()</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">        ajax(<span class="string">'a/b/c'</span>, callback)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> request()</span><br><span class="line">    handle(x)</span><br><span class="line">&#125;</span><br><span class="line">run(main)</span><br></pre></td></tr></table></figure>
-<p>改造后的代码更加复杂了，但是通用性更强。<code>run</code>方法完全通用，<code>request</code>方法可以用一个工厂方法生成。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">requestFactory</span>(<span class="params">func, ...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">        func(...args, callback)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>修改后的<code>request</code>方法如下所示</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改前</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">        ajax(<span class="string">'a/b/c'</span>, callback)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> request()</span><br><span class="line">    handle(x)</span><br><span class="line">&#125;</span><br><span class="line">run(main)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改后</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">requestFactory</span>(<span class="params">func, ...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">        func(...args, callback)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> requestFactory(ajax, <span class="string">'a/b/c'</span>)</span><br><span class="line">    handle(x)</span><br><span class="line">&#125;</span><br><span class="line">run(main)</span><br></pre></td></tr></table></figure>
-<p>至此，<code>run</code>和<code>requestFactory</code>都成了通用方法，真正的执行代码只有生成器<code>main</code>方法和<code>run(main)</code>语句。</p>
-<p>在上面的<code>run</code>方法中，我们一直有一个假设，即<code>ajax</code>异步方法接收的回调是 error-first 风格的。写出这样风格的异步方法不难，但是也总是难免会存在不是这种风格的回调。但要在<code>run</code>方法中判断回调的第一个参数是不是错误很难，或者说不可能。<br>所以对于<code>run</code>方法的回调方法的参数必须有所约定，<code>Promise</code>是最好的选择。即<code>requestFactory</code>方法需要返回一个 Promise,或者 ajax 方法直接返回<code>Promise</code></p>
-<p>最终的代码如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">tasks</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> it = tasks(),</span><br><span class="line">        result = it.next()</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (result.done) <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> (result.value <span class="keyword">instanceof</span> <span class="built_in">Promise</span>) &#123;</span><br><span class="line">            result.value.then(</span><br><span class="line">                res =&gt; &#123;</span><br><span class="line">                    result = it.next(res)</span><br><span class="line">                    step()</span><br><span class="line">                &#125;,</span><br><span class="line">                err =&gt; &#123;</span><br><span class="line">                    it.throw(err)</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result = it.next(result.value)</span><br><span class="line">            step()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    step()</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">yield</span> ajax(<span class="string">'a/b/c'</span>) <span class="comment">// ajax需要返回一个Promise</span></span><br><span class="line">    handle(x)</span><br><span class="line">&#125;</span><br><span class="line">run(main)</span><br></pre></td></tr></table></figure>
-<p>其中<code>run</code>方法可以封装为一个工具函数。</p>
-<p>es7 将这种异步方式规范化了。没错，就是<code>async await</code></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/25/basis/iterator/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/25/basis/iterator/" itemprop="url">迭代器</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-25T20:29:15+08:00">
-                2019-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>[TOC]</p>
-<h3 id="什么是迭代器"><a href="#什么是迭代器" class="headerlink" title="什么是迭代器"></a>什么是迭代器</h3><p>在 js 中，遍历数组的一种常用方式是通过<code>index</code>，</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    arr[i]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这也是 es6 之前遍历类数组结构的常用方法。<br>es6 中引入了两种新的数据结构，<code>Set</code>和<code>Map</code>。对于<code>Set</code>和<code>Map</code>，不能通过下标访问元素，所以遍历 Set 和 Map 需要一种新的方法，最好这种方法还能够和类数组结构兼容。<br>所以 es6 定义了一种新的遍历方式<code>for...of</code>。而<code>for...of</code>的遍历正是通过迭代器来实现。</p>
-<p><strong>迭代器是一个普通对象</strong>，必须包含<code>next</code>方法，可以包含<code>return/throw</code>方法。<br>执行迭代器的<code>next</code>方法返回一个对象，包含两个属性<code>value、done</code>，其中<code>value</code>表示值,<code>done</code>表示遍历是否结束。<br>在遍历结束之前，<code>done</code>都会返回<code>false</code>。<code>done</code>返回<code>true</code>则代表遍历结束。</p>
-<p>下面是一个简单的迭代器示例。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line"><span class="keyword">let</span> iteratorExmaple = &#123;</span><br><span class="line">    next() &#123;</span><br><span class="line">        <span class="keyword">if</span> (i++ &lt;= 5) &#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                value: i,</span><br><span class="line">                done: false</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return &#123;</span><br><span class="line">            value: i,</span><br><span class="line">            done: true</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在循环<code>for(let item of arr)</code>中，<code>for...of</code>循环会调用 arr 迭代器的<code>next</code>方法，把<code>value</code>的值赋给<code>item</code>，直到<code>next</code>方法返回的对象<code>done</code>为 true。(arr 的迭代器从何而来，后面会讲到)<br>注意：<strong>done 为 true 时的 value 值不会包含在 for…of 循环中</strong></p>
-<h3 id="可迭代对象"><a href="#可迭代对象" class="headerlink" title="可迭代对象"></a>可迭代对象</h3><p>js 中有很多类型都是可迭代对象，包括数组、类数组结构如 NodeList,arguments、字符串、Set、Map。<br>普通对象不是。</p>
-<p>迭代器也不是，迭代器不能被<code>for...of</code>循环遍历。</p>
-<p>一个对象是不是可迭代对象取决于对象是不是包含<code>Symbol.iterator</code>方法。<code>Symbol.iterator</code>方法需要返回一个迭代器，<code>for...of</code>遍历基于这个迭代器循环遍历。<br>所以可以通过以下方式让一个普通对象也可以<code>for...of</code>遍历</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.iterator]() &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            i: <span class="number">0</span>,</span><br><span class="line">            next() &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">this</span>.i++ &lt; 5) &#123;</span><br><span class="line">                    return &#123;</span><br><span class="line">                        value: this.i,</span><br><span class="line">                        done: false</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                return &#123;</span><br><span class="line">                    done: true</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">for (let item of obj) &#123;</span><br><span class="line">    console.log(item) // 1 2 3 4 5</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>内建的可迭代对象默认拥有<code>Symbol.iterator</code>属性，一般都位于对象的原型上，所以都可以通过<code>for...of</code>遍历。</p>
-<p>诸如<code>Set.keys()</code>方法返回的是迭代器，但是其可以被<code>for...of</code>遍历不是因为是迭代器，而是这个迭代器包含<code>Symbol.iterator</code>属性。</p>
-<p>重要的事情说三遍:<br><strong>迭代器不是可迭代对象，不能被<code>for...of</code>循环遍历</strong></p>
-<h3 id="使用迭代器的其它场合"><a href="#使用迭代器的其它场合" class="headerlink" title="使用迭代器的其它场合"></a>使用迭代器的其它场合</h3><p>虽然上面的例子中一直以<code>for...of</code>为迭代器的使用例子，但是还有一些其它情况也会调用迭代器接口</p>
-<ol>
-<li>展开运算符 <code>...</code></li>
-<li>yield * 。生成器的内部方法，具体参考生成器。</li>
-<li>Array.from()</li>
-</ol>
-<p>还有一些其它场合，基本上 es6 之后新的遍历都会使用迭代器</p>
-<h3 id="内建迭代器"><a href="#内建迭代器" class="headerlink" title="内建迭代器"></a>内建迭代器</h3><p>js 中,Array、Set、Map 都包含有内建的迭代器 entries(),values(),keys()</p>
-<p>其中 keys 返回键的迭代器，但是仍然可以被 for…of 遍历，因为 keys 返回的也是一个可迭代对象。values()和 entries()也类似<br>values()返回值的迭代器<br>entries()返回键值对数组的迭代器</p>
-<h3 id="迭代器的高级用法"><a href="#迭代器的高级用法" class="headerlink" title="迭代器的高级用法"></a>迭代器的高级用法</h3><p>迭代器的高级用法，如迭代器的 throw 方法，迭代器 next 方法传参，几乎都与生成器相关。所以放在生成器中一起讲。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/basis/type-cast/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/19/basis/type-cast/" itemprop="url">类型转换</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-19T20:57:14+08:00">
-                2019-03-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="显示转换"><a href="#显示转换" class="headerlink" title="显示转换"></a>显示转换</h3><p>Number Boolean String Object</p>
-<h3 id="隐式转换"><a href="#隐式转换" class="headerlink" title="隐式转换"></a>隐式转换</h3><h3 id="装箱转换-拆箱转换"><a href="#装箱转换-拆箱转换" class="headerlink" title="装箱转换/拆箱转换"></a>装箱转换/拆箱转换</h3><h3 id="抽象转换-ToNumber-ToString-ToPrimitive-ToBoolean"><a href="#抽象转换-ToNumber-ToString-ToPrimitive-ToBoolean" class="headerlink" title="抽象转换 ToNumber ToString ToPrimitive ToBoolean"></a>抽象转换 ToNumber ToString ToPrimitive ToBoolean</h3><p><code>ToNumber ToString</code> 只是 <code>ToPrimitive</code>的一种情况<br><code>ToBoolean</code> 不属于其中，有一套独立的规则<br><code>ToPrimitive</code>可以理解为就是<code>Symbol.toPrimitive</code>函数的结果</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.toPrimitive](hint) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (hint) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'default'</span>:</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'default'</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'string'</span>:</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'string'</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'number'</span>:</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'number'</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">3</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="built_in">console</span>.log(hint)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">4</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    toString() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'toString'</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">5</span></span><br><span class="line">    &#125;,</span><br><span class="line">    valueOf() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'valueOf'</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">6</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">Number</span>(obj) <span class="comment">// 3</span></span><br><span class="line">    <span class="built_in">String</span>(obj) <span class="comment">// 2</span></span><br><span class="line">    obj + <span class="number">1</span> <span class="comment">// 1+1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>Symbol.toPrimitive</code>传入的<code>hint</code>只有<code>string/number/default</code>三种情况，<code>default</code>只是为了代码完备。<br><code>Symbol.toPrimitive</code>的返回结果就是<code>Number(obj)</code>等的返回结果,如果返回的不是<code>hint</code>的基本类型，会强制转换为<code>hint</code>类型(可能会失败，如<code>Symbol</code>转数字)，如果返回的是对象，会抛出错误。<br><code>toString</code>和<code>valueOf</code>方法不会执行。</p>
-<p>默认<code>Symbol.toPrimitive</code>情况下，根据不同的<code>hint</code>,会先后调用<code>valueOf</code>和<code>toString</code>，只要有一个返回基本类型，就会将该基本类型强制转换为<code>hint</code>类型，如果两者都返回对象，报错。至于调用的先后顺序，<code>string</code>是<code>toString-valueOf</code>，<code>number</code>相反，<code>default</code>在<code>Date</code>对象中是<code>toString</code>优先，其它是<code>valueOf</code>。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/basis/set-map/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/19/basis/set-map/" itemprop="url">Set和Map</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-19T19:24:25+08:00">
-                2019-03-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>[TOC]</p>
-<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><p>Set 是 es6 定义的一种新的数据结构，概念上与数组很类似，但是操作上与数组截然不同。</p>
-<p>Set 最重要的特性是<strong>不包含重复元素</strong>，如果不需要这种特性，一般没有使用 Set 的需要。Set 内部使用<code>Object.is</code>来比较两个元素是否相等，而不是<code>===</code>,<code>Object.is</code>和<code>===</code>的区别在于<code>NaN</code>和自己相等以及<code>-0</code>和<code>+0</code>不相等。</p>
-<h5 id="创建-Set"><a href="#创建-Set" class="headerlink" title="创建 Set"></a>创建 Set</h5><p>创建 Set 只能使用构造函数的方式<code>new Set()</code>。也可以传入<code>iterable</code>对象，Set 会将迭代对象去重。如果传入的内容不能迭代，会抛出错误。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">4</span>]) <span class="comment">// set([1,2,4])</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Set</span>(<span class="number">3</span>) <span class="comment">// error 3 is not iterable</span></span><br></pre></td></tr></table></figure>
-<h5 id="操作-Set"><a href="#操作-Set" class="headerlink" title="操作 Set"></a>操作 Set</h5><p>Set<strong>不是</strong>数组，不能够通过索引直接获取某个位置的值。<br>操作数组的方法包括</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">方法</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">add()</td>
-<td style="text-align:center">添加值</td>
-</tr>
-<tr>
-<td style="text-align:center">delete()</td>
-<td style="text-align:center">删除值</td>
-</tr>
-<tr>
-<td style="text-align:center">has()</td>
-<td style="text-align:center">是否包含某个值</td>
-</tr>
-<tr>
-<td style="text-align:center">clear()</td>
-<td style="text-align:center">清空 Set</td>
-</tr>
-<tr>
-<td style="text-align:center">size</td>
-<td style="text-align:center">Set 的值个数</td>
-</tr>
-</tbody>
-</table>
-<p>由于<code>add</code>方法返回Set本身，对于连续添加多个元素可以采用如下方式<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line">set.add(<span class="number">1</span>).add(<span class="number">2</span>).add(<span class="number">3</span>)</span><br></pre></td></tr></table></figure></p>
-<p>Set 还包含<code>forEach</code>方法。但是由于 Set 没有索引，<code>forEach</code>的<code>key</code>和<code>value</code>相同，所以几乎没有任何理由使用<code>forEach</code>。同理，<code>set.keys()/set.values()/set.entries()</code>也毫无意义。遍历 Set 最好的方式是使用<code>for...of</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> s = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> s) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以发现，Set 唯一的作用是否就是确认是否包含某个变量，但是这个功能数组也能轻易做到，<code>arr.includes()</code>和<code>set.has()</code>功能相同。<br>ps:和<code>arr.indexOf()</code>有一点区别,<code>indexOf</code>使用<code>===</code>判别是不是同一个元素,<code>includes</code>使用<code>Object.is()</code>，所以数组的<code>includes</code>和<code>indexOf</code>还是有一点区别的</p>
-<p>Set 唯一的作用大概是用来去重</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">[...new <span class="built_in">Set</span>(arr)] <span class="comment">// [1,2,3,4]</span></span><br></pre></td></tr></table></figure>
-<p>除此之外，似乎没有其他用途了</p>
-<h3 id="WeakSet"><a href="#WeakSet" class="headerlink" title="WeakSet"></a>WeakSet</h3><p>WeakSet 正如其名，与 Set 基本相同，区别有两点</p>
-<ol>
-<li>WeakSet 只能包含对象，不能包含基本类型，给 WeakSet 添加基本类型会报错</li>
-<li>WeakSet 不是可遍历对象，不包含<code>clear()</code>和<code>size</code>方法/属性</li>
-</ol>
-<p>所以 WeakSet 只有三个方法<code>add/has/delete</code></p>
-<p>WeakSet 最大的特点是只会保存持有对象的弱引用。即如果 WeakSet 持有的对象不被其他变量引用，则该对象可以被回收。<br>个人对WeakSet的用途暂只限于判断对象是否被回收。直接<code>console.log(weakset)</code>可以判断<code>WeakSet</code>包含的变量是否被回收。（不被引用的变量不一定马上被回收，这种方法判断依赖回收机制的触发，需要一定时间差）</p>
-<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><p>Map 和 Set 经常被一起提及，但是两者其实没什么关联。除了语法上的类似外，唯一是关系大概是都是 es6 添加的新数据结构。</p>
-<p>如果说 Set 是参照数组创建的，Map 是参照对象创建的。Map也是键值对的组合，与对象的区别在于对象的<code>key</code>只能是字符串，而Map的<code>key</code>可以是任意数据类型</p>
-<h5 id="创建-Map"><a href="#创建-Map" class="headerlink" title="创建 Map"></a>创建 Map</h5><p>创建 Map 也只能通过<code>new Map()</code>的方式。如果要给Map传入初始值，可以传入每个元素都是数组的数组<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> m = <span class="keyword">new</span> <span class="built_in">Map</span>([[<span class="string">'key'</span>,<span class="string">'value'</span>],[<span class="number">1</span>,&#123;&#125;]])</span><br></pre></td></tr></table></figure></p>
-<h5 id="操作Map"><a href="#操作Map" class="headerlink" title="操作Map"></a>操作Map</h5><p>Map不能通过属性名<code>.</code>或者<code>[]</code>语法直接访问属性。Map的操作方法和Set及其相似。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">方法</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">set(key,val)</td>
-<td style="text-align:center">添加/更新key的值为val</td>
-</tr>
-<tr>
-<td style="text-align:center">get(key)</td>
-<td style="text-align:center">获取key的val</td>
-</tr>
-<tr>
-<td style="text-align:center">delete(key)</td>
-<td style="text-align:center">删除key</td>
-</tr>
-<tr>
-<td style="text-align:center">has(key)</td>
-<td style="text-align:center">是否包含key</td>
-</tr>
-<tr>
-<td style="text-align:center">clear()</td>
-<td style="text-align:center">清空 Map</td>
-</tr>
-<tr>
-<td style="text-align:center">size</td>
-<td style="text-align:center">Map的键值对数量</td>
-</tr>
-</tbody>
-</table>
-<p>除了<code>add</code>方法变成了<code>set/get</code>，其它的方法完全一样。Map同样是<code>iterable</code>对象，支持<code>iterable</code>的所有遍历方式。<br>Map的get方法返回Map本身，同样可以采用链式方式添加多个元素<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>().set(<span class="number">1</span>,<span class="number">1111</span>).set(<span class="number">2</span>,<span class="number">2222</span>)</span><br></pre></td></tr></table></figure></p>
-<p>Map最大的作用在于<code>key</code>可以不是字符串，在需要使用非字符串<code>key</code>时，如<code>Symbol</code>，Map还是很有作用的。</p>
-<h3 id="WeakMap"><a href="#WeakMap" class="headerlink" title="WeakMap"></a>WeakMap</h3><p>WeakMap是Map的弱引用版本，与WeakSet类似</p>
-<ol>
-<li>WeakMap的<code>key</code>只能是对象</li>
-<li>WeakMap不是可遍历对象</li>
-</ol>
-<p>WeakMap的<code>key</code>也是弱引用，即如果WeakMap的<code>key</code>不再被其它变量引用，WeakMap的<code>key</code>可以被回收。<br>WeakMap的<code>value</code>是强引用，即只要WeakMap的<code>key</code>存在，WeakMap的<code>value</code>就不会被回收。</p>
-<p>与WeakSet类似，WeakMap只支持<code>set/get/delete/has</code>四个方法</p>
-<p>WeakMap一个很常用的应用场景是给页面上的元素添加对应值。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> el = <span class="built_in">document</span>.querySelector(<span class="string">'#xiaogou'</span>),</span><br><span class="line">    m = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">    m.set(el,&#123;</span><br><span class="line">        id:<span class="string">'xiaogou'</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
-<p>在不使用Map的情况下，如果元素<code>#xiaogou</code>被删除，对象<code>{id:&#39;xiaogou&#39;}</code>很难被回收，只能在元素被移除时通过事件触发来处理，而且这种处理也不够准确，因为元素仍然可能被重新添加会<code>DOM</code>中。而WeakMap几乎可以完美的解决这个问题。</p>
-<p>还有类似场景是私有变量的处理。具体代码就不列出了。<br>WeakMap的使用场景一般在需要为对象保存关联信息，对象删除时可以自动删除关联信息。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/14/basis/symbol/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/14/basis/symbol/" itemprop="url">symbol</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-14T19:09:41+08:00">
-                2019-03-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>[TOC]</p>
-<h3 id="什么是-Symbol"><a href="#什么是-Symbol" class="headerlink" title="什么是 Symbol"></a>什么是 Symbol</h3><p><code>Symbol</code>是 js 中第 7 种数据类型，第 6 种基本类型。Symbol 的主要目的是取代 js 中的魔法字符串。因为传统的对象属性只能是字符串，很容易被意外的覆盖，而 Symbol 类型的值都是独一无二的，可以有效防止意外修改对象属性的问题。</p>
-<p>检测是否是 Symbol 可以用<code>typeof</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> sy === <span class="string">'symbol'</span></span><br></pre></td></tr></table></figure>
-<h3 id="创建-Symbol"><a href="#创建-Symbol" class="headerlink" title="创建 Symbol"></a>创建 Symbol</h3><p><code>Symbol</code>是一种基本类型，没有构造函数，不能通过<code>new Symbol()</code>的方式创建。创建<code>Symbol</code>的方式有两种。<br>一种是通过<code>Symbol()</code>方法</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>(<span class="string">'description'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>(<span class="string">'description'</span>)</span><br><span class="line">sy === sy2 <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
-<p>其中<code>description</code>只是用于描述创建的 Symbol，对 Symbol 的值没有任何影响，创建两个 Symbol 传入相同的 description 得到的是不同的 Symbol。</p>
-<p>第二种创建 Symbol 的方式是通过<code>Symbol.for()</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>.for(<span class="string">'description'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>.for(<span class="string">'description'</span>)</span><br><span class="line">sy === sy2 <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-<p>其中的<code>description</code>既是 Symbol 的标识符，也是描述。<code>Symbol.for()</code>会先查找是否存在相同标识符的 Symbol,如果存在就返回，如果不存在就创建一个新的 Symbol。<br>注意：只有<code>Symbol.for()</code>创建的 Symbol 才会有标识符，<code>Symbol()</code>创建的 Symbol 没有标识符。所以</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>(<span class="string">'123'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>.for(<span class="string">'123'</span>)</span><br><span class="line">sy === sy2 <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
-<h3 id="操作-Symbol"><a href="#操作-Symbol" class="headerlink" title="操作 Symbol"></a>操作 Symbol</h3><p>Symbol 没有对应的内置对象类型，所以 Symbol 实例没有额外的方法，几乎不能执行任何操作。除了<code>Object.prototype</code>上的<code>toString</code>等几个方法外，Symbol 还有一个<code>Symbol.keyFor()</code>方法，用于获取 Symbol 的标识符</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sy = <span class="built_in">Symbol</span>(<span class="string">'123'</span>),</span><br><span class="line">    sy2 = <span class="built_in">Symbol</span>.for(<span class="string">'123'</span>)</span><br><span class="line"><span class="built_in">Symbol</span>.keyFor(sy) <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">Symbol</span>.keyFor(sy2) <span class="comment">// 123</span></span><br></pre></td></tr></table></figure>
-<h3 id="内置-Symbol-值"><a href="#内置-Symbol-值" class="headerlink" title="内置 Symbol 值"></a>内置 Symbol 值</h3><p>js 有一些行为一直是编译器内部在控制，代码无法影响的。而现在 js 通过一些预先定义好的 Symbol 属性将其暴露了出来。</p>
-<ol>
-<li>Symbol.hasInstance</li>
-<li>Symbol.isConcatSpreadable</li>
-<li>Symbol.iterator</li>
-<li>Symbol.species</li>
-<li>Symbol.toPrimitive</li>
-<li>Symbol.toStringTag</li>
-<li>Symbol.match</li>
-<li>Symbol.search</li>
-<li>Symbol.replace</li>
-<li>Symbol.split</li>
-<li>Symbol.unscopables</li>
-</ol>
-<h5 id="Symbol-hasInstance"><a href="#Symbol-hasInstance" class="headerlink" title="Symbol.hasInstance"></a>Symbol.hasInstance</h5><p>用于<code>a instanceof Func</code>时，此时会调用<code>Func[Symbol.hasInstance]</code>方法，方法的返回值就是<code>instanceof</code>的结果。<code>Symbol.hasInstance</code>定义在<code>Function.prototype</code>上，是一个不可遍历，不可修改，不可配置的属性。要修改<code>instanceof</code>默认行为需要使用如下方式</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Name</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(Name, <span class="built_in">Symbol</span>.hasInstance, &#123;</span><br><span class="line">    value: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意，由于不可写属性的限制，不能采用如下方式</span></span><br><span class="line">Name[<span class="built_in">Symbol</span>.hasInstance] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="Symbol-isConcatSpreadable"><a href="#Symbol-isConcatSpreadable" class="headerlink" title="Symbol.isConcatSpreadable"></a>Symbol.isConcatSpreadable</h5><p>调用<code>arr.concat(obj)</code>方法时，如果<code>obj</code>的<code>Symbol.isConcatSpreadable</code>为<code>true</code>，那么<code>obj</code>的前<code>length</code>个数字属性会被添加到<code>arr</code>中，非数字属性则会被丢弃。如果是<code>false</code>，<code>obj</code>会被直接添加到<code>arr</code>中。<br>注意：数字属性只会取<code>0 - length-1</code></p>
-<p>默认情况下，任何对象都没有<code>Symbol.isConcatSpreadable</code>属性。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    obj = &#123;</span><br><span class="line">        <span class="number">0</span>: <span class="number">4</span>,</span><br><span class="line">        <span class="number">3</span>: <span class="number">5</span>,</span><br><span class="line">        a: <span class="string">'xiaogou'</span>,</span><br><span class="line">        length: <span class="number">2</span>,</span><br><span class="line">        [<span class="built_in">Symbol</span>.isConcatSpreadable]: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">arr.concat(obj) <span class="comment">// [1,2,3,4,empty]</span></span><br></pre></td></tr></table></figure>
-<h5 id="Symbol-iterator"><a href="#Symbol-iterator" class="headerlink" title="Symbol.iterator"></a>Symbol.iterator</h5><p>用于<code>for...of</code>循环。可迭代对象都包含这个属性。<br><code>Symbol.iterator</code>是一个函数，需要返回一个<code>迭代器</code>。关于什么是迭代器，详见迭代器与生成器。<br>简单讲，迭代器就是包含<code>next()</code>方法属性的对象，每次调用<code>next()</code>方法时，都会返回一个<code>{value,done}</code>的对象,当<code>done</code>为 true 时，迭代器终止。</p>
-<p><code>for...of</code>遍历时，实际上是遍历<code>Symbol.iterator()</code>返回的迭代器。</p>
-<p>对象不可迭代的普通对象，可以通过添加<code>Symbol.iterator</code>方法来使其可以迭代。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.iterator]() &#123;</span><br><span class="line">        <span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            next() &#123;</span><br><span class="line">                <span class="keyword">if</span> (i++ <span class="xml"><span class="tag">&lt; <span class="attr">3</span>) &#123;</span></span></span><br><span class="line"><span class="xml">                    return &#123; value: i, done: false &#125;</span></span><br><span class="line"><span class="xml">                &#125; else &#123;</span></span><br><span class="line"><span class="xml">                    return &#123; done: true &#125;</span></span><br><span class="line"><span class="xml">                &#125;</span></span><br><span class="line"><span class="xml">            &#125;</span></span><br><span class="line"><span class="xml">        &#125;</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"><span class="xml">for (let i of obj) &#123;</span></span><br><span class="line"><span class="xml">    console.log(i)</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"><span class="xml">// 1</span></span><br><span class="line"><span class="xml">// 2</span></span><br><span class="line"><span class="xml">// 3</span></span><br><span class="line"><span class="xml">// 4</span></span><br></pre></td></tr></table></figure>
-<p>普通对象原本是不可以用于<code>for...of</code>循环的，通过添加<code>Symbol.iteraotr</code>方法，可使其可以通过<code>for...of</code>循环遍历。同理也可以用于数组的展开运算符。</p>
-<p>虽然上例中使用的是普通函数，但是更普遍的做法可能是为<code>Symbol.iterator</code>函数赋一个生成器函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    *[<span class="built_in">Symbol</span>.iterator]() &#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">        <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>虽然形式不一样，但是与<code>Symbol.iterator</code>关系不大，主要还是生成器。这里就不展开了。</p>
-<h5 id="Symbol-species"><a href="#Symbol-species" class="headerlink" title="Symbol.species"></a>Symbol.species</h5><p>内建对象实例方法返回新的实例时使用。比如 Array 的<code>slice</code>方法会返回一个新的 Array，如果通过 es6 extends 继承 Array，slice 方法会默认返回子类型的实例。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyArray</span> <span class="keyword">extends</span> <span class="title">Array</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> a = <span class="keyword">new</span> MyArray(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>),</span><br><span class="line">    b = a.slice(<span class="number">1</span>)</span><br><span class="line">b <span class="keyword">instanceof</span> MyArray <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
-<p>因为Array的<code>Symbol.species</code>默认指向this，所以返回MyArray类型的实例。<br>注意:<code>Symbol.species</code>定义为Array的静态属性，所以this指向实例的构造函数本身</p>
-<p>通过指定<code>Symbol.species</code>可以返回一个其他类型的实例<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> get [<span class="built_in">Symbol</span>.species] ()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span> <span class="comment">// 也可以指定为其他值，比如MyClass</span></span><br><span class="line">    &#125;</span><br><span class="line">    clone()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">this</span>.constructor[<span class="built_in">Symbol</span>.species]()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>使用<code>Symbol.species</code>的内建类型有 Array, ArrayBuffer, Map, Set, Typed arrays, Promise, RegExp</p>
-<h5 id="Symbol-toPrimitive"><a href="#Symbol-toPrimitive" class="headerlink" title="Symbol.toPrimitive"></a>Symbol.toPrimitive</h5><p>用于变量的类型转换。在做类型转换或者获取对象的原始值时，会调用此方法。如<code>&#39;&#39;+a</code>会调用<code>a</code>的<code>Symbol[toPrimitive]</code>方法。</p>
-<p>方法接受一个参数<code>hint</code>，可能的值有<code>string、number、default</code>。表示当前转换采用的模式。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.toPrimitive]: <span class="function"><span class="keyword">function</span>(<span class="params">hint</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (hint) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'string'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'string'</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'number'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'number'</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'default'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="string">'default'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>虽然可以为<code>string、number、default</code>指定不同的返回值，但是一般还是给<code>default</code>指定为<code>string、number</code>中的一个<br><code>string</code>与<code>number</code>模式比较好理解,<code>default</code>模式只会出现在下列三种情况</p>
-<ol>
-<li>==</li>
-<li>+号运算符</li>
-<li>给 Date 构造函数传递一个参数</li>
-</ol>
-<h5 id="Symbol-toStringTag"><a href="#Symbol-toStringTag" class="headerlink" title="Symbol.toStringTag"></a>Symbol.toStringTag</h5><p>js 中一直有一个识别类型的方法<code>Object.prototype.toString.call(obj)</code>，返回值<code>[object XXX]</code>，对于不同类型的对象,<code>XXX</code>各有不同。对于<code>Array</code>是<code>Array</code>，对于自定义对象，是<code>Object</code>。而<code>XXX</code>可以通过<code>Symbol.toStringTag</code>修改。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">name</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">name.prototype[<span class="built_in">Symbol</span>.toStringTag] = <span class="string">'name'</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="keyword">new</span> name())</span><br></pre></td></tr></table></figure>
-<p>没错,<code>Symbol.toStringTag</code>的值是一个字符串，<strong>不是函数</strong></p>
-<h5 id="Symbol-search"><a href="#Symbol-search" class="headerlink" title="Symbol.search"></a>Symbol.search</h5><p><code>Symbol.search、Symbol.match</code>等四个方法都是定义在<code>Regrex.prototype</code>上，是调用字符串方法<code>str.search(regex)、str.match(regex)</code>时调用的方法,所以<code>str.search(regex)</code>实际上调用的是<code>regex[Symbol.search](str)</code></p>
-<p>这 4 个方法都接受字符串作为参数。<br>实际上，完全可以为一个对象定义这四个方法，然后当做正则表达式使用</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.search]: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="string">'123'</span>.search(obj) <span class="comment">// -1</span></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/14/basis/animation/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/14/basis/animation/" itemprop="url">动画</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-14T18:02:05+08:00">
-                2019-03-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>js 动画和 css 动画的区别<br>GPU 加速和硬件加速是不是同一个东西<br>willchange 有何用，属性不同的值有什么区别</p>
-<h3 id="硬件加速"><a href="#硬件加速" class="headerlink" title="硬件加速"></a>硬件加速</h3><p>所谓的硬件加速，在浏览器中来讲就是使用 GPU 渲染，在 compositor thread 中直接渲染，不通过 main thread，不触发 relayout 和 repaint。</p>
-<p>GPU 渲染会生成一个单独的<code>composite layer</code>，然后重排像素的位置，而不是重新绘制，所以如果使用了不能通过重排像素实现的属性，不如<code>background</code>，GPU 渲染带来的优势就会消失</p>
-<p>会生成单独<code>composite layer</code>的情况包括</p>
-<ol>
-<li>transform 3d 或者 perspective</li>
-<li>video or canvas</li>
-<li>使用 css filters</li>
-<li>一个覆盖在其它<code>composite layer</code>上的元素</li>
-</ol>
-<p>通过 chrome 开发者工具<code>more tools</code>中的<code>layers</code>可以查看页面的<code>composite layer</code></p>
-<p>不是所有属性都会直接在<code>composite layer</code>中完成，只有以下属性会</p>
-<ol>
-<li>transform</li>
-<li>opacity</li>
-<li>filter</li>
-</ol>
-<p>注意：opacity 虽然会在 GPU 中直接完成，但是在改变之前并不会生成<code>composite layer</code>。而<code>transform 3d</code>才会直接生成<code>composite layer</code>，但是所有的<code>transform</code>变化都会在 GPU 中直接完成</p>
-<p>所以，如果是<code>transform 2d</code>动画，在动画的开始和结束会各有一次<code>repaint</code></p>
-<p>如果在动画开始前就给元素设置<code>transform:translateZ(0)</code>，会直接生成<code>composite layer</code>，动画过程中不会有任何<code>repaint</code><br>但是<code>transofrm:translateZ(0)</code>或者其他类似方式毕竟是 hack 类型的，所以 css 提出了新的属性<code>will-change</code><br><code>will-change</code>应该不仅仅创建一个<code>composite layer</code>，但从动画的角度来看，可以这样认为。<br><code>will-change</code>的使用有几点需要注意：</p>
-<ol>
-<li>尽量不要使用。和硬件加速一样，会有额外的内存消耗，尤其在移动设备上。</li>
-<li>使用完成后需要移除。</li>
-<li>在属性变化之前加上，否则毫无意义。</li>
-<li>不要给 will-change 添加太多属性，易燃易爆炸</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1876,7 +1937,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -1889,7 +1950,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

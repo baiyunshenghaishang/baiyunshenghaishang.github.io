@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="git,commit,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="git commit是日常开发中用到最多的指令之一。一般情况下，我都是git commit -m &amp;#39;xxxx&amp;#39;。之前也有稍微了解git commit的提交规范，但是一般都只用下feat表示新增功能。这两天比较闲，正好系统的梳理了一些东西。以下是对 commit message 规范的一些理解。 为什么需要规范 commit messagecommit message 现在最常用的规">
+<meta name="keywords" content="git,commit">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git提交记录规范">
+<meta property="og:url" content="http://yoursite.com/2019/12/04/engineer/git-commit-convention/index.html">
+<meta property="og:site_name" content="bai">
+<meta property="og:description" content="git commit是日常开发中用到最多的指令之一。一般情况下，我都是git commit -m &amp;#39;xxxx&amp;#39;。之前也有稍微了解git commit的提交规范，但是一般都只用下feat表示新增功能。这两天比较闲，正好系统的梳理了一些东西。以下是对 commit message 规范的一些理解。 为什么需要规范 commit messagecommit message 现在最常用的规">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-04T10:05:59.654Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git提交记录规范">
+<meta name="twitter:description" content="git commit是日常开发中用到最多的指令之一。一般情况下，我都是git commit -m &amp;#39;xxxx&amp;#39;。之前也有稍微了解git commit的提交规范，但是一般都只用下feat表示新增功能。这两天比较闲，正好系统的梳理了一些东西。以下是对 commit message 规范的一些理解。 为什么需要规范 commit messagecommit message 现在最常用的规">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/04/engineer/git-commit-convention/">
+
+
+
+
+
+  <title>git提交记录规范 | bai</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/baiyunshenghaishang"><img style="position:absolute;top:0;right:0" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_gray_6d6d6d.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">bai</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/04/engineer/git-commit-convention/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">git提交记录规范</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-04T14:45:05+08:00">
+                2019-12-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>git commit</code>是日常开发中用到最多的指令之一。一般情况下，我都是<code>git commit -m &#39;xxxx&#39;</code>。之前也有稍微了解<code>git commit</code>的提交规范，但是一般都只用下<code>feat</code>表示新增功能。这两天比较闲，正好系统的梳理了一些东西。以下是对 commit message 规范的一些理解。</p>
+<h1 id="为什么需要规范-commit-message"><a href="#为什么需要规范-commit-message" class="headerlink" title="为什么需要规范 commit message"></a>为什么需要规范 commit message</h1><p>commit message 现在最常用的规范应该是<a href="https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#heading=h.greljkmo14y0" target="_blank" rel="noopener">Angular 规范</a>，文档很短，有效内容只有 4-5 页 word。</p>
+<p>在文档的开头，goals 提到了这套规范的目的：</p>
+<ol>
+<li>自动生成 CHANGELOG.md</li>
+<li>区分不重要的提交</li>
+<li>提供更多的信息</li>
+</ol>
+<p>当然，这个文档很老了，更新的 AngularJS 规范可以看<a href="https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines" target="_blank" rel="noopener">github/AngularJS</a></p>
+<h1 id="Angular-JS-commit-message-规范"><a href="#Angular-JS-commit-message-规范" class="headerlink" title="Angular JS commit message 规范"></a>Angular JS commit message 规范</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</span><br><span class="line">&lt;BLANK LINE&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;BLANK LINE&gt;</span><br><span class="line">&lt;footer&gt;</span><br></pre></td></tr></table></figure>
+<p>Angular JS 的 commit message 规范包含三部分：头部、正文、尾部。其中正文和尾部可以省略，如果有，相互之间必须有空行。</p>
+<h2 id="头部"><a href="#头部" class="headerlink" title="头部"></a>头部</h2><p>其中头部包含三部分：</p>
+<ol>
+<li>type,操作类型。操作类型是固定的，只能从固定的列表中选择，详细见下面列表</li>
+<li>scope,修改文件范围。这个是可选的，如果项目要写，就应该事先确定可以填哪些，不允许自由发挥。scope 之后应该跟冒号和空格，分隔 subject。如果没有 scope，就跟在 type 之后。</li>
+<li>subject,本次修改的简单描述。注意长度控制。如果修改内容较多，应在正文中详细描述。以动词开头，结尾不需要句号</li>
+</ol>
+<p>type 类型</p>
+<ul>
+<li>build: 打包、配置修改</li>
+<li>ci: 持续集成配置修改</li>
+<li>docs: 修改文档</li>
+<li>feat: 新增特性</li>
+<li>fix: 修复 bug</li>
+<li>perf: 性能优化</li>
+<li>refactor: 重构</li>
+<li>style: 不是 css 修改! 格式修改，如空格、逗号等。</li>
+<li>test: 测试</li>
+<li>revert: 回退</li>
+</ul>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>对提交内容的详细描述<br>以动词开头</p>
+<h2 id="尾部"><a href="#尾部" class="headerlink" title="尾部"></a>尾部</h2><p>如果有不兼容的更新，需要写明<br>如果是针对某个 issue 的 fix，需要给出 issue 链接</p>
+<h1 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h1><h2 id="限制不符合规范的-message-提交"><a href="#限制不符合规范的-message-提交" class="headerlink" title="限制不符合规范的 message 提交"></a>限制不符合规范的 message 提交</h2><p><a href="https://www.npmjs.com/package/@commitlint/cli" target="_blank" rel="noopener">@commitlint/cli</a>结合<a href="https://www.npmjs.com/package/husky" target="_blank" rel="noopener">husky</a>可以阻止不符合规范的 comit message 提交</p>
+<p>使用方法：</p>
+<ol>
+<li><p>安装<code>@commitlint/cli</code>、<code>@commitlint/config-conventional</code>和<code>husky</code></p>
+<p> <code>npm i -D @commitlint/cli @commitlint/config-conventional husky</code></p>
+</li>
+<li><p>项目根目录新建<code>commitlint.config.js</code>文件</p>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// commitlint.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    extends: [<span class="string">"@commitlint/config-conventional"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>package.json 中配置 commit-msg 钩子</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&#123;</span><br><span class="line">    // 其它配置</span><br><span class="line">    "husky": &#123;</span><br><span class="line">        "hooks": &#123;</span><br><span class="line">            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样，在执行 git commit 时，如果提交的内容不符合<code>@commitlint/config-conventional</code>，就无法提交成功</p>
+<h3 id="为什么使用-commitlint-config-conventional而不是-commitlint-config-angular。"><a href="#为什么使用-commitlint-config-conventional而不是-commitlint-config-angular。" class="headerlink" title="为什么使用@commitlint/config-conventional而不是@commitlint/config-angular。"></a>为什么使用<code>@commitlint/config-conventional</code>而不是<code>@commitlint/config-angular</code>。</h3><p>主要是因为 angular 规范对于 build 的定义有一些歧义，实际使用中 build 一般用于表示打包，而修改打包配置文件使用 chore</p>
+<h2 id="commitizen"><a href="#commitizen" class="headerlink" title="commitizen"></a>commitizen</h2><p><a href="https://www.npmjs.com/package/commitizen" target="_blank" rel="noopener">commitizen</a> 是一个生成符合规范 commit message 的工具。</p>
+<p>使用方法：</p>
+<p>全局安装 commitizen<br><code>npm i -g commitizen</code></p>
+<p>然后安装<a href="https://www.npmjs.com/package/cz-conventional-changelog" target="_blank" rel="noopener">cz-conventional-changelog</a></p>
+<p>在<code>package.json</code>中配置</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&#123;</span><br><span class="line">    // 其它配置</span><br><span class="line">    "config": &#123;</span><br><span class="line">        "commitizen": &#123;</span><br><span class="line">            "path": "cz-conventional-changelog"</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在使用<code>git commit</code>的地方使用<code>git cz</code>替代就可以了</p>
+<h2 id="自动生成-CHANGELOG"><a href="#自动生成-CHANGELOG" class="headerlink" title="自动生成 CHANGELOG"></a>自动生成 CHANGELOG</h2><p><a href="https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-cli" target="_blank" rel="noopener">conventional-changelog-cli</a>可以根据 commit 记录自动生成 CHANGELOG</p>
+<p>有两点要求</p>
+<ol>
+<li>commit message 符合 angular 规范</li>
+<li>正确设置 git tag 和 package.json 的 version，否则无法识别哪些提交时当前版本的</li>
+</ol>
+<p>使用方式</p>
+<ol>
+<li>安装<code>conventional-changelog-cli</code></li>
+</ol>
+<p><code>npm install -D conventional-changelog-cli</code></p>
+<ol start="2">
+<li>在 package.json 中增加 scripts</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">        <span class="attr">"changelog"</span>: <span class="string">"conventional-changelog -p angular -i CHANGELOG.md -s"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行<code>npm run changelog</code><br>这种方式不会覆盖 CHANGELOG.md 之前的内容，而是在最前面增加这个版本的修改。只会加入 feat 和 fix 的内容</p>
+<p>涉及版本号修改以及 git tag，正确的工作流程应该是</p>
+<ol>
+<li>版本内容修改</li>
+<li>修改版本号</li>
+<li>生成 CHANGELOG</li>
+<li>git commit</li>
+<li>git tag</li>
+<li>git push</li>
+</ol>
+<h2 id="关于-commit-粒度"><a href="#关于-commit-粒度" class="headerlink" title="关于 commit 粒度"></a>关于 commit 粒度</h2><p>前面规范中讲过，每次提交都需要指定一个 type，那么如果一次修改中包含多个 type 的内容怎么办。</p>
+<p>不应该这样做。</p>
+<p>每一次 commit 的提交的内容应该只包含一个功能，不要同时修改多个功能。</p>
+<p>这样提交的内容比较清晰明了，对 codereview 也比较友好。</p>
+<p>google 在其公开的<a href="https://github.com/google/eng-practices/blob/master/review/developer/small-cls.md" target="_blank" rel="noopener">Google Engineering Practices Documentation</a>对这个问题做了详细描述</p>
+<p>也可以看<a href="https://github.com/xindoo/eng-practices-cn" target="_blank" rel="noopener">谷歌工程实践-中文翻译版</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag"># git</a>
+          
+            <a href="/tags/commit/" rel="tag"># commit</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/28/engineer/webpack-04/" rel="next" title="webpack构建速度与体积优化">
+                <i class="fa fa-chevron-left"></i> webpack构建速度与体积优化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Zhen Huang">
+            
+              <p class="site-author-name" itemprop="name">Zhen Huang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">博客</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么需要规范-commit-message"><span class="nav-number">1.</span> <span class="nav-text">为什么需要规范 commit message</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Angular-JS-commit-message-规范"><span class="nav-number">2.</span> <span class="nav-text">Angular JS commit message 规范</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#头部"><span class="nav-number">2.1.</span> <span class="nav-text">头部</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">2.2.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#尾部"><span class="nav-number">2.3.</span> <span class="nav-text">尾部</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实际应用"><span class="nav-number">3.</span> <span class="nav-text">实际应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#限制不符合规范的-message-提交"><span class="nav-number">3.1.</span> <span class="nav-text">限制不符合规范的 message 提交</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么使用-commitlint-config-conventional而不是-commitlint-config-angular。"><span class="nav-number">3.1.1.</span> <span class="nav-text">为什么使用@commitlint/config-conventional而不是@commitlint/config-angular。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#commitizen"><span class="nav-number">3.2.</span> <span class="nav-text">commitizen</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动生成-CHANGELOG"><span class="nav-number">3.3.</span> <span class="nav-text">自动生成 CHANGELOG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-commit-粒度"><span class="nav-number">3.4.</span> <span class="nav-text">关于 commit 粒度</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhen Huang</span>
+  <div class="powered-by">
+    <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+      本站访客数:<span id="busuanzi_value_site_uv"></span>
+    </span>
+  </div>
+  
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -239,6 +239,884 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/04/engineer/git-commit-convention/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/04/engineer/git-commit-convention/" itemprop="url">git提交记录规范</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-04T14:45:05+08:00">
+                2019-12-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><code>git commit</code>是日常开发中用到最多的指令之一。一般情况下，我都是<code>git commit -m &#39;xxxx&#39;</code>。之前也有稍微了解<code>git commit</code>的提交规范，但是一般都只用下<code>feat</code>表示新增功能。这两天比较闲，正好系统的梳理了一些东西。以下是对 commit message 规范的一些理解。</p>
+<h1 id="为什么需要规范-commit-message"><a href="#为什么需要规范-commit-message" class="headerlink" title="为什么需要规范 commit message"></a>为什么需要规范 commit message</h1><p>commit message 现在最常用的规范应该是<a href="https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#heading=h.greljkmo14y0" target="_blank" rel="noopener">Angular 规范</a>，文档很短，有效内容只有 4-5 页 word。</p>
+<p>在文档的开头，goals 提到了这套规范的目的：</p>
+<ol>
+<li>自动生成 CHANGELOG.md</li>
+<li>区分不重要的提交</li>
+<li>提供更多的信息</li>
+</ol>
+<p>当然，这个文档很老了，更新的 AngularJS 规范可以看<a href="https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines" target="_blank" rel="noopener">github/AngularJS</a></p>
+<h1 id="Angular-JS-commit-message-规范"><a href="#Angular-JS-commit-message-规范" class="headerlink" title="Angular JS commit message 规范"></a>Angular JS commit message 规范</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</span><br><span class="line">&lt;BLANK LINE&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;BLANK LINE&gt;</span><br><span class="line">&lt;footer&gt;</span><br></pre></td></tr></table></figure>
+<p>Angular JS 的 commit message 规范包含三部分：头部、正文、尾部。其中正文和尾部可以省略，如果有，相互之间必须有空行。</p>
+<h2 id="头部"><a href="#头部" class="headerlink" title="头部"></a>头部</h2><p>其中头部包含三部分：</p>
+<ol>
+<li>type,操作类型。操作类型是固定的，只能从固定的列表中选择，详细见下面列表</li>
+<li>scope,修改文件范围。这个是可选的，如果项目要写，就应该事先确定可以填哪些，不允许自由发挥。scope 之后应该跟冒号和空格，分隔 subject。如果没有 scope，就跟在 type 之后。</li>
+<li>subject,本次修改的简单描述。注意长度控制。如果修改内容较多，应在正文中详细描述。以动词开头，结尾不需要句号</li>
+</ol>
+<p>type 类型</p>
+<ul>
+<li>build: 打包、配置修改</li>
+<li>ci: 持续集成配置修改</li>
+<li>docs: 修改文档</li>
+<li>feat: 新增特性</li>
+<li>fix: 修复 bug</li>
+<li>perf: 性能优化</li>
+<li>refactor: 重构</li>
+<li>style: 不是 css 修改! 格式修改，如空格、逗号等。</li>
+<li>test: 测试</li>
+<li>revert: 回退</li>
+</ul>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>对提交内容的详细描述<br>以动词开头</p>
+<h2 id="尾部"><a href="#尾部" class="headerlink" title="尾部"></a>尾部</h2><p>如果有不兼容的更新，需要写明<br>如果是针对某个 issue 的 fix，需要给出 issue 链接</p>
+<h1 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h1><h2 id="限制不符合规范的-message-提交"><a href="#限制不符合规范的-message-提交" class="headerlink" title="限制不符合规范的 message 提交"></a>限制不符合规范的 message 提交</h2><p><a href="https://www.npmjs.com/package/@commitlint/cli" target="_blank" rel="noopener">@commitlint/cli</a>结合<a href="https://www.npmjs.com/package/husky" target="_blank" rel="noopener">husky</a>可以阻止不符合规范的 comit message 提交</p>
+<p>使用方法：</p>
+<ol>
+<li><p>安装<code>@commitlint/cli</code>、<code>@commitlint/config-conventional</code>和<code>husky</code></p>
+<p> <code>npm i -D @commitlint/cli @commitlint/config-conventional husky</code></p>
+</li>
+<li><p>项目根目录新建<code>commitlint.config.js</code>文件</p>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// commitlint.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    extends: [<span class="string">"@commitlint/config-conventional"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>package.json 中配置 commit-msg 钩子</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&#123;</span><br><span class="line">    // 其它配置</span><br><span class="line">    "husky": &#123;</span><br><span class="line">        "hooks": &#123;</span><br><span class="line">            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样，在执行 git commit 时，如果提交的内容不符合<code>@commitlint/config-conventional</code>，就无法提交成功</p>
+<h3 id="为什么使用-commitlint-config-conventional而不是-commitlint-config-angular。"><a href="#为什么使用-commitlint-config-conventional而不是-commitlint-config-angular。" class="headerlink" title="为什么使用@commitlint/config-conventional而不是@commitlint/config-angular。"></a>为什么使用<code>@commitlint/config-conventional</code>而不是<code>@commitlint/config-angular</code>。</h3><p>主要是因为 angular 规范对于 build 的定义有一些歧义，实际使用中 build 一般用于表示打包，而修改打包配置文件使用 chore</p>
+<h2 id="commitizen"><a href="#commitizen" class="headerlink" title="commitizen"></a>commitizen</h2><p><a href="https://www.npmjs.com/package/commitizen" target="_blank" rel="noopener">commitizen</a> 是一个生成符合规范 commit message 的工具。</p>
+<p>使用方法：</p>
+<p>全局安装 commitizen<br><code>npm i -g commitizen</code></p>
+<p>然后安装<a href="https://www.npmjs.com/package/cz-conventional-changelog" target="_blank" rel="noopener">cz-conventional-changelog</a></p>
+<p>在<code>package.json</code>中配置</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&#123;</span><br><span class="line">    // 其它配置</span><br><span class="line">    "config": &#123;</span><br><span class="line">        "commitizen": &#123;</span><br><span class="line">            "path": "cz-conventional-changelog"</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在使用<code>git commit</code>的地方使用<code>git cz</code>替代就可以了</p>
+<h2 id="自动生成-CHANGELOG"><a href="#自动生成-CHANGELOG" class="headerlink" title="自动生成 CHANGELOG"></a>自动生成 CHANGELOG</h2><p><a href="https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-cli" target="_blank" rel="noopener">conventional-changelog-cli</a>可以根据 commit 记录自动生成 CHANGELOG</p>
+<p>有两点要求</p>
+<ol>
+<li>commit message 符合 angular 规范</li>
+<li>正确设置 git tag 和 package.json 的 version，否则无法识别哪些提交时当前版本的</li>
+</ol>
+<p>使用方式</p>
+<ol>
+<li>安装<code>conventional-changelog-cli</code></li>
+</ol>
+<p><code>npm install -D conventional-changelog-cli</code></p>
+<ol start="2">
+<li>在 package.json 中增加 scripts</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">        <span class="attr">"changelog"</span>: <span class="string">"conventional-changelog -p angular -i CHANGELOG.md -s"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行<code>npm run changelog</code><br>这种方式不会覆盖 CHANGELOG.md 之前的内容，而是在最前面增加这个版本的修改。只会加入 feat 和 fix 的内容</p>
+<p>涉及版本号修改以及 git tag，正确的工作流程应该是</p>
+<ol>
+<li>版本内容修改</li>
+<li>修改版本号</li>
+<li>生成 CHANGELOG</li>
+<li>git commit</li>
+<li>git tag</li>
+<li>git push</li>
+</ol>
+<h2 id="关于-commit-粒度"><a href="#关于-commit-粒度" class="headerlink" title="关于 commit 粒度"></a>关于 commit 粒度</h2><p>前面规范中讲过，每次提交都需要指定一个 type，那么如果一次修改中包含多个 type 的内容怎么办。</p>
+<p>不应该这样做。</p>
+<p>每一次 commit 的提交的内容应该只包含一个功能，不要同时修改多个功能。</p>
+<p>这样提交的内容比较清晰明了，对 codereview 也比较友好。</p>
+<p>google 在其公开的<a href="https://github.com/google/eng-practices/blob/master/review/developer/small-cls.md" target="_blank" rel="noopener">Google Engineering Practices Documentation</a>对这个问题做了详细描述</p>
+<p>也可以看<a href="https://github.com/xindoo/eng-practices-cn" target="_blank" rel="noopener">谷歌工程实践-中文翻译版</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/28/engineer/webpack-04/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/28/engineer/webpack-04/" itemprop="url">webpack构建速度与体积优化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-28T20:40:01+08:00">
+                2019-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>提到优化，一般都是下面几个流程</p>
+<ol>
+<li>确定优化目标和指标，指标有时候很容易，有时候会很复杂。因为目标是定性的，而指标必须量化。</li>
+<li>获取现有数据。主要是为了发现问题，确认优化方向</li>
+<li>确认优化方案，执行。</li>
+<li>比对优化前后数据，确认优化效果。给领导汇报。</li>
+</ol>
+<p>任何没有目标的优化，都是耍流氓。</p>
+<p>具体到 webpack 优化，目标是提高 webpack 的构建速度，缩小构建后文件大小。</p>
+<p>下文会详细讲解检测构建速度和构建体积以及优化方案。</p>
+<h1 id="构建速度与体积检测"><a href="#构建速度与体积检测" class="headerlink" title="构建速度与体积检测"></a>构建速度与体积检测</h1><h2 id="stats"><a href="#stats" class="headerlink" title="stats"></a>stats</h2><p>最简单的衡量打包速度和打包文件体积的方法可以使用 webpack 内置的 stats，在不配置 stats 的情况下，webpack 打包完成后会显示打包的时间以及每个文件的大小。<br><img src="/images/webpack-04.1.jpg" alt="stats"></p>
+<p>这种方式最简单，但是缺点也很明显。粒度太粗。只显示了整个项目的打包时间和每个文件的大小，而不能分析是哪个步骤打包慢或者一个大文件包含了哪些内容。</p>
+<p>所以 stats 一般只用来对粗略性的评估 webpack 的打包结果。想要更细致的评估 webpack 的打包，就必须有更详细的数据。</p>
+<h2 id="构建速度检测"><a href="#构建速度检测" class="headerlink" title="构建速度检测"></a>构建速度检测</h2><p><a href="https://www.npmjs.com/package/speed-measure-webpack-plugin" target="_blank" rel="noopener">speed-measure-webpack-plugin</a>检测 webpack 各个 loader、plugin 的耗时，并按时间排序。<br><img src="/images/webpack-04.2.jpg" alt="speed-measure-webpack-plugin效果图片"><br>图中时间较长会显示红色，一般表示需要优化，当然，还看具体情况。</p>
+<h3 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> SpeedMeasurePlugin = <span class="built_in">require</span>(<span class="string">"speed-measure-webpack-plugin"</span>)</span><br><span class="line"><span class="keyword">const</span> smp = <span class="keyword">new</span> SpeedMeasurePlugin()</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> webpackConfig = &#123;</span><br><span class="line">    <span class="comment">// webpack 配置</span></span><br><span class="line">    stats: <span class="string">"errors-only"</span> <span class="comment">// 建议优化时开启</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = smp.wrap(webpackConfig)</span><br></pre></td></tr></table></figure>
+<p>由于 stats 默认会显示构建时间等，这种情况下建议将 stats 设置为<code>errors-only</code>，只显示错误</p>
+<h2 id="构建体积检测"><a href="#构建体积检测" class="headerlink" title="构建体积检测"></a>构建体积检测</h2><p>构建体积检测可以使用插件<a href="https://www.npmjs.com/package/webpack-bundle-analyzer" target="_blank" rel="noopener">webpack-bundle-analyzer</a><br><img src="/images/webpack-04.3.jpg" alt="webpack-bundle-analyzer效果图片"></p>
+<p>该插件会启动一个本地服务，展示打包后各个文件的大小，以及组成部分的大小。<br>比如从上图我们可以知道为什么 vendor.js 会这么大，然后具体优化。</p>
+<h3 id="使用方式-1"><a href="#使用方式-1" class="headerlink" title="使用方式"></a>使用方式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> &#123; BundleAnalyzerPlugin &#125; = <span class="built_in">require</span>(<span class="string">"webpack-bundle-analyzer"</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="comment">// 其它配置</span></span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="comment">// 其它插件</span></span><br><span class="line">        <span class="keyword">new</span> BundleAnalyzerPlugin()</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="优化方法"><a href="#优化方法" class="headerlink" title="优化方法"></a>优化方法</h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/28/engineer/webpack-03/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/28/engineer/webpack-03/" itemprop="url">可维护的webpack配置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-28T20:39:57+08:00">
+                2019-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/28/engineer/webpack-02/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/28/engineer/webpack-02/" itemprop="url">webpack进阶用法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-28T20:39:54+08:00">
+                2019-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/28/engineer/webpack-01/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/28/engineer/webpack-01/" itemprop="url">webpack基础用法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-28T20:39:23+08:00">
+                2019-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本系列文章是对极客时间课程–<a href="https://time.geekbang.org/course/intro/190" target="_blank" rel="noopener">玩转 webpack</a> 的总结。<br>章节上基本按照玩转 webpack 的章节</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/21/engineer/babel/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhen Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bai">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/21/engineer/babel/" itemprop="url">babel</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-21T15:47:10+08:00">
+                2019-11-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>对<a href="https://juejin.im/post/5c19c5e0e51d4502a232c1c6" target="_blank" rel="noopener">一口(很长的)气了解 babel</a>的总结</p>
+<h1 id="babel-是什么"><a href="#babel-是什么" class="headerlink" title="babel 是什么"></a>babel 是什么</h1><p>babel 官网对于 babel 的定义是：Babel 是一个 JavaScript 编译器。</p>
+<p>紧随其后，babel 官网给出了为什么需要 babel 的理由：今天就开始使用下一代的 JavaScript 语法编程吧！</p>
+<p>这就是 babel 的主要作用，将浏览器还不支持的新语法转换为浏览器支持的语法。</p>
+<h1 id="babel-原理"><a href="#babel-原理" class="headerlink" title="babel 原理"></a>babel 原理</h1><p>babel 是如何做到这一点呢。</p>
+<p>babel 对代码的处理包含三步：</p>
+<ol>
+<li>解析(parse)</li>
+<li>转换(transform)</li>
+<li>生成(generate)</li>
+</ol>
+<p>解析阶段 babel 会将代码转换成抽象语法树(AST)。关于什么是 AST 就不介绍了，babel 也不是自己做的转换，而是使用 balylon 这个包，现在叫@babel/parse</p>
+<p>转换阶段 babel 使用配置的插件对 AST 进行操作（关于如何配置插件，会在 babel 使用中讲到）。如果没有配置任何插件，则不做任何转换。</p>
+<p>生成阶段，babel 将操作后的 AST 生成 js 代码。</p>
+<p>关于转换阶段，这里其实有点疑惑。<br>babel 要生成 AST 后才去执行插件的转换，那么是不是意味这@babel/parse 必须先支持这种语法，否则在解析阶段就会报错。对 AST 的生成不了解，所以不确定会不会报错。</p>
+<h1 id="babel-使用"><a href="#babel-使用" class="headerlink" title="babel 使用"></a>babel 使用</h1><h2 id="babel-使用方式"><a href="#babel-使用方式" class="headerlink" title="babel 使用方式"></a>babel 使用方式</h2><p>babel 的使用方式主要有两种</p>
+<ol>
+<li>使用命令行(cli)</li>
+<li>构建工具插件(babel-loader、roll-plugin-babel 等)</li>
+</ol>
+<p>不同的使用方式的差别只是 babel 的入口不同，使用命令行需要安装<code>@babel/cli</code>，构建工具插件需要安装<code>babel-loader</code>。<br>而在配置、原理部分，不同的使用方式没有区别。</p>
+<h3 id="babel-cli"><a href="#babel-cli" class="headerlink" title="@babel/cli"></a>@babel/cli</h3><p><code>@babel/cli</code>的使用方式很简单，安装<a href="https://www.npmjs.com/package/@babel/cli" target="_blank" rel="noopener">@babel/cli</a>，然后在<code>package.json</code>中增加<code>scripts:babel</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    // 其它配置</span><br><span class="line">    "scripts": &#123;</span><br><span class="line">        // 其它scripts</span><br><span class="line">        "babel": "babel src --out-dir dist"</span><br><span class="line">        // 其中src是源码目录，dist是babel处理后的代码生成目录</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后执行<code>npm run babel</code>，babel 就会将 src 中的代码执行转换，然后在 dist 目录生成。当然，如果没有做任何配置，生成的代码和源码是一样的。</p>
+<h3 id="工具插件-babel-loader-为例"><a href="#工具插件-babel-loader-为例" class="headerlink" title="工具插件(babel-loader 为例)"></a>工具插件(babel-loader 为例)</h3><p>babel 更常见的情况是和打包工具一起使用。以 webpack 为例。webpack 中使用 babel 需要安装 <a href="https://www.npmjs.com/package/babel-loader" target="_blank" rel="noopener">babel-loader</a>，然后做如下配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js 或其他webpack配置文件</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="comment">//  其他配置</span></span><br><span class="line">    <span class="built_in">module</span>: &#123;</span><br><span class="line">        rules: [</span><br><span class="line">            <span class="comment">// 其他loader</span></span><br><span class="line">            &#123;</span><br><span class="line">                test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">                use: <span class="string">"babel-loader"</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>babel-loader 也会使用配置文件(.babelrc)中的配置</p>
+<h2 id="babel-配置"><a href="#babel-配置" class="headerlink" title="babel 配置"></a>babel 配置</h2><p>babel 的转换效果完全依赖于配置，没有任何配置的 babel 不会进行任何代码转换。<br>babel 的配置一般使用<code>.babelrc</code>文件，也支持<code>package.json</code>等其他配置方式，具体见<a href="https://babeljs.io/docs/en/configuration#packagejson" target="_blank" rel="noopener">babel 官网</a></p>
+<p>在 babel 原理中讲到，babel 对代码的转换完全依赖于插件。所以 babel 的配置就是对使用插件的配置。<br>实际使用中，由于要使用到的插件很多，所以还可以使用<code>preset</code>，preset 是插件的集合，一个 preset 会包含多个插件。配置中声明了一个 preset，就等同于声明了一大堆 plugin。</p>
+<p>配置示例</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// .babelrc</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"presets"</span>: [</span><br><span class="line">        [</span><br><span class="line">            <span class="string">"@babel/preset-env"</span>,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"useBuiltIns"</span>: <span class="string">"usage"</span>,</span><br><span class="line">                <span class="attr">"corejs"</span>: &#123;</span><br><span class="line">                    <span class="attr">"version"</span>: <span class="number">3</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"plugins"</span>: [<span class="string">"@babel/plugin-transform-runtime"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>presets 和 plugins 的配置都是数组，如果 plugin/preset 不需要传递参数，直接使用 preset/plugin 名称字符串即可。如果还需要传递参数，则可以传入一个数组，数组第一位是 preset/plugin 名称，第二位是一个对象，表示传入的参数。</p>
+<h3 id="babel-插件详解"><a href="#babel-插件详解" class="headerlink" title="babel 插件详解"></a>babel 插件详解</h3><p>配置说了一堆，但是实际项目中到底应该怎么配置呢<br>要了解实际项目中要怎么配置，还需要先了解 babel 的常见插件有什么用</p>
+<h4 id="babel-preset-env"><a href="#babel-preset-env" class="headerlink" title="@babel/preset-env"></a>@babel/preset-env</h4><p><strong>env 是 babel 最常用、最重要的插件。</strong><br>env 插件的作用是根据打包的目的环境做不同的转换，目的环境可以在<code>env</code>配置的第二个参数中传入。比如如果目标环境包含 ie8，那么箭头函数就必须做转换，而如果目标环境只包含最新版的 chrome，那么箭头函数就不需要转换。<br>示例如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"presets"</span>: [</span><br><span class="line">        [</span><br><span class="line">            <span class="string">"env"</span>,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"targets"</span>: &#123;</span><br><span class="line">                    <span class="attr">"browsers"</span>: [<span class="string">"last 2 versions"</span>, <span class="string">"safari &gt;= 7"</span>]</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更推荐的做法是使用<code>.browserslistrc</code>配置文件，因为这样可以和其它插件共用配置。具体语法见<a href="https://github.com/browserslist/browserslist" target="_blank" rel="noopener">browserslist</a></p>
+<p><strong>env 只会转换语法</strong>，如箭头函数、class 等，而不会对实例、静态方法、API 做转换，如 Array.from、[].includes</p>
+<h4 id="babel-polyfill"><a href="#babel-polyfill" class="headerlink" title="babel-polyfill"></a>babel-polyfill</h4><p>babel-polyfill 是对 es6 后的新的静态、实例方法、API 的模拟实现，如 Iterator、Set、Map、Array.from 等。内部集成了 core-js 和 regenerator。所以这些实现也不是 babel-polyfill 自己做的。</p>
+<p>babel-polyfill 的使用一般是在项目入口 js 文件的第一行引入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="comment">// 在第一行引入，防止引入的第三方包报错</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">"babel-polyfill"</span></span><br></pre></td></tr></table></figure>
+<p>所以 env + babel-polyfill 可以实现对所有不支持语法、API 的转换。</p>
+<h4 id="babel-plugin-transform-runtime、-babel-runtime"><a href="#babel-plugin-transform-runtime、-babel-runtime" class="headerlink" title="@babel/plugin-transform-runtime、@babel/runtime"></a>@babel/plugin-transform-runtime、@babel/runtime</h4><p><code>@babel/plugin-transform-runtime</code>是为了弥补<code>env</code>转换的缺点，而<code>@babel/runtime</code>是<code>transform-runtime</code>转换时需要用到的插件</p>
+<p>以 class 语法为例，env 转换前后的代码示例如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = <span class="string">"hz"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// -------------- 转换后代码 ---------------</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_classCallCheck</span>(<span class="params">instance, Constructor</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 具体实现，不重要</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Person = <span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    _classCallCheck(<span class="keyword">this</span>, Person)</span><br><span class="line">    <span class="keyword">this</span>.name = <span class="string">"hz"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种实现的缺点在于每一个模块中都会引入一个<code>_classCallCheck</code>实现，如果模块很多，就可能使得打包后体积显著增大</p>
+<p>而使用<code>@babel/plugin-transform-runtime</code>会转换后的效果如下所示</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = <span class="string">"hz"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// -------------- 转换后代码 ---------------</span></span><br><span class="line"></span><br><span class="line">;(<span class="string">"use strict"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _interopRequireDefault = <span class="built_in">require</span>(<span class="string">"@babel/runtime/helpers/interopRequireDefault"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _classCallCheck2 = _interopRequireDefault(<span class="built_in">require</span>(<span class="string">"@babel/runtime/helpers/classCallCheck"</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Person = <span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    ;(<span class="number">0</span>, _classCallCheck2[<span class="string">"default"</span>])(<span class="keyword">this</span>, Person)</span><br><span class="line">    <span class="keyword">this</span>.name = <span class="string">"hz"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上，class 的模拟实现<code>_classCallCheck2</code>引用自外部插件<code>@babel/runtime</code>，这样就解决了每个模块都需要实现 class 模拟的问题。这也是为什么<code>transform-runtime</code>需要与<code>@babel/runtime</code>一起使用的原因，真正的模拟实现都来自于<code>@babel/runtime</code>插件。</p>
+<p><code>@babel/plugin-transform-runtime</code>只是解决了<code>env</code>转换的缺点，同样也只能转换语法，而不能转换静态、实例方法、API</p>
+<h4 id="stage-0、stage-1、es2015-xx-等"><a href="#stage-0、stage-1、es2015-xx-等" class="headerlink" title="stage-0、stage-1、es2015-xx 等"></a>stage-0、stage-1、es2015-xx 等</h4><p>在实际的项目中,除了上述的 plugin/preset 外，我们还是会看到很多其他的插件，他们大多是对某个特定的功能进行转换，在新的项目中，不建议在使用这种方式，env 就足够了。<br>本文也不打算继续介绍这些。</p>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><p>前面讲到，env + babel-polyfill 就可以实现所有的转换，而<code>@babel/plugin-transform-runtime</code>插件可以解决 env 插件的缺点。</p>
+<p>然而<code>babel-polyfill</code>也有缺点。<code>babel-polyfill</code>会引入所有的新 API 模拟实现，而不管需不需要。而整个<code>babel-polyfill</code>非常大，在比较小的项目中，尤其移动端项目，会显著增大打包后体积。</p>
+<p>为此，babel7 中 env 插件增加了参数<code>useBuiltIns:&#39;usage&#39;</code>,可以根据使用情况动态引入需要的<code>core-js</code>模拟实现。因此，使用此参数需要安装<code>core-js</code>包</p>
+<p>babel 的常用配置如下</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// .babelrc</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"presets"</span>: [</span><br><span class="line">        [</span><br><span class="line">            <span class="string">"@babel/preset-env"</span>,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"useBuiltIns"</span>: <span class="string">"usage"</span>,</span><br><span class="line">                <span class="attr">"corejs"</span>: &#123;</span><br><span class="line">                    <span class="attr">"version"</span>: <span class="number">3</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"plugins"</span>: [<span class="string">"@babel/plugin-transform-runtime"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// .browserslistrc</span><br><span class="line">// 根据项目实际需求设置</span><br><span class="line">defaults</span><br></pre></td></tr></table></figure>
+<p>使用<code>env</code>做语法转换，增加<code>useBuiltIns:&quot;usage&quot;</code>配置做静态、示例方法转换(通过引入 core-js 的模拟实现)，其中<code>core-js</code>用于指定<code>core-js</code>版本<br>使用<code>@babel/plugin-transform-runtime</code>解决语法转换每个模块重复的问题（上文已讲到）<br>最后，还需要增加<code>.browserslistrc</code>文件指定<code>env</code>插件的目标环境</p>
+<h1 id="babel-插件书写"><a href="#babel-插件书写" class="headerlink" title="babel 插件书写"></a>babel 插件书写</h1><p>不会，可参考<a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#toc-check-if-a-node-is-a-certain-type" target="_blank" rel="noopener">babel 插件手册</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/09/basis/execution/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -310,22 +1188,23 @@
       
         
           
-            <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>js 的执行过程是一个很庞大的话题。要回答这样一个问题，可以从另外一个角度去思考。如果想要实现 js 引擎，应该如何实现。</p>
-<p>考虑到 js 是单线程执行，理论上应该会比较简单。将传递给执行引擎的代码顺序执行即可。 so easy.</p>
-<p>执行完成之后引擎是不是就可以洗洗睡了呢。然而并不能，因为实际情况中，还可能有事件、setTimeout 等过一段时间执行的代码，所以 js 引擎必须常驻内存中，等待着下一段要执行的代码。</p>
-<p>可以用代码表示如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    execute(code)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>很简单，就是简单的循环判断。当然，实际情况会复杂很多，比如需要判断是否有代码需要执行。</p>
-<p>在 js 中，我们将这样一个过程叫做事件循环。</p>
-<h3 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h3><p>此处讲的是浏览器中的事件循环，nodejs 中的事件循环更复杂一些，此处不讲。</p>
-<p>事件循环就是一个不断循环，执行代码的过程。每一次循环过程中执行的代码称为一个宏任务。<br>所以事件循环就是不断循环执行宏任务的过程。</p>
-<p>诸如 setTimeout、事件回调的代码，都会生成一个新的宏任务。</p>
-<p>如果我们把多个宏任务理解为一个宏任务的队列，那么事件循环就是不断执行宏任务队列的过程。</p>
-<p>一个宏任务中还可能包含多个微任务。微任务是 Promise 的 then 回调生成的任务。每次 then 的回调都会在当前宏任务的末尾增加一个微任务。</p>
-<p>一个宏任务可以包含多个微任务。在执行下一个宏任务之前，执行引擎会先将当前宏任务的所有微任务执行完成。</p>
-<p>所以虽然 Promise 和 setTimeout 生成的都是异步代码，但是其执行顺序是不同的。看以下代码。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"timeout"</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"promise"</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"sync code"</span>)</span><br><span class="line"><span class="comment">// sync code</span></span><br><span class="line"><span class="comment">// promise</span></span><br><span class="line"><span class="comment">// timeout</span></span><br></pre></td></tr></table></figure>
-<p>上面代码中，<code>console.log(&quot;promise&quot;)</code>一定会在<code>console.log(&quot;timeout&quot;)</code>之前执行。因为 Promise 的 then 回调是在当前宏任务中末尾增加一个微任务，而 setTimeout 会生成一个新的宏任务。在执行新的宏任务执行，会先将当前宏任务中的所有微任务执行完成。</p>
+            <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>讲述浏览器中 js 的执行过程</p>
+<h3 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h3><p>浏览器是单线程的，代码的执行按照从上到下的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">1</span>,</span><br><span class="line">    b = <span class="number">2</span></span><br><span class="line"><span class="built_in">console</span>.log(a + b)</span><br></pre></td></tr></table></figure>
+<p>对于这样简单的顺序代码，这样的执行逻辑没有什么问题。</p>
+<p>但是实际情况会复杂一些，比如，代码执行过程中有一个点击事件触发，那应该怎样处理呢。由于主线程可能正在执行其他任务，所以无法及时响应点击事件。所以简单的顺序执行无法满足。</p>
+<p>因此浏览器引入了任务队列和循环机制。任务队列用于保存所有需要执行的任务，比如点击事件、页面渲染事件等。<br>主线程则不断的从任务队列从取出任务，然后执行。可以用伪代码表示如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TaskQueue = []</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    task = TaskQueue.shift()</span><br><span class="line">    ProcessTask(task)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样一个不断循环的过程被称作事件循环。</p>
+<p>js 中通过 setTimeout 可以创建定时任务，在一定时间后执行。那么浏览器如何确保这个任务在一定时间后执行呢。</p>
+<p>按照现有的循环机制，只能在一定时间后将定时任务加入到任务队列中，但是此时任务队列中可能已经存在多个任务，定时任务的顺序可能被极大的延后。</p>
+<p>因此，浏览器又增加了定时任务队列。定时器触发的任务会增加到定时任务中，浏览器主线程执行完一个任务队列中的任务后，会查询定时任务队列中是否有任务。可以用伪代码表示如下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">TaskQueue = []</span><br><span class="line">DelayTaskQueue = []</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    task = TaskQueue.shift()</span><br><span class="line">    ProcessTask(task)</span><br><span class="line">    task = DelayTaskQueue.get()</span><br><span class="line">    ProcessDelayTaskQueue(task)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样的任务队列可以尽量使定时任务的时间接近设定的时间，但仍然无法确保定时任务一定会在设定的时间触发。因为还是有可能因为某个任务的执行而延迟定时任务的执行。</p>
+<p>前面设计的任务队列中，还存在一个问题，即如何区分任务的优先级。前面设计的任务队列，所有任务的优先级都是一样的，我们没法让某个任务优先执行。<br>为此，浏览器引入了微任务的概念。</p>
+<p>浏览器在执行完一个宏任务后，开始下一个宏任务之前，会循环执行当前的微任务队列，直到当前微任务队列为空，才会继续执行下一个宏任务。</p>
+<p>可以用伪代码表示如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">TaskQueue = []</span><br><span class="line">DelayTaskQueue = []</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    task = TaskQueue.shift()</span><br><span class="line">    ProcessTask(task)</span><br><span class="line">    ProcessAllMicroTasks()</span><br><span class="line">    task = DelayTaskQueue.get()</span><br><span class="line">    ProcessDelayTaskQueue(task)</span><br><span class="line">    ProcessAllMicroTasks()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="执行上下文"><a href="#执行上下文" class="headerlink" title="执行上下文"></a>执行上下文</h3><p>在每一个宏任务/微任务中，执行的都是一段段的代码。</p>
 <p>每一段代码的执行都需要一个环境，包含代码执行所需的所有条件。在 js 中，这个环境叫做执行上下文(execution context)。</p>
 <h3 id="执行上下文的类别"><a href="#执行上下文的类别" class="headerlink" title="执行上下文的类别"></a>执行上下文的类别</h3><p>那什么样的代码能称之为一段代码呢。这样的说法可能不太准确，更准确的说法应该是。</p>
@@ -419,7 +1298,7 @@
 </ol>
 <p>在语句的执行阶段，值得注意的只有控制语句。（声明语句虽然也有特殊之处，但是并不是在语句执行阶段）。</p>
 <p>如果没有控制语句，所有语句都是顺序执行。控制语句，顾名思义，就是控制语句的执行顺序。</p>
-<p>控制语句的控制效果可以见下图<br><img src="/images/语句执行.png" alt="控制语句"></p>
+<p>控制语句的控制效果可以见下图（截图来自极客时间-重学前端课程）<br><img src="/images/语句执行.png" alt="控制语句"></p>
 
           
         
@@ -872,1072 +1751,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/basis/proto/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/12/basis/proto/" itemprop="url">面向对象、原型、原型链、prototype</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-12T11:26:28+08:00">
-                2019-08-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h3><p>初学 JS 的人可能会有疑惑，JS 到底是不是一门面向对象语言。如果是，为什么 JS 的什么原型好像与其它面向对象语言，如 Java、C++相去甚远。如果说不是，JS 标准中又明确提到了 JS 是一门面向对象语言.</p>
-<blockquote>
-<p>ECMAScript is an object-oriented programming language for performing computations and manipulating computational objects within a host environment.</p>
-</blockquote>
-<p>那么先回到最原始的问题，什么是面向对象</p>
-<h5 id="什么是面向对象"><a href="#什么是面向对象" class="headerlink" title="什么是面向对象"></a>什么是面向对象</h5><p>面向对象是一种编程思想，即以对象作为程序基本单元的思想。</p>
-<p>对象一词在英文中是<code>object</code>，指代一切事物。但是由于翻译的原因，中文中很难体现出这层意思。</p>
-<p>对象的灵感来源于生活，面向对象也是。比如，在生活中，我们看到一只猫，只会想到一只猫。但是我们见识到各种各样的猫之后，逐渐会认识到猫这个类型。你会发现，这和面向对象中的类型和实例非常相似。</p>
-<p>那如何定义对象呢，Grady Booch 在《面向对象程序与设计》一书中对对象的定义中描述了三个基本特征</p>
-<ol>
-<li>对象具有唯一标识性</li>
-<li>对象具有状态</li>
-<li>对象具有行为</li>
-</ol>
-<p>现有的面向对象语言中，对象的区分一般使用内存地址，从而做到即使看上去完全一样的对象，实际上也是不相等的，JS 也是如此。<br>而对象具有状态和行为，在 JS 中对应普通属性和函数类型的属性，在其它面向对象语言中的叫法则各不相同，例如 Java 中好像叫属性和方法。</p>
-<p>以此看来，JS 完全是正统的面向对象语言，那么为什么我们会觉得 JS 和其它流行的面向对象语言差别很大呢。<br>这就在于 JS 的面向对象和其它面向对象语言的不同之处</p>
-<h3 id="JS-的面向对象实现"><a href="#JS-的面向对象实现" class="headerlink" title="JS 的面向对象实现"></a>JS 的面向对象实现</h3><p>JS 的对象的特殊之处有两点</p>
-<ol>
-<li>JS 的对象的属性具有动态性。</li>
-<li>JS 的使用原型链而不是 class 来实现面向对象的继承</li>
-</ol>
-<p>在 Java 等语言中，总是先有类型后有对象，对象创建之后，其拥有的属性数量是不可变的。<br>JS 不同，JS 中对象创建之后可以随便增加和删除属性。</p>
-<h5 id="原型、原型链"><a href="#原型、原型链" class="headerlink" title="原型、原型链"></a>原型、原型链</h5><p>JS 中的原型其实非常简单，两句话就可以讲清楚</p>
-<ol>
-<li>每个对象都有<code>[[prototype]]</code>属性</li>
-<li>在对象上找不到的属性，会沿着<code>[[prototype]]</code>继续寻找</li>
-</ol>
-<p>而每个对象的原型本身也是也是一个对象，也会有<code>[[prototype]]</code>属性，这就形成了原型的链条，即原型链</p>
-<p>注意<code>[[prototype]]</code>是对象的内置属性，不是函数的<code>prototype</code>属性，正常情况下是无法在浏览器中查看该属性的，有些浏览器会以属性名<code>__proto__</code>暴露这个内置属性</p>
-<p>这两点从 JS 创建以来几乎就没有变过，唯一不太确认的地方是<code>Object.create(null)</code>创建的对象是否有<code>[[prototype]]</code>属性，估计可能也有，只不过是 null</p>
-<p>在 Java 等语言中，继承是方式是通过 class 继承。而在 JS 中，以一个对象为原型创建新的对象就可以实现对某个对象的继承</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> parent = &#123;</span><br><span class="line">    name: <span class="string">"爸爸"</span>,</span><br><span class="line">    say() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`我是你<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> son = <span class="built_in">Object</span>.create(parent)</span><br><span class="line">son.name = <span class="string">"儿子"</span></span><br><span class="line">son.say() <span class="comment">// 我是你儿子</span></span><br></pre></td></tr></table></figure>
-<p>如上所示，JS 中的继承是通过原型和原型链实现，继承一个对象只需要以原有对象为原型创建一个新对象即可</p>
-<p>讲到这儿，似乎 JS 的面向对象就讲完了。但是我们讲到 JS 的面向对象和继承，总是会讲到<code>prototype、new、class</code>等，那这些在 JS 的面向对象中又是什么关系呢</p>
-<h3 id="prototype、class"><a href="#prototype、class" class="headerlink" title="prototype、class"></a>prototype、class</h3><p>在前面的面向对象中讲到了面向对象的三个基本特征，但是面向对象并没有规定应该如何实现。</p>
-<p>很明显，现如今最流行最成功的方式是通过类的方式来实现面向对象。即先创建类型<code>class</code>，然后通过<code>new class</code>的方式来创建对象。</p>
-<p>现在流行的面向对象语言，Java/C++都是这种方式，这也导致我们经常认为，这就是面向对象的基本特征之一。而这其实仅仅只是面向对象的实现方式之一。</p>
-<p>除此之外，还有其他实现面向对象的方式。比如 JS 采用的原型链方式，也是一种不错的实现面向对象的方式。</p>
-<p><code>prototype、new、class</code>是 JS 用来模拟类的方式实现面向对象的方法。</p>
-<h5 id="prototype"><a href="#prototype" class="headerlink" title="prototype"></a>prototype</h5><p>为了模拟 Java 中的 class 的类属性和方法，JS 给函数增加了<code>prototype</code><br>为了模拟 class 的 new 操作，JS 给函数增加了<code>[[Constructor]]</code>方法</p>
-<p>使用<code>new function</code>的方式可以创建一个新的对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = <span class="string">"爸爸"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Parent()</span><br><span class="line"><span class="built_in">console</span>.log(p.name) <span class="comment">// 爸爸</span></span><br></pre></td></tr></table></figure>
-<p>对于当做构造函数使用的函数，我们经常将首字母大写，但这只是一种约定，并没有任何运行上的区别。</p>
-<p><code>new</code>操作实际上包含三步</p>
-<ol>
-<li>以当前函数的<code>prototype</code>属性为原型创建对象</li>
-<li>以上一步创建的对象为<code>this</code>执行当前函数的<code>[[Contructor]]</code>方法</li>
-<li>如果上一步的<code>[[Constructor]]</code>方法返回一个对象，返回改对象，否则返回第一步创建的对象</li>
-</ol>
-<p>JS 通过函数的<code>prototype</code>属性和<code>[[Constructor]]</code>模拟了 class 方式面向对象的构造函数和<code>new</code>操作，但是对于继承，直到<code>es6</code>之前，都没有官方的模拟方式</p>
-<h5 id="class"><a href="#class" class="headerlink" title="class"></a>class</h5><p>在 es6 之前，class 一直都只是一个内部属性，唯一访问的方式是通过<code>Object.prototype.toString</code>访问。<br>这也是通过<code>Object.prototype.toString</code>能判断对象类型的原因</p>
-<p>在 es6 中，JS 引入了原生的 class 实现，虽然也是使用原型来模拟，但是封装了很多容易出现的错误，而且语言加入了内置的<code>extends</code>关键字支持</p>
-<p>关于 class 的具体细节，已经另外写了<a href="https://baiyunshenghaishang.github.io/2019/05/05/basis/class/" target="_blank" rel="noopener">一篇博客</a>，这里就不赘述了。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/26/basis/object-classify/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/26/basis/object-classify/" itemprop="url">对象分类</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-26T07:11:20+08:00">
-                2019-07-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="对象分类"><a href="#对象分类" class="headerlink" title="对象分类"></a>对象分类</h3><p>js 中的对象是数据结构中最复杂的一种。对象的类型包括两种</p>
-<ol>
-<li>宿主对象。 由 JavaScript 宿主提供的对象，最常见的是浏览器。如 history。不同的宿主环境中，这些对象不同。</li>
-<li>内置对象。 JavaScript 语言提供的对象。</li>
-</ol>
-<p>其中内置对象又包含三种：</p>
-<ol>
-<li>固有对象。标准规定，随着 JavaScript 运行时而自动创建的对象。如 Array 构造函数</li>
-<li>原生对象。用户通过 Array、RegExp 等内置构造器或特殊语法创建的对象</li>
-<li>普通对象。由{}、Object 或 class 等创建的对象。</li>
-</ol>
-<h3 id="宿主对象"><a href="#宿主对象" class="headerlink" title="宿主对象"></a>宿主对象</h3><p>在浏览器中，最顶层的宿主对象是 window。浏览器中的宿主对象千奇百怪，这里不详细介绍。后续介绍浏览器 API 时会介绍。</p>
-<p>浏览器中还包含用户创建的宿主对象，如通过<code>document.createElement</code>创建的对象。</p>
-<h3 id="内置对象"><a href="#内置对象" class="headerlink" title="内置对象"></a>内置对象</h3><h5 id="固有对象"><a href="#固有对象" class="headerlink" title="固有对象"></a>固有对象</h5><p>固有对象是随着 JavaScript 运行时的创建而创建，在任何 JavaScript 代码执行之前就已经存在。<br>JavaScript 中的所有固有对象可以通过以下代码获取</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [</span><br><span class="line">        <span class="built_in">eval</span>,</span><br><span class="line">        <span class="built_in">isFinite</span>,</span><br><span class="line">        <span class="built_in">isNaN</span>,</span><br><span class="line">        <span class="built_in">parseFloat</span>,</span><br><span class="line">        <span class="built_in">parseInt</span>,</span><br><span class="line">        <span class="built_in">decodeURI</span>,</span><br><span class="line">        <span class="built_in">decodeURIComponent</span>,</span><br><span class="line">        <span class="built_in">encodeURI</span>,</span><br><span class="line">        <span class="built_in">encodeURIComponent</span>,</span><br><span class="line">        <span class="built_in">Array</span>,</span><br><span class="line">        <span class="built_in">Date</span>,</span><br><span class="line">        <span class="built_in">RegExp</span>,</span><br><span class="line">        <span class="built_in">Promise</span>,</span><br><span class="line">        <span class="built_in">Proxy</span>,</span><br><span class="line">        <span class="built_in">Map</span>,</span><br><span class="line">        <span class="built_in">WeakMap</span>,</span><br><span class="line">        <span class="built_in">Set</span>,</span><br><span class="line">        <span class="built_in">WeakSet</span>,</span><br><span class="line">        <span class="built_in">Function</span>,</span><br><span class="line">        <span class="built_in">Boolean</span>,</span><br><span class="line">        <span class="built_in">String</span>,</span><br><span class="line">        <span class="built_in">Number</span>,</span><br><span class="line">        <span class="built_in">Symbol</span>,</span><br><span class="line">        <span class="built_in">Object</span>,</span><br><span class="line">        <span class="built_in">Error</span>,</span><br><span class="line">        <span class="built_in">EvalError</span>,</span><br><span class="line">        <span class="built_in">RangeError</span>,</span><br><span class="line">        <span class="built_in">ReferenceError</span>,</span><br><span class="line">        <span class="built_in">SyntaxError</span>,</span><br><span class="line">        <span class="built_in">TypeError</span>,</span><br><span class="line">        <span class="built_in">URIError</span>,</span><br><span class="line">        <span class="built_in">ArrayBuffer</span>,</span><br><span class="line">        SharedArrayBuffer,</span><br><span class="line">        <span class="built_in">DataView</span>,</span><br><span class="line">        <span class="built_in">Float32Array</span>,</span><br><span class="line">        <span class="built_in">Float64Array</span>,</span><br><span class="line">        <span class="built_in">Int8Array</span>,</span><br><span class="line">        <span class="built_in">Int16Array</span>,</span><br><span class="line">        <span class="built_in">Int32Array</span>,</span><br><span class="line">        <span class="built_in">Uint8Array</span>,</span><br><span class="line">        <span class="built_in">Uint16Array</span>,</span><br><span class="line">        <span class="built_in">Uint32Array</span>,</span><br><span class="line">        <span class="built_in">Uint8ClampedArray</span>,</span><br><span class="line">        Atomics,</span><br><span class="line">        <span class="built_in">JSON</span>,</span><br><span class="line">        <span class="built_in">Math</span>,</span><br><span class="line">        <span class="built_in">Reflect</span></span><br><span class="line">    ],</span><br><span class="line">    set = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> arr) &#123;</span><br><span class="line">    set.add(item)</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">of</span> <span class="built_in">Object</span>.getOwnPropertyNames(item)) &#123;</span><br><span class="line">        <span class="keyword">let</span> descriptor = <span class="built_in">Object</span>.getOwnPropertyDescriptor(item, key)</span><br><span class="line">        <span class="keyword">if</span> (</span><br><span class="line">            (descriptor.value !== <span class="literal">null</span> &amp;&amp; <span class="keyword">typeof</span> descriptor.value === <span class="string">"object"</span>) ||</span><br><span class="line">            <span class="keyword">typeof</span> descriptor.value === <span class="string">"function"</span></span><br><span class="line">        ) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!set.has(descriptor.value)) &#123;</span><br><span class="line">                arr.push(descriptor.value)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (descriptor.get) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!set.has(descriptor.get)) &#123;</span><br><span class="line">                arr.push(descriptor.get)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (descriptor.set) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!set.has(descriptor.set)) &#123;</span><br><span class="line">                arr.push(descriptor.set)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(set)</span><br></pre></td></tr></table></figure>
-<h5 id="原生对象"><a href="#原生对象" class="headerlink" title="原生对象"></a>原生对象</h5><p>原生对象是通过 JavaScript 内置的构造函数或特属于方式创建的对象，往往有着普通对象所没有的功能。比如由 Array 构造函数创建的数组，其 length 属性会随着长度自动变化，这是普通对象所不能模拟的。</p>
-<p>JavaScript 中原生的构造函数包括以下这些</p>
-<p>基本类型</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span> <span class="built_in">Number</span> <span class="built_in">Boolean</span> <span class="built_in">Symbol</span> <span class="built_in">Object</span></span><br></pre></td></tr></table></figure>
-<p>数据结构</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span> <span class="built_in">Date</span> <span class="built_in">RegExp</span> <span class="built_in">Promise</span> <span class="built_in">Function</span></span><br><span class="line"><span class="built_in">Proxy</span> <span class="built_in">Map</span> <span class="built_in">Set</span> <span class="built_in">WeakMap</span> <span class="built_in">WeakSet</span></span><br></pre></td></tr></table></figure>
-<p>错误类型</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Error</span> <span class="built_in">EvalError</span> <span class="built_in">RangeError</span> <span class="built_in">ReferenceError</span> <span class="built_in">SyntaxError</span> <span class="built_in">TypeError</span> <span class="built_in">URIError</span></span><br></pre></td></tr></table></figure>
-<p>二进制操作</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ArrayBuffer</span> SharedArrayBuffer <span class="built_in">DataView</span></span><br><span class="line"><span class="built_in">Float32Array</span> <span class="built_in">Float64Array</span> <span class="built_in">Int8Array</span> <span class="built_in">Int16Array</span> <span class="built_in">Int32Array</span> UInt8Array UInt16Array UInt32Array UInt8ClampedArray</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/25/engineer/prettier/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/25/engineer/prettier/" itemprop="url">prettier</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-25T19:21:08+08:00">
-                2019-07-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="什么是-prettier"><a href="#什么是-prettier" class="headerlink" title="什么是 prettier"></a>什么是 prettier</h3><p>prettier 是一种代码格式化工具，支持 js、jsx、ts、css 等多种类型的语言</p>
-<h3 id="why-prettier"><a href="#why-prettier" class="headerlink" title="why prettier"></a>why prettier</h3><p>prettier 的作用我认为有两点</p>
-<ol>
-<li>减少书写代码时控制代码格式的烦恼，一键就可以格式化</li>
-<li>多人协作时保证代码格式一致。对于 git 而言这点很重要，否则对公共文件格式化，将会导致文件大范围改动，对合并代码是噩梦</li>
-</ol>
-<p>总结起来其实就一点，保证代码格式的统一。不管是个人代码格式的统一，还是项目代码格式的统一。</p>
-<h3 id="prettier-vs-eslint"><a href="#prettier-vs-eslint" class="headerlink" title="prettier vs eslint"></a>prettier vs eslint</h3><p>eslint 提供了对于代码质量控制的检测，其规则包含两部分，代码格式和代码质量。<br>prettier 只包含了其中代码格式一部分。</p>
-<p>eslint 其实算是 prettier 的超集，那为什么还需要 prettier 呢。</p>
-<ol>
-<li>eslint 的目的是代码质量控制，代码格式是质量控制的一部分，多人协作的项目中，代码格式尤为重要。但是代码格式控制的目的只是为了阅读体验和风格统一，书写代码时并不应该为代码格式费神。eslint 也有 fix 可以修复代码格式问题，但是 eslint 的 fix 并不能保证代码格式的统一，所以使用 prettier 更好。</li>
-<li>prettier 不仅能够格式化 js 文件，还能够格式化 css 等文件，这些是 eslint 所不能处理的</li>
-</ol>
-<h3 id="cli"><a href="#cli" class="headerlink" title="cli"></a>cli</h3><p>prettier 的 cli 主要有两个<br><code>prettier --check [filename...]</code> 检测文件是否已经格式化，filename 的指定可以是文件名也可以是 glob 匹配<br><code>prettier --write [filename...]</code> 格式化文件<br>cli 方式会自动读取 prettier 配置文件</p>
-<h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><p>prettier 的 API 方式调用主要是<code>prettier.format</code>方法，API 方式并不会自动读取配置文件，所以需要查找配置文件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以下是读取css文件并格式化写入的代码</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> prettier = <span class="built_in">require</span>(<span class="string">"prettier"</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">"fs"</span>)</span><br><span class="line"><span class="keyword">const</span> util = <span class="built_in">require</span>(<span class="string">"util"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> filePath = <span class="string">"./test.css"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getPrettierStr</span>(<span class="params">filePath</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> fileStr = <span class="keyword">await</span> util.promisify(fs.readFile)(filePath, <span class="string">"utf-8"</span>)</span><br><span class="line">    <span class="keyword">const</span> data = <span class="keyword">await</span> prettier.getFileInfo(filePath)</span><br><span class="line">    <span class="keyword">const</span> parser = data.ignored ? <span class="literal">null</span> : data.inferredParser</span><br><span class="line">    <span class="keyword">if</span> (!parser) <span class="keyword">return</span> fileStr</span><br><span class="line">    <span class="keyword">const</span> config = <span class="keyword">await</span> prettier.resolveConfig(filePath)</span><br><span class="line">    <span class="keyword">const</span> formattedStr = <span class="keyword">await</span> prettier.format(fileStr, &#123; ...config, parser &#125;)</span><br><span class="line">    <span class="keyword">return</span> formattedStr</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">getPrettierStr(filePath).then(<span class="function"><span class="params">formattedStr</span> =&gt;</span> &#123;</span><br><span class="line">    fs.writeFile(filePath, formattedStr)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h3 id="prettier-配置"><a href="#prettier-配置" class="headerlink" title="prettier 配置"></a>prettier 配置</h3><p>prettier 的配置项并不多，而且也不建议使用太复杂的配置，我常用的配置如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .prettierrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    semi: <span class="literal">false</span>,</span><br><span class="line">    singleQuote: <span class="literal">true</span>,</span><br><span class="line">    endOfLine: <span class="string">"lf"</span>,</span><br><span class="line">    trailingComma: <span class="string">"none"</span>,</span><br><span class="line">    bracketSpacing: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>还可以通过发布 npm 导出配置文件，这样可以直接引入配置文件。 <a href="https://www.npmjs.com/package/@baixiaogou/prettier-config" target="_blank" rel="noopener">@baixiaogou/prettier-config</a></p>
-<p>使用方式如下:<br>在<code>package.json</code>中</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"prettier"</span>: <span class="string">"@baixiogou/prettier-config"</span></span><br></pre></td></tr></table></figure>
-<p>或者<br>使用<code>prettier</code>配置文件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .pretterrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    ...require(<span class="string">"@baixiaogou/prettier-config"</span>)</span><br><span class="line">    <span class="comment">// 额外的覆盖配置</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="与-eslint-结合"><a href="#与-eslint-结合" class="headerlink" title="与 eslint 结合"></a>与 eslint 结合</h3><p>与 eslint 结合使用的思路是禁用 eslint 的格式化校验规则，然后开启 prettier 的规则校验</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .eslintrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  ...</span><br><span class="line">  plugins: [<span class="string">'prettier'</span>],</span><br><span class="line">  extends: [<span class="string">'eslint:recommended'</span>, <span class="string">'prettier'</span>],</span><br><span class="line">  rules: &#123;</span><br><span class="line">    <span class="string">'prettier/prettier'</span>: <span class="number">2</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>eslint-plugin-prettier</code>增加<code>prettier/prettier</code>校验规则<br><code>eslint-config-prettier</code>去掉 eslint 中关于格式的校验，所以最好放在 extends 的最后防止被覆盖</p>
-<p>这种方案只能用于 js 的校验和格式化。</p>
-<h3 id="ignore"><a href="#ignore" class="headerlink" title="ignore"></a>ignore</h3><p>增加<code>.prettierignore</code>文件可以指定<code>prettier</code>不格式化的文件，在某些文件夹或者某些文件不格式化时非常有用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// .prettierignore</span><br><span class="line"></span><br><span class="line">node_modules</span><br><span class="line">dist</span><br><span class="line">**/*.min.*</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/04/engineer/eslint/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/04/engineer/eslint/" itemprop="url">eslint</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-04T20:22:38+08:00">
-                2019-07-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>eslint 简介</p>
-<h3 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h3><p>eslint 是 2013 年由 Nicholas C. Zakas 发起的开源项目。目标是提供一个插件化的<b>JavaScript</b>代码检测工具。</p>
-<p>eslint 的目的，个人认为是代码的质量控制。插件化是其实现方式。</p>
-<p>代码的质量控制其实是一个比较大的话题，从更高的层面来看，组件化也是一种很重要的方式。<br>eslint 不能保证写出好的代码，但是 eslint 可以检测一些低级错误，比如使用未声明的变量、变量声明但是没有使用。</p>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>esint 的配置项种类不多，大致包括以下几种</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    root: <span class="literal">true</span>, <span class="comment">// 标识eslint配置文件检测到此为止,不再往父目录查找</span></span><br><span class="line">    parserOption: &#123;</span><br><span class="line">        ecmaVersion: <span class="number">6</span>, <span class="comment">// 指定可用的ecma版本,</span></span><br><span class="line">        sourceType: <span class="string">"module"</span> <span class="comment">// 指定可用的文件类型，脚本还是模块</span></span><br><span class="line">    &#125;,</span><br><span class="line">    extends: [<span class="string">"eslint:recommended"</span>], <span class="comment">// 用于指定一组初始的规则，可以省略 eslint-config 前缀，必须是安装好的npm包</span></span><br><span class="line">    plugins: [<span class="string">"exmaple"</span>], <span class="comment">// 定义自定义的规则，可以省略eslint-plugin前缀，必须是安装好的npm包</span></span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="comment">// 最主要的的配置项，用于指定规则的开启/关闭，以及错误等级</span></span><br><span class="line">        quotes: [<span class="string">"error"</span>, <span class="string">"double"</span>],</span><br><span class="line">        eqeqeq: [<span class="string">"off"</span>],</span><br><span class="line">        curly: [<span class="string">"warn"</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    env: &#123;</span><br><span class="line">        <span class="comment">// 指定环境，应该是某些全局变量使用不会被eslint报错</span></span><br><span class="line">        browser: <span class="literal">true</span>,</span><br><span class="line">        node: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    globals: &#123;</span><br><span class="line">        <span class="comment">// 指定额外的全局变量，false表示不能修改，true表示可以修改</span></span><br><span class="line">        _app_config: <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>完整的配置项查看<a href="https://cn.eslint.org/docs/user-guide/configuring" target="_blank" rel="noopener">eslint 配置(官方)</a></p>
-<p>eslint 配置主要是通过添加<code>plugin</code>增加额外的配置规则，通过<code>extends</code>添加默认的规则，然后通过<code>rules</code>增加或覆盖特殊的配置</p>
-<p>eslint 默认全部规则在可以<a href="https://cn.eslint.org/docs/rules/" target="_blank" rel="noopener">在此查看</a></p>
-<p>但是可以通过插件增加其他规则。如<code>eslint-plugin-import</code>增加导入/导出规则校验</p>
-<p>除此之外，配置没有太多需要细究的地方</p>
-<h3 id="常用插件配置"><a href="#常用插件配置" class="headerlink" title="常用插件配置"></a>常用插件配置</h3><p>下文中的插件均需要安装</p>
-<h5 id="vue"><a href="#vue" class="headerlink" title="vue"></a>vue</h5><p>eslint 是 js 的检测工具，原本是不能检查.vue 文件的，想要检查.vue 文件，需要 eslint-plugin-vue 和 eslint-plugin-html</p>
-<p>规则可以使用 <code>plugin:vue/recommended</code></p>
-<h5 id="import-export"><a href="#import-export" class="headerlink" title="import/export"></a>import/export</h5><p>本插件可能不需要，import 提示应该通过编辑器插件来做，而 import 找不到 webpack 也会提示</p>
-<p>eslint-plugin-import 插件可以检查引入的包或者文件是否存在<br>由于 import 受 webpack 的配置影响，import 插件可能无法正确判断引入路径是否正确，可以使用 eslint-import-resolver-webpack 来配置</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .eslintrc.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    settings: &#123;</span><br><span class="line">        <span class="string">"import/resolver"</span>: &#123;</span><br><span class="line">            webpack: &#123;</span><br><span class="line">                config: <span class="string">"./build/webpack.dev.conf.js"</span> <span class="comment">// 指定要使用的 webpack 配置文件</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [<span class="string">"import"</span>],</span><br><span class="line">    extends: [<span class="string">"plugin:import/errors"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="prettier"><a href="#prettier" class="headerlink" title="prettier"></a>prettier</h5><p>eslint 本身有格式的校验，但是 eslint 本身只能校验 js 的格式，而且 eslint 的格式化配置不如 prettier 丰富</p>
-<p>从另一个角度考虑，写代码时不应该太多考虑格式的问题，所以个人习惯是采用 prettier 格式化代码，eslint 只做格式化之外的校验</p>
-<p>为此需要引入 eslint-plugin-prettier 插件，并继承 eslint-config-prettier 配置</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    plugins: [<span class="string">"prettier"</span>],</span><br><span class="line">    extends: [<span class="string">"prettier"</span>],</span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="string">"prettier/prettier"</span>: <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="eslint-loader"><a href="#eslint-loader" class="headerlink" title="eslint-loader"></a>eslint-loader</h5><p>如果想要代码书写时动态检查 js 代码，需要安装 eslint-loader<br>由于 babel 的关系，需要指定 eslint 的 parse 为 babel-eslint</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    parseOptions: &#123;</span><br><span class="line">        parse: <span class="string">"babel-eslint"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在webpack的配置文件中</span></span><br><span class="line">rules: [</span><br><span class="line">    &#123;</span><br><span class="line">        test: <span class="regexp">/\.(vue|js|jsx)$/</span>,</span><br><span class="line">        loader: <span class="string">"eslint-loader"</span>,</span><br><span class="line">        exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">        enforce: <span class="string">"pre"</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>一份常见的配置文件如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    root: <span class="literal">true</span>,</span><br><span class="line">    parserOptions: &#123;</span><br><span class="line">        parser: <span class="string">"babel-eslint"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    parserOptions: &#123;</span><br><span class="line">        ecmaVersion: <span class="number">6</span>,</span><br><span class="line">        sourceType: <span class="string">"module"</span>,</span><br><span class="line">        ecmaFeatures: &#123;</span><br><span class="line">            jsx: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    env: &#123;</span><br><span class="line">        browser: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    settings: &#123;</span><br><span class="line">        <span class="string">"import/resolver"</span>: &#123;</span><br><span class="line">            webpack: &#123;</span><br><span class="line">                config: <span class="string">"webpack.dev.config.js"</span> <span class="comment">// 指定要使用的 webpack 配置文件</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [<span class="string">"prettier"</span>, <span class="string">"import"</span>, <span class="string">"html"</span>, <span class="string">"vue"</span>],</span><br><span class="line">    extends: [<span class="string">"eslint:recommended"</span>, <span class="string">"prettier"</span>, <span class="string">"plugin:import/errors"</span>, <span class="string">"plugin:vue/recommended"</span>],</span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="string">"prettier/prettier"</span>: <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/03/basis/sytax/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/03/basis/sytax/" itemprop="url">语法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-03T07:35:59+08:00">
-                2019-07-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="js-语言的整体架构"><a href="#js-语言的整体架构" class="headerlink" title="js 语言的整体架构"></a>js 语言的整体架构</h3><p>js 包含两种源文件。一种是脚本，另一种是模块。<br>脚本就是普通的.js 文件，模块是 es6 引入的，与脚本只有一个区别，就是可以使用 export/import 语句。<br>使用模块需要在引入的 script 标签上加上<code>type=module</code>，否则文件会被认为是脚本而报错。模块和 import/export 的更详细了解<a href="https://baiyunshenghaishang.github.io/2019/05/22/basis/import_export/" target="_blank" rel="noopener">可以看这里</a></p>
-<h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>import/export 之外的语句可以分为两种，一种是普通语句，另一种是预处理语句。<br>其中预处理语句在执行之前会有预处理过程，这是很多 js 执行结果让人感到奇怪的原因。<br>预处理的执行时间在代码执行之前，准确来讲应该在包含预处理代码的作用域的所有代码执行之前。每次进入一个新的作用域，执行代码之前都会先进行预处理</p>
-<p>js 中会有预处理效果的语句包括</p>
-<ol>
-<li>var</li>
-<li>function 声明</li>
-<li>let/const/class 声明</li>
-</ol>
-<p>var 的预处理效果是在作用域内声明同名变量，但是并不会赋值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">3</span></span><br><span class="line">say()</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a) <span class="comment">// undefined</span></span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面的代码中，say 函数内部的 console.log(a)打印的是 undefined，因为 a 进行了预处理，在刚进入函数 say，执行 var a = 4 之前，a 就已经声明，但是没有赋值</p>
-<p>function 声明的预处理效果是声明和赋值都会提升到作用域顶部，上面的例子中在 say 声明之前就之前了 say()，但不会报错，就是因为 function 声明会提升到作用域顶部。<br>注意：只有函数声明会被提升，函数表达式不会</p>
-<p>let/const/class 的预处理效果是一样的。下面以 let 为例<br>let 会在作用域内，声明之前形成暂时性死区，此时对 let 声明变量的任何访问都会报错，包括 typeof</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">//  3</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a) <span class="comment">// 报错</span></span><br><span class="line">    <span class="keyword">let</span> a = <span class="number">4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="普通语句"><a href="#普通语句" class="headerlink" title="普通语句"></a>普通语句</h3><p>预处理语句之外，普通语句包括以下这些类型</p>
-<ol>
-<li>空语句</li>
-<li>语句块</li>
-<li>表达式语句</li>
-<li>循环语句</li>
-<li>if 语句</li>
-<li>switch/case 语句</li>
-<li>try/catch 语句</li>
-<li>throw 语句</li>
-<li>debugger 御酒</li>
-<li>return 语句</li>
-<li>break 语句</li>
-<li>continue 语句</li>
-<li>with 语句</li>
-</ol>
-<p>其中循环语句和表达式语句比较复杂一点，其它语句没什么好讲的。<br>循环语句包括以下六种</p>
-<ol>
-<li>while</li>
-<li>do/while</li>
-<li>for</li>
-<li>for/in</li>
-<li>for/of</li>
-<li>for/await of</li>
-</ol>
-<p>推荐尽可能使用 for/of 和 for/await of 语法</p>
-<h3 id="表达式语句"><a href="#表达式语句" class="headerlink" title="表达式语句"></a>表达式语句</h3><p>表达式语句本身的分类比较多，也没有太多的必要去记住每一种分类。表达式语句的分类涉及到操作符的优先级，但是其实不建议使用特别复杂的优先级去写代码。用一个()代码会清晰明了很多。<br>因为操作符的优先级可能会出现微调，而且清晰明了的代码对维护者也是比较友好的。写代码的目的毕竟不是为了炫技。<br>实际代码中最有用的操作符优先级应该是<code>&amp;&amp; 》 || 》 ?:</code></p>
-<p>表达式语句从大类上分为两种，左值表达式和条件表达式。左值表达式是可以出现在=左边的表达式，条件表达式是出现在=右边的表达式。左值表达式同时也是右值表达式。因为高优先级的表达式天然都是低优先级的表达式。<br>赋值表达式可以通过<code>,</code>运算符连接成表达式。但是实际上我们很少用逗号运算符，所以赋值表达式基本就是常用表达式的终极形态，也是优先级最低的表达式</p>
-<h5 id="左值表达式"><a href="#左值表达式" class="headerlink" title="左值表达式"></a>左值表达式</h5><p>左值表达式优先级从高到低顺序如下</p>
-<p>PrimaryExpression =&gt; MemberExpression =&gt; NewExpression/CallExpression =&gt; 左值表达式</p>
-<p>PrimaryExpression: 直接量，包含字面量、变量。<br>任何表达式加上()都会变成 PrimaryExpression</p>
-<p>MemberExpression: 成员表达式。<br>例子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a.b</span><br><span class="line">a[b]</span><br><span class="line"><span class="keyword">super</span>.b</span><br><span class="line"><span class="keyword">this</span>.a</span><br><span class="line"><span class="keyword">new</span>.target</span><br><span class="line">say<span class="string">`abc`</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-<p>有两种比较特殊的情况,跟字符串模板的函数和带参数列表的 NEW 表达式也是成员表达式，他们之间语义上并没有什么关联，放到一起只是因为优先级相同。</p>
-<p>NewExpression/CallExpression: new 表达式和函数调用表达式。<br>例子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Array</span>()</span><br><span class="line">a()</span><br><span class="line">a().b</span><br></pre></td></tr></table></figure>
-<p>注意，不带参数列表的是 NewExpression，优先级比带参数列表的低。</p>
-<p>可以看到，左值表达式的类型还是比较少的，大类上就只有 NEW 表达式和函数调用表达式两种。</p>
-<h5 id="条件表达式"><a href="#条件表达式" class="headerlink" title="条件表达式"></a>条件表达式</h5><p>左值表达式也是条件表达式。所以左值表达式的优先级都比条件表达式高。<br>条件表达式的优先级从高到低如下<br>左值表达式 =&gt; updateExpression =&gt; unaryExpression/exponentiationExpression =&gt; MultiplicativeExpression =&gt; addtiveExpression<br>=&gt; shiftExpression =&gt; relationExpression =&gt; equalityExpression =&gt; 位运算表达式 =&gt; 逻辑与/或表达式 =&gt; 条件表达式</p>
-<p>updateExpression 更新表达式<br>左值表达式加上自增++/自减–</p>
-<p>unaryExpression 一元表达式<br>更新表达式搭配医院运算符，包括 +、-、typeof、delete、void、await、!、~</p>
-<p>exponentiationExpression 乘方表达式<br>更新表达式搭配乘方运算符</p>
-<p>MultiplicativeExpression 乘法表达式 * / %<br>addtiveExpression 加法表达式 + -<br>这个没什么好说的</p>
-<p>shiftExpression 位移表达式<br>包括 &gt;&gt; &lt;&lt; &gt;&gt;&gt; 不太懂，最好也不要用<br>js 中使用这个并不能提高性能。</p>
-<p>relationExpression 关系表达式<br>位移表达式和 &gt; &gt;= &lt; &lt;= instanceof in 构成关系表达式</p>
-<p>equalityExpression 相等表达式<br>关系表达式和 == != === !== 构成，也没什么好讲的</p>
-<p>位运算表达式<br>按位与、或、异或的表达式，不太了解。感觉也不太用的上</p>
-<p>逻辑与/或表达式<br>位运算表达式和&amp;&amp; || 构成的表达式</p>
-<p>条件表达式<br>逻辑与/或表达式御 ?: 构成的表达式</p>
-<p>条件表达式就是的种类是比较多的，优先级的顺序也比较复杂。但是其实不需要是了解所有表达式的优先级。也不建议使用特别复杂的优先级顺序写代码。使用大家都熟悉、了解的优先级顺序，然后在需要的时候加括号是更好的习惯。毕竟操作符的优先级也是会发生变化的。</p>
-<p>这是<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence" target="_blank" rel="noopener">mdn 关于各种操作符优先级和结合性的表格</a>。不确定操作符的优先级时可以参考。<br>可以看到，操作符的优先级和表达式的优先级其实是一一对应的。</p>
-<h3 id="自动分号插入"><a href="#自动分号插入" class="headerlink" title="自动分号插入"></a>自动分号插入</h3><p>js 在某些情况下会在语句尾部自动插入分号</p>
-<ol>
-<li>有换行符，且下一个符号是不符合语法的，自动插入分号</li>
-<li>有换行符，语法明确规定不能有换行符的，自动插入分号</li>
-<li>源代码结束处，不能形成完整的脚本或者模块，自动插入分号</li>
-</ol>
-<p>举个栗子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line"><span class="keyword">let</span> b = <span class="number">4</span></span><br></pre></td></tr></table></figure>
-<p>3 后面跟 let 是不合法的语法，所以会自动插入换行符</p>
-<p>第二点中，语法中规定不能有换行符的 no LineTerminator here 规则如下</p>
-<ol>
-<li>带标签的 continue/break 语法，后面不能有换行符</li>
-<li>return 后面不能有换行符</li>
-<li>后自增、后自减运算符前不能插入换行（注意此处不包括前自增、自减）</li>
-<li>throw 和 Exception 之间不能插入换行</li>
-<li>async 关键字后不能插入换行</li>
-<li>箭头函数的箭头前，不能插入换行</li>
-<li>yield 之后，不能插入换行</li>
-</ol>
-<p>on LineTerminator here 规则没有定义，可能会产生歧义的地方包括</p>
-<ol>
-<li>以括号开头的语句<br>主要是 IIFE</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">3</span>)</span><br><span class="line">&#125;)()</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">4</span>)</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
-<p>上面的代码中第二个 IIFE 前没有分号，语法会认为前一个 IIFE 是一个函数，而第二个 IIFE 被认为是函数执行。从而导致抛出错误</p>
-<ol start="2">
-<li>以数组开头的语句</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line">[(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)].map(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(item)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p><code>let a = 3</code>之后没有换行符，<code>[1,2,3]</code>被认为是<code>MemberExpression</code>，对<code>3</code>的属性取值，<code>1,2,3</code>被认为是逗号连接的表达式，自然会抛出错误</p>
-<ol start="3">
-<li>以正则表达式开头的语句</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line">/abc/.test(<span class="string">'ac'</span>)</span><br></pre></td></tr></table></figure>
-<p>3 之后的/会被认为是除法的一部分，这种情况在实际代码中比较少见</p>
-<ol start="4">
-<li>以模板字符串开头的语句</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">3</span></span><br><span class="line"><span class="string">`abc`</span>.match(<span class="regexp">/a/</span>)</span><br></pre></td></tr></table></figure>
-<p>3 之后没有换行符，3`abc`被认为是函数之后跟模板字符串的函数执行。这种情况也比较少见</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/23/basis/lexical/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zhen Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="bai">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/23/basis/lexical/" itemprop="url">词法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-23T19:02:02+08:00">
-                2019-05-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>js 词法简介</p>
-<h3 id="什么是词法"><a href="#什么是词法" class="headerlink" title="什么是词法"></a>什么是词法</h3><p>从浏览器执行的角度看，js 文件最先是通过网络从服务器上获取的，得到是一段二进制数据，然后浏览器根据对应的编码将这段二进制数据转换为字符串。<br>再将字符串拆分为有意义的词，一般称之为 token。token 是语言的最小语义单元。<br>词法规定了语言的 token 种类。</p>
-<h3 id="词的分类"><a href="#词的分类" class="headerlink" title="词的分类"></a>词的分类</h3><p>js 中的词包括以下几种</p>
-<ol>
-<li>空白符</li>
-<li>换行符</li>
-<li>注释</li>
-<li>标识符名称</li>
-<li>符号</li>
-<li>数字字面量</li>
-<li>字符串字面量</li>
-<li>字符串模板</li>
-<li>正则表达式字面量</li>
-</ol>
-<p>下面分别讲述这几种不同的词</p>
-<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>注释对于词法而言一般是无意义的，但是对 js 的语法的自动分号补全规则有影响。因为包含换行符的注释会被认为包含换行符，所以注释也是一种有效的词法。<br>除此之外，注释并没有特别的意义。</p>
-<h3 id="空白符"><a href="#空白符" class="headerlink" title="空白符"></a>空白符</h3><p>js 支持 unicode 中的所有空白符，种类很多，下面介绍几种常用的</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:center">意义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">HT</td>
-<td style="text-align:center">U+0009, \t 即常见的 tab 缩进</td>
-</tr>
-<tr>
-<td style="text-align:center">VT</td>
-<td style="text-align:center">\v 垂直缩进，比较少见</td>
-</tr>
-<tr>
-<td style="text-align:center">FF</td>
-<td style="text-align:center">分页符 \f</td>
-</tr>
-<tr>
-<td style="text-align:center">SP</td>
-<td style="text-align:center">U+0020, 常见的空格</td>
-</tr>
-<tr>
-<td style="text-align:center">NBSP</td>
-<td style="text-align:center">U+00a0, 非断行空格，html 中的<code>&amp;nbsp;</code>就是它</td>
-</tr>
-<tr>
-<td style="text-align:center">ZWNBSP</td>
-<td style="text-align:center">BOM，零宽非断行空格，常用于文件头部表示 utf 的编码方式</td>
-</tr>
-<tr>
-<td style="text-align:center">ZWSP</td>
-<td style="text-align:center">零宽空格</td>
-</tr>
-</tbody>
-</table>
-<p>其它空格参见<a href="https://zh.wikipedia.org/wiki/%E7%A9%BA%E6%A0%BC" target="_blank" rel="noopener">wiki-空格</a></p>
-<p>一般而言，空格符对 js 的执行是没有影响的。但是字符串中可以包含零宽空格，会改变字符串的长度，也可以有一些有意思的应用。<br><a href="https://github.com/baiyunshenghaishang/zero-width-space" target="_blank" rel="noopener">零宽空格的一种应用</a></p>
-<h3 id="换行符"><a href="#换行符" class="headerlink" title="换行符"></a>换行符</h3><p>不同于空格符，js 中只提供了 4 种换行符。<br>换行符对语法的影响也只存在于分号自动补全规则。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:center">意义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">LF</td>
-<td style="text-align:center">通常意义的换行符，\n</td>
-</tr>
-<tr>
-<td style="text-align:center">CR</td>
-<td style="text-align:center">回车，\r</td>
-</tr>
-<tr>
-<td style="text-align:center">LS</td>
-<td style="text-align:center">unicode 中的行分隔符</td>
-</tr>
-<tr>
-<td style="text-align:center">PS</td>
-<td style="text-align:center">unicode 中的段落分隔符</td>
-</tr>
-</tbody>
-</table>
-<h3 id="标识符名称"><a href="#标识符名称" class="headerlink" title="标识符名称"></a>标识符名称</h3><p>标识符名称包含变量名、关键字、保留字、true/false 和 null<br>其中变量名可以以 美元符号\$、下划线_或字母开始，还可以包含数字</p>
-<p>关键字和保留字就不列举了<br>可以参见<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Lexical_grammar" target="_blank" rel="noopener">MDN 词法</a></p>
-<h3 id="符号"><a href="#符号" class="headerlink" title="符号"></a>符号</h3><p>js 中的所有符号如下<br><code>{ ( ) [ ] . ... ; , &lt; &gt; &lt;= &gt;= == != === !== + - * % ** ++ -- &lt;&lt; &gt;&gt; &gt;&gt;&gt; &amp; | ^ ! ~ &amp;&amp; || ? : = += -= *= %= **= &lt;&lt;= &gt;&gt;= &gt;&gt;&gt;= &amp;= |= ^= =&gt; / /= }</code></p>
-<h3 id="数字字面量"><a href="#数字字面量" class="headerlink" title="数字字面量"></a>数字字面量</h3><p>数字字面量包含 2 进制、8 进制、10 进制、16 进制 4 种形式<br>2 进制以 0b/0B 开头，数字不能超过 1，如<code>0b011101</code><br>8 进制以 0o/0O 开头，数字不能超过 7，如<code>0o12345667</code><br>10 进制就是我们常见的数字<br>16 进制以 0x/0X 开头，包含<code>0-9,A-F</code>，如<code>0xA32E</code>，也可以使用小写字母</p>
-<p>其中只有10进制可以包含小数和使用科学计数法。</p>
-<p>小数点前面和后面的数字都可以省略，如<code>10.</code>,<code>.03</code>都是有效的数字，但是不能同时省略。</p>
-<p>小数点的优先级比属性获取要高，所以<code>10.toString</code>中的<code>.</code>会被认为是小数点，从而报词法错误。正确的使用方式应该是<code>10..toString</code></p>
-<p>10进制的数字还可以使用科学计数法表示，如<code>3e6</code><br>也可以使用大写E,e之前可以使用小数，e之后只能使用整数，可以是负数，如<code>10.23E-3</code></p>
-<h3 id="字符串字面量"><a href="#字符串字面量" class="headerlink" title="字符串字面量"></a>字符串字面量</h3><p>字符串可以使用单引号，也可以使用双引号。单引号字符串中双引号必须转义，双引号字符串中单引号必须转义，除此之外没有区别。<br>字符串除了字面量的表示，还支持 unicode 表示。</p>
-<ol>
-<li>使用 <code>\uXXXX</code>，表示基本平面的字符</li>
-<li>使用<code>\u{XXXXXX}</code>表示</li>
-</ol>
-<p>字符串的转义<br>关于字符串的转义，包含两部分含义，</p>
-<ol>
-<li>有些字符在字符串中必须被转义，比如 \</li>
-<li>有些字符连在一起之后表示另外一个字符的意思，比如\n</li>
-</ol>
-<p>字符串中必须被转义的字符只有<code>\</code>和换行符，因为换行符是没法在字符串中直接被表示的，空白符可以。</p>
-<p>包含特殊意义的字符则包括以下这些<br><code>\&#39; \&quot; \\ \b \f \t \v \n \r</code><br>其中 <code>\b</code>表示退格符，删除前一个字符，其它的前面都已经讲到</p>
-<p>还有几种包含特殊意义的组合<br>\数字 八进制表示的整数，表示一个字符，数字是unicode编码的8进制表示,如z是\172，最大255<br>\xXX 16进制表示的数字，表示一个字符，数字是unicode编码的16进制表示，最大255</p>
-<p>\uXXXX 16进制表示的数字,表示一个unicode基本平面的字符<br>\u{XXXXXX} 16进制表示的数字，表示一个unicode字符</p>
-<p>除此之外, \和其它字符组合都是字符本身。</p>
-<h3 id="字符串模板"><a href="#字符串模板" class="headerlink" title="字符串模板"></a>字符串模板</h3><p>字符串模板和字符串基本类似。转义规则稍有不同，字符串模板中换行符<code>\n</code>是可以通过换行直接表示的，单双引号也可以直接使用。</p>
-<h3 id="正则表达式字面量"><a href="#正则表达式字面量" class="headerlink" title="正则表达式字面量"></a>正则表达式字面量</h3><p>正则表达式比较复杂，会单独写一篇博客。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1985,7 +1803,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -1998,7 +1816,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

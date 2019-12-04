@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="概述js 的执行过程是一个很庞大的话题。要回答这样一个问题，可以从另外一个角度去思考。如果想要实现 js 引擎，应该如何实现。 考虑到 js 是单线程执行，理论上应该会比较简单。将传递给执行引擎的代码顺序执行即可。 so easy. 执行完成之后引擎是不是就可以洗洗睡了呢。然而并不能，因为实际情况中，还可能有事件、setTimeout 等过一段时间执行的代码，所以 js 引擎必须常驻内存中，等待着">
+<meta name="description" content="概述讲述浏览器中 js 的执行过程 事件循环浏览器是单线程的，代码的执行按照从上到下的。 123let a = 1,    b = 2console.log(a + b) 对于这样简单的顺序代码，这样的执行逻辑没有什么问题。 但是实际情况会复杂一些，比如，代码执行过程中有一个点击事件触发，那应该怎样处理呢。由于主线程可能正在执行其他任务，所以无法及时响应点击事件。所以简单的顺序执行无法满足。 因此">
 <meta name="keywords" content="execution context,scope,vo,lexical environment">
 <meta property="og:type" content="article">
 <meta property="og:title" content="js 执行过程概述">
 <meta property="og:url" content="http://yoursite.com/2019/09/09/basis/execution/index.html">
 <meta property="og:site_name" content="bai">
-<meta property="og:description" content="概述js 的执行过程是一个很庞大的话题。要回答这样一个问题，可以从另外一个角度去思考。如果想要实现 js 引擎，应该如何实现。 考虑到 js 是单线程执行，理论上应该会比较简单。将传递给执行引擎的代码顺序执行即可。 so easy. 执行完成之后引擎是不是就可以洗洗睡了呢。然而并不能，因为实际情况中，还可能有事件、setTimeout 等过一段时间执行的代码，所以 js 引擎必须常驻内存中，等待着">
+<meta property="og:description" content="概述讲述浏览器中 js 的执行过程 事件循环浏览器是单线程的，代码的执行按照从上到下的。 123let a = 1,    b = 2console.log(a + b) 对于这样简单的顺序代码，这样的执行逻辑没有什么问题。 但是实际情况会复杂一些，比如，代码执行过程中有一个点击事件触发，那应该怎样处理呢。由于主线程可能正在执行其他任务，所以无法及时响应点击事件。所以简单的顺序执行无法满足。 因此">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/语句执行.png">
-<meta property="og:updated_time" content="2019-10-09T07:27:36.962Z">
+<meta property="og:updated_time" content="2019-12-04T06:16:22.216Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js 执行过程概述">
-<meta name="twitter:description" content="概述js 的执行过程是一个很庞大的话题。要回答这样一个问题，可以从另外一个角度去思考。如果想要实现 js 引擎，应该如何实现。 考虑到 js 是单线程执行，理论上应该会比较简单。将传递给执行引擎的代码顺序执行即可。 so easy. 执行完成之后引擎是不是就可以洗洗睡了呢。然而并不能，因为实际情况中，还可能有事件、setTimeout 等过一段时间执行的代码，所以 js 引擎必须常驻内存中，等待着">
+<meta name="twitter:description" content="概述讲述浏览器中 js 的执行过程 事件循环浏览器是单线程的，代码的执行按照从上到下的。 123let a = 1,    b = 2console.log(a + b) 对于这样简单的顺序代码，这样的执行逻辑没有什么问题。 但是实际情况会复杂一些，比如，代码执行过程中有一个点击事件触发，那应该怎样处理呢。由于主线程可能正在执行其他任务，所以无法及时响应点击事件。所以简单的顺序执行无法满足。 因此">
 <meta name="twitter:image" content="http://yoursite.com/images/语句执行.png">
 
 
@@ -312,22 +312,23 @@
       
 
       
-        <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>js 的执行过程是一个很庞大的话题。要回答这样一个问题，可以从另外一个角度去思考。如果想要实现 js 引擎，应该如何实现。</p>
-<p>考虑到 js 是单线程执行，理论上应该会比较简单。将传递给执行引擎的代码顺序执行即可。 so easy.</p>
-<p>执行完成之后引擎是不是就可以洗洗睡了呢。然而并不能，因为实际情况中，还可能有事件、setTimeout 等过一段时间执行的代码，所以 js 引擎必须常驻内存中，等待着下一段要执行的代码。</p>
-<p>可以用代码表示如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    execute(code)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>很简单，就是简单的循环判断。当然，实际情况会复杂很多，比如需要判断是否有代码需要执行。</p>
-<p>在 js 中，我们将这样一个过程叫做事件循环。</p>
-<h3 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h3><p>此处讲的是浏览器中的事件循环，nodejs 中的事件循环更复杂一些，此处不讲。</p>
-<p>事件循环就是一个不断循环，执行代码的过程。每一次循环过程中执行的代码称为一个宏任务。<br>所以事件循环就是不断循环执行宏任务的过程。</p>
-<p>诸如 setTimeout、事件回调的代码，都会生成一个新的宏任务。</p>
-<p>如果我们把多个宏任务理解为一个宏任务的队列，那么事件循环就是不断执行宏任务队列的过程。</p>
-<p>一个宏任务中还可能包含多个微任务。微任务是 Promise 的 then 回调生成的任务。每次 then 的回调都会在当前宏任务的末尾增加一个微任务。</p>
-<p>一个宏任务可以包含多个微任务。在执行下一个宏任务之前，执行引擎会先将当前宏任务的所有微任务执行完成。</p>
-<p>所以虽然 Promise 和 setTimeout 生成的都是异步代码，但是其执行顺序是不同的。看以下代码。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"timeout"</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"promise"</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"sync code"</span>)</span><br><span class="line"><span class="comment">// sync code</span></span><br><span class="line"><span class="comment">// promise</span></span><br><span class="line"><span class="comment">// timeout</span></span><br></pre></td></tr></table></figure>
-<p>上面代码中，<code>console.log(&quot;promise&quot;)</code>一定会在<code>console.log(&quot;timeout&quot;)</code>之前执行。因为 Promise 的 then 回调是在当前宏任务中末尾增加一个微任务，而 setTimeout 会生成一个新的宏任务。在执行新的宏任务执行，会先将当前宏任务中的所有微任务执行完成。</p>
+        <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>讲述浏览器中 js 的执行过程</p>
+<h3 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h3><p>浏览器是单线程的，代码的执行按照从上到下的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">1</span>,</span><br><span class="line">    b = <span class="number">2</span></span><br><span class="line"><span class="built_in">console</span>.log(a + b)</span><br></pre></td></tr></table></figure>
+<p>对于这样简单的顺序代码，这样的执行逻辑没有什么问题。</p>
+<p>但是实际情况会复杂一些，比如，代码执行过程中有一个点击事件触发，那应该怎样处理呢。由于主线程可能正在执行其他任务，所以无法及时响应点击事件。所以简单的顺序执行无法满足。</p>
+<p>因此浏览器引入了任务队列和循环机制。任务队列用于保存所有需要执行的任务，比如点击事件、页面渲染事件等。<br>主线程则不断的从任务队列从取出任务，然后执行。可以用伪代码表示如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TaskQueue = []</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    task = TaskQueue.shift()</span><br><span class="line">    ProcessTask(task)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样一个不断循环的过程被称作事件循环。</p>
+<p>js 中通过 setTimeout 可以创建定时任务，在一定时间后执行。那么浏览器如何确保这个任务在一定时间后执行呢。</p>
+<p>按照现有的循环机制，只能在一定时间后将定时任务加入到任务队列中，但是此时任务队列中可能已经存在多个任务，定时任务的顺序可能被极大的延后。</p>
+<p>因此，浏览器又增加了定时任务队列。定时器触发的任务会增加到定时任务中，浏览器主线程执行完一个任务队列中的任务后，会查询定时任务队列中是否有任务。可以用伪代码表示如下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">TaskQueue = []</span><br><span class="line">DelayTaskQueue = []</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    task = TaskQueue.shift()</span><br><span class="line">    ProcessTask(task)</span><br><span class="line">    task = DelayTaskQueue.get()</span><br><span class="line">    ProcessDelayTaskQueue(task)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样的任务队列可以尽量使定时任务的时间接近设定的时间，但仍然无法确保定时任务一定会在设定的时间触发。因为还是有可能因为某个任务的执行而延迟定时任务的执行。</p>
+<p>前面设计的任务队列中，还存在一个问题，即如何区分任务的优先级。前面设计的任务队列，所有任务的优先级都是一样的，我们没法让某个任务优先执行。<br>为此，浏览器引入了微任务的概念。</p>
+<p>浏览器在执行完一个宏任务后，开始下一个宏任务之前，会循环执行当前的微任务队列，直到当前微任务队列为空，才会继续执行下一个宏任务。</p>
+<p>可以用伪代码表示如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">TaskQueue = []</span><br><span class="line">DelayTaskQueue = []</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    task = TaskQueue.shift()</span><br><span class="line">    ProcessTask(task)</span><br><span class="line">    ProcessAllMicroTasks()</span><br><span class="line">    task = DelayTaskQueue.get()</span><br><span class="line">    ProcessDelayTaskQueue(task)</span><br><span class="line">    ProcessAllMicroTasks()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="执行上下文"><a href="#执行上下文" class="headerlink" title="执行上下文"></a>执行上下文</h3><p>在每一个宏任务/微任务中，执行的都是一段段的代码。</p>
 <p>每一段代码的执行都需要一个环境，包含代码执行所需的所有条件。在 js 中，这个环境叫做执行上下文(execution context)。</p>
 <h3 id="执行上下文的类别"><a href="#执行上下文的类别" class="headerlink" title="执行上下文的类别"></a>执行上下文的类别</h3><p>那什么样的代码能称之为一段代码呢。这样的说法可能不太准确，更准确的说法应该是。</p>
@@ -421,7 +422,7 @@
 </ol>
 <p>在语句的执行阶段，值得注意的只有控制语句。（声明语句虽然也有特殊之处，但是并不是在语句执行阶段）。</p>
 <p>如果没有控制语句，所有语句都是顺序执行。控制语句，顾名思义，就是控制语句的执行顺序。</p>
-<p>控制语句的控制效果可以见下图<br><img src="/images/语句执行.png" alt="控制语句"></p>
+<p>控制语句的控制效果可以见下图（截图来自极客时间-重学前端课程）<br><img src="/images/语句执行.png" alt="控制语句"></p>
 
       
     </div>
@@ -467,6 +468,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/21/engineer/babel/" rel="prev" title="babel">
+                babel <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -545,7 +550,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">博客</span>
                 </a>
               </div>
@@ -558,7 +563,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
